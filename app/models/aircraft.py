@@ -3,10 +3,11 @@ class AirCraft:
 
     def __init__(self, codigo, estado=None) -> None:
         self.modelo: str = codigo  # codigo avion
+        self.reservas: dict = {}
         if estado != None:             # si esta en mantenimiento
             self.estado = estado
-        self.estado = estado
-        self.reservas: dict = {}
+        else:
+            self.estado = estado
 
     @classmethod
     def add_reservas(cls, reserva):

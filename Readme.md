@@ -8,15 +8,18 @@
 pip install requests # hacer solicitudes, suele estar instalda en PY
 # en linux
 pip install twister
-
 # windows, mirar la carpeta dependences
 pip install dependences/twister....
-
 pip install lxml
-
 pip install Scrapy  # para coger etiquetas de la web 
-
 pip install beautifulsoup4
+pip install selenium
+
+
+# manipular data
+pip install pandas
+
+pip install dotenv
 ```
 
 # run

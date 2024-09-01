@@ -1,5 +1,5 @@
-from models.aircraft import AirCraft
-from models.book import Book
+from app.models.aircraft import AirCraft
+from app.models.book import Book
 
 import pandas as pd
 
@@ -10,13 +10,9 @@ No_Plane = ["EC-LYS", "EC-CZZ", "EC-FCD",
 
 
 def save_Book_by_tag(cadena: str):
-    cadena_list = cadena.split("\n")
-    hora = cadena_list[0]
-    planeName= cadena_list[1]
-    reservaName = cadena_list[2]
-    # print(cadena_list)
-    
-    if len(cadena_list) > 1:
+    hora, planeName, reservaName, *res = cadena.split("\n")
+
+    if hora and planeName and reservaName:
         takeoff = hora[:5]
         landing = hora[6:]
         # Cremos avion
@@ -33,19 +29,18 @@ def save_Book_by_tag(cadena: str):
 
 
 def clas_to_series():
-    import pandas as pd
     import datetime
 
     # Crear una serie de Pandas de ejemplo
     data = get_all_reservas(AirCraft.all_reservas)
-    serie = pd.DataFrame(data["books"]).T
+    serie = pd.DataFrame(data["books"])
     # print(serie)
     # option = str(input("Quieres convertir a excel: (Y/n)")).upper()
     # if option == "Y":
     # Exportar la serie a un archivo CSV
     serie.to_excel(
-        f'data/vuelos-{datetime.date.today() + datetime.timedelta(days=1)}.xlsx')
-    print("Exito")
+        f'app/data/vuelos-{datetime.date.today() + datetime.timedelta(days=1)}.xlsx')
+    print("Exito al cargar el Excel")
 
 # hacer pruebas pytest
 
@@ -76,7 +71,7 @@ def replace_salidas(takeoff: list):
     arra0 = [0]*24
     if len(takeoff) != 0:
         for hour in takeoff:
-            for index_zero in range(len(arra0)): # aqui esta el error
+            for index_zero in range(len(arra0)):  # aqui esta el error
                 if int(hour[:2]) == index_zero:
                     # modificar aqui si se quieren los minutos
                     arra0[index_zero] = hour
