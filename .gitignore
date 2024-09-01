@@ -3,6 +3,10 @@ __pycache__/
 .ipynb_checkpoints/
 venv/
 
+# varibles d'environnement
+.env
+
+# archives de Jupiter lab
 mainLab.ipynb
 pandas1.ipynb
 Untitled.ipynb
