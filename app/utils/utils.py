@@ -5,8 +5,14 @@ import pandas as pd
 
 PLANES = []  # [DFG,GHG]
 BOOKS = {}  # "DFR" :{"takeoff":[], "landing":[]}
-No_Plane = ["EC-LYS", "EC-CZZ", "EC-FCD",
-            "F-CESI", "ES-3A-096-7"]  # aviones excuidos
+No_Plane = [
+    "EC-LYS",
+    "EC-CZZ",
+    "EC-FCD",
+    "F-CESI",
+    "ES-3A-096-7",
+    "ES-3A-042"
+]  # aviones excuidos
 
 
 def save_Book_by_tag(cadena: str):
@@ -33,10 +39,14 @@ def clas_to_series():
 
     # Crear una serie de Pandas de ejemplo
     data = get_all_reservas(AirCraft.all_reservas)
-    serie = pd.DataFrame(data["books"])
-    # print(serie)
-    # option = str(input("Quieres convertir a excel: (Y/n)")).upper()
-    # if option == "Y":
+
+    # 1r elemento del dic
+    elem_dic_0 = list(data["books"].keys())[0]
+    # indice de la serie
+    # el siete tiene que coincidir con la funcion delete_0_salidas
+    # def delete_0_salidas(array: list, delete_start: int = 6, delete_end: int = 4):
+    serie = pd.DataFrame(data["books"], index=range(
+        6, 6+len(data["books"][elem_dic_0]))).transpose()
     # Exportar la serie a un archivo CSV
     serie.to_excel(
         f'app/data/vuelos-{datetime.date.today() + datetime.timedelta(days=1)}.xlsx')
@@ -65,25 +75,37 @@ def get_all_reservas(all_book: dict):
 
 
 def replace_salidas(takeoff: list):
-    # 0,0,0,0,0,0,0,0,0,0
-    # 9,13
-    # arra0 = [0] * (20-7 + 1)
-    arra0 = [0]*24
+    """genera un array de 24 horas, con sus respectivas salidas
+
+    Args:
+        takeoff (list): ["09:00", "11:00"]
+
+    Returns:
+        array: [0,0,0,0,0,0,0,0,0,9,0,11,0,0,0,0,0,0,0,0,0,0,0,0]
+    """
+    array24_horas = [None]*24
     if len(takeoff) != 0:
         for hour in takeoff:
-            for index_zero in range(len(arra0)):  # aqui esta el error
+            for index_zero in range(len(array24_horas)):
+                # cogemos los 2 primeros digitos de la hora
+                # 09:30 -> 09
                 if int(hour[:2]) == index_zero:
-                    # modificar aqui si se quieren los minutos
-                    arra0[index_zero] = hour
-        return arra0
+                    array24_horas[index_zero] = hour
+
+    return delete_0_salidas(array24_horas)
 
 
-def generate_hour(takeoff: list):
-    # itermos takeoff para genera un horario en un aarray
-    # 0,0,0,0,0,0,0,0,0,9,0,11
-    if len(takeoff) > 0:
-        for index in range(20):  # 9,13
-            pass
+def delete_0_salidas(array: list, delete_start: int = 6, delete_end: int = 3):
+    """Eliminar las salidas 0, pero solo las 7 primeras 
+        y las 5 ultimas
+
+    Args:
+        array (list): [0,0,0,0,0,0,0,0,0,9,0,11,0,0,0,0,0,0,0,0,0,0,0,0]
+
+    Returns:
+        list: [0,0,9,11,0,0,0,0,0]
+    """
+    return array[delete_start:-delete_end]
 
 
 def delete_plane_by_Array(planes: list, books: dict, notPlane: list):

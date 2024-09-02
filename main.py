@@ -59,7 +59,7 @@ def main():
         # Cargar los datos
         time.sleep(6)
         soup = BeautifulSoup(driver.page_source, 'html.parser')
-        content = soup.select(".ScheduleLine_calendar__TUHwI")
+        # content = soup.select(".ScheduleLine_calendar__TUHwI")
         booking = soup.select(".BookingContainer_wrapper__VpZwN")
 
         if booking:
@@ -68,7 +68,7 @@ def main():
             clas_to_series()
             print("Eliminar 0:  0;-0;; @")
         else:
-            print("No hay Aircraft")
+            print("No hay booking")
 
     finally:
         # Cerrar el navegador
