@@ -7,8 +7,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 from .wdriver import driver
 from .wdriver import PAS, USER
 
+"""
+se encarga de la navegacion en la pagina
+
+"""
 
 # login
+
+
 def login(driver=driver):
     email = driver.find_element(by=By.ID, value='email')
     passw = driver.find_element(by=By.ID, value='component-outlined')
@@ -25,12 +31,18 @@ def login(driver=driver):
 
 
 # ir a programa
-def get_element_click_newPage(driver=driver, css_selector: str = "li[itemid='calendar']"):
+def get_element_click_newPage(driver, css_selector: str = "li[itemid='calendar']", xpath: str = None):
     try:
         # Espera a que el elemento sea clicable (visible y habilitado)
-        element = WebDriverWait(driver, 14).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, css_selector))
-        )
+        if xpath is not None:
+            element = WebDriverWait(driver, 14).until(
+                EC.element_to_be_clickable((By.XPATH, xpath))
+            )
+        else:
+            element = WebDriverWait(driver, 14).until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, css_selector))
+            )
+
         element.click()
     except Exception as e:
         print(f"Error al intentar hacer clic en el elemento: {e}")

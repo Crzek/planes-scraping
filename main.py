@@ -13,18 +13,36 @@ from app.utils.page import login, get_element_click_newPage, close_popup_with_js
 from app.utils.utils import save_Book_by_tag
 
 
-def navigate_to_programming(sleep: int = 2):
+def navigate_to_programming(today: bool, sleep: int = 2):
     # eliminar wrapper
     close_popup_with_js(driver, ".wrapper .ui-close")
     # navegar a programacion
     print("navegar a programacion")
     get_element_click_newPage(driver)
 
+    sacar_filtro(driver)
+
     time.sleep(sleep)
-    # Sigiente dia
-    # <span class="datebtn ui-after"></span>
-    get_element_click_newPage(driver, "span.ui-after")
-    print("siguiente dia")
+    if today:
+        # Sigiente dia
+        # <span class="datebtn ui-after"></span>
+        get_element_click_newPage(driver, "span.ui-after")
+        print("siguiente dia")
+
+
+def sacar_filtro(driver, time_sl: int = 4):
+    # ir a filtro
+    time.sleep(time_sl-2)
+    get_element_click_newPage(driver, "i.ui-filters")
+    print("click filtro")
+    time.sleep(time_sl)
+    # eliminar cancelado
+    get_element_click_newPage(driver, "div.ui-cancel")
+
+    time.sleep(time_sl+2)
+    # aceptar config
+    get_element_click_newPage(
+        driver, None, '//*[@id="box-schedule-filters"]/div[1]/div[3]/button[1]')
 
 
 def tag_find_by_attr(list_tag: list, attr_tag: str, value: str = None):
@@ -51,10 +69,10 @@ def stract_info_from_tag(list_info: list):
             # print(info + "\n")
 
 
-def main():
+def main(today: bool = False):
     try:
         login(driver)
-        navigate_to_programming()
+        navigate_to_programming(today)
 
         # Cargar los datos
         time.sleep(6)
@@ -65,7 +83,7 @@ def main():
         if booking:
             bookings_in_string: list = tag_find_by_attr(booking, "title")
             stract_info_from_tag(bookings_in_string)
-            clas_to_series()
+            clas_to_series(today)
             print("Eliminar 0:  0;-0;; @")
         else:
             print("No hay booking")
@@ -77,4 +95,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    from app.utils.styles import main_styles
+    hoy = False
+    main(hoy)
+    main_styles(hoy)

@@ -3,6 +3,11 @@ from app.models.book import Book
 
 import pandas as pd
 
+from globals import START_DEL, END_DEL, TODAY, TOMORROW
+
+
+# from app.test.export import excel_to_pdf
+
 PLANES = []  # [DFG,GHG]
 BOOKS = {}  # "DFR" :{"takeoff":[], "landing":[]}
 No_Plane = [
@@ -34,7 +39,7 @@ def save_Book_by_tag(cadena: str):
         return False
 
 
-def clas_to_series():
+def clas_to_series(today: bool = False):
     import datetime
 
     # Crear una serie de Pandas de ejemplo
@@ -46,11 +51,16 @@ def clas_to_series():
     # el siete tiene que coincidir con la funcion delete_0_salidas
     # def delete_0_salidas(array: list, delete_start: int = 6, delete_end: int = 4):
     serie = pd.DataFrame(data["books"], index=range(
-        6, 6+len(data["books"][elem_dic_0]))).transpose()
+        START_DEL, START_DEL+len(data["books"][elem_dic_0]))).transpose()
+
     # Exportar la serie a un archivo CSV
-    serie.to_excel(
-        f'app/data/vuelos-{datetime.date.today() + datetime.timedelta(days=1)}.xlsx')
+    file_excel = f'app/data/vuelos-{TODAY if today else TOMORROW }.xlsx'
+    serie.to_excel(file_excel)
     print("Exito al cargar el Excel")
+
+# convertir en HTML
+# main(serie)
+# excel_to_pdf(file_excel)
 
 # hacer pruebas pytest
 
@@ -95,8 +105,8 @@ def replace_salidas(takeoff: list):
     return delete_0_salidas(array24_horas)
 
 
-def delete_0_salidas(array: list, delete_start: int = 6, delete_end: int = 3):
-    """Eliminar las salidas 0, pero solo las 7 primeras 
+def delete_0_salidas(array: list, delete_start: int = START_DEL, delete_end: int = END_DEL):
+    """Eliminar las salidas 0, pero solo las 7 primeras
         y las 5 ultimas
 
     Args:
