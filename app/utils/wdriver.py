@@ -21,6 +21,11 @@ url = os.getenv("base_url")
 
 # Configura las opciones de Brave
 options = webdriver.ChromeOptions()
+# no sandbox
+options.add_argument('--no-sandbox')
+options.add_argument('--headless')
+options.add_argument('--disable-dev-shm-usage')
+
 # Establece la ubicación del ejecutable de Brave
 options.binary_location = BRAVE_PATH
 
