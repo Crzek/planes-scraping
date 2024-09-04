@@ -37,7 +37,7 @@ pytz==2024.1
 queuelib==1.7.0
 requests==2.32.3
 requests-file==2.1.0
-Scrapy==2.11.2
+# Scrapy==2.11.2
 selenium==4.24.0
 service-identity==24.1.0
 six==1.16.0

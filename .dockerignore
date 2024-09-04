@@ -1,0 +1,26 @@
+# pycache
+__pycache__/
+*/__pycache_
+*.pyc
+*.pyo
+*.pyd
+
+# venv
+.venv/
+.vscode/
+
+#dependences
+dependences/
+docker
+windows/
+.env.example
+config.py
+Readme.md
+
+# cosas independientes
+app/main_prueba.py
+
+# data -> archivos generados por el programa
+app/data/*.xlsx
+app/data/*.csv
+app/data/*.html
