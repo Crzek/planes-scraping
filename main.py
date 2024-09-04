@@ -13,7 +13,7 @@ from app.utils.page import login, get_element_click_newPage, close_popup_with_js
 from app.utils.utils import save_Book_by_tag
 
 
-def navigate_to_programming(today: bool, sleep: int = 2):
+def navigate_to_programming(today: bool = False, sleep: int = 2):
     # eliminar wrapper
     close_popup_with_js(driver, ".wrapper .ui-close")
     # navegar a programacion
@@ -23,7 +23,7 @@ def navigate_to_programming(today: bool, sleep: int = 2):
     sacar_filtro(driver)
 
     time.sleep(sleep)
-    if today:
+    if not today:
         # Sigiente dia
         # <span class="datebtn ui-after"></span>
         get_element_click_newPage(driver, "span.ui-after")

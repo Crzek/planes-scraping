@@ -12,11 +12,12 @@ PLANES = []  # [DFG,GHG]
 BOOKS = {}  # "DFR" :{"takeoff":[], "landing":[]}
 No_Plane = [
     "EC-LYS",
-    "EC-CZZ",
+    # "EC-CZZ",
     "EC-FCD",
     "F-CESI",
     "ES-3A-096-7",
-    "ES-3A-042"
+    "ES-3A-042",
+    "EC-IXA"
 ]  # aviones excuidos
 
 
