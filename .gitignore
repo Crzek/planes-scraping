@@ -1,7 +1,7 @@
 .venv
+venv/
 __pycache__/
 .ipynb_checkpoints/
-venv/
 
 # varibles d'environnement
 .env
@@ -10,3 +10,8 @@ venv/
 mainLab.ipynb
 pandas1.ipynb
 Untitled.ipynb
+
+# data -> archivos generados por el programa
+app/data/
+app/data/*.xlsx
+app/data/*.csv

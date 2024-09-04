@@ -5,18 +5,28 @@
 1. Primero instalar twister
 
 ```shell
+# esenciales
+pip install selenium
+pip install beautifulsoup4
+# manipular data
+pip install pandas
+pip install python-dotenv
+
+#----- Requirements esenciales
+pip install python-dotenv pandas selenium beautifulsoup4 openpyxl
+#---
+
+# otros
 pip install requests # hacer solicitudes, suele estar instalda en PY
 # en linux
 pip install twister
-
 # windows, mirar la carpeta dependences
 pip install dependences/twister....
-
 pip install lxml
-
 pip install Scrapy  # para coger etiquetas de la web 
 
-pip install beautifulsoup4
+
+
 ```
 
 # run

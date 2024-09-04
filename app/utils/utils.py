@@ -1,22 +1,30 @@
-from models.aircraft import AirCraft
-from models.book import Book
+from app.models.aircraft import AirCraft
+from app.models.book import Book
 
 import pandas as pd
 
+from globals import START_DEL, END_DEL, TODAY, TOMORROW
+
+
+# from app.test.export import excel_to_pdf
+
 PLANES = []  # [DFG,GHG]
 BOOKS = {}  # "DFR" :{"takeoff":[], "landing":[]}
-No_Plane = ["EC-LYS", "EC-CZZ", "EC-FCD",
-            "F-CESI", "ES-3A-096-7"]  # aviones excuidos
+No_Plane = [
+    "EC-LYS",
+    # "EC-CZZ",
+    "EC-FCD",
+    "F-CESI",
+    "ES-3A-096-7",
+    "ES-3A-042",
+    "EC-IXA"
+]  # aviones excuidos
 
 
 def save_Book_by_tag(cadena: str):
-    cadena_list = cadena.split("\n")
-    hora = cadena_list[0]
-    planeName= cadena_list[1]
-    reservaName = cadena_list[2]
-    # print(cadena_list)
-    
-    if len(cadena_list) > 1:
+    hora, planeName, reservaName, *res = cadena.split("\n")
+
+    if hora and planeName and reservaName:
         takeoff = hora[:5]
         landing = hora[6:]
         # Cremos avion
@@ -32,20 +40,28 @@ def save_Book_by_tag(cadena: str):
         return False
 
 
-def clas_to_series():
-    import pandas as pd
+def clas_to_series(today: bool = False):
     import datetime
 
     # Crear una serie de Pandas de ejemplo
     data = get_all_reservas(AirCraft.all_reservas)
-    serie = pd.DataFrame(data["books"]).T
-    # print(serie)
-    # option = str(input("Quieres convertir a excel: (Y/n)")).upper()
-    # if option == "Y":
+
+    # 1r elemento del dic
+    elem_dic_0 = list(data["books"].keys())[0]
+    # indice de la serie
+    # el siete tiene que coincidir con la funcion delete_0_salidas
+    # def delete_0_salidas(array: list, delete_start: int = 6, delete_end: int = 4):
+    serie = pd.DataFrame(data["books"], index=range(
+        START_DEL, START_DEL+len(data["books"][elem_dic_0]))).transpose()
+
     # Exportar la serie a un archivo CSV
-    serie.to_excel(
-        f'data/vuelos-{datetime.date.today() + datetime.timedelta(days=1)}.xlsx')
-    print("Exito")
+    file_excel = f'app/data/vuelos-{TODAY if today else TOMORROW }.xlsx'
+    serie.to_excel(file_excel)
+    print("Exito al cargar el Excel")
+
+# convertir en HTML
+# main(serie)
+# excel_to_pdf(file_excel)
 
 # hacer pruebas pytest
 
@@ -70,25 +86,37 @@ def get_all_reservas(all_book: dict):
 
 
 def replace_salidas(takeoff: list):
-    # 0,0,0,0,0,0,0,0,0,0
-    # 9,13
-    # arra0 = [0] * (20-7 + 1)
-    arra0 = [0]*24
+    """genera un array de 24 horas, con sus respectivas salidas
+
+    Args:
+        takeoff (list): ["09:00", "11:00"]
+
+    Returns:
+        array: [0,0,0,0,0,0,0,0,0,9,0,11,0,0,0,0,0,0,0,0,0,0,0,0]
+    """
+    array24_horas = [None]*24
     if len(takeoff) != 0:
         for hour in takeoff:
-            for index_zero in range(len(arra0)): # aqui esta el error
+            for index_zero in range(len(array24_horas)):
+                # cogemos los 2 primeros digitos de la hora
+                # 09:30 -> 09
                 if int(hour[:2]) == index_zero:
-                    # modificar aqui si se quieren los minutos
-                    arra0[index_zero] = hour
-        return arra0
+                    array24_horas[index_zero] = hour
+
+    return delete_0_salidas(array24_horas)
 
 
-def generate_hour(takeoff: list):
-    # itermos takeoff para genera un horario en un aarray
-    # 0,0,0,0,0,0,0,0,0,9,0,11
-    if len(takeoff) > 0:
-        for index in range(20):  # 9,13
-            pass
+def delete_0_salidas(array: list, delete_start: int = START_DEL, delete_end: int = END_DEL):
+    """Eliminar las salidas 0, pero solo las 7 primeras
+        y las 5 ultimas
+
+    Args:
+        array (list): [0,0,0,0,0,0,0,0,0,9,0,11,0,0,0,0,0,0,0,0,0,0,0,0]
+
+    Returns:
+        list: [0,0,9,11,0,0,0,0,0]
+    """
+    return array[delete_start:-delete_end]
 
 
 def delete_plane_by_Array(planes: list, books: dict, notPlane: list):
