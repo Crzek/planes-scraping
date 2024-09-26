@@ -1,12 +1,12 @@
-from app.models.aircraft import AirCraft
-from app.models.book import Book
+from src.app.models.aircraft import AirCraft
+from src.app.models.book import Book
 
 import pandas as pd
 
 from globals import START_DEL, END_DEL, TODAY, TOMORROW
 
 
-# from app.test.export import excel_to_pdf
+# from src.app.test.export import excel_to_pdf
 
 PLANES = []  # [DFG,GHG]
 BOOKS = {}  # "DFR" :{"takeoff":[], "landing":[]}
@@ -55,7 +55,7 @@ def clas_to_series(today: bool = False):
         START_DEL, START_DEL+len(data["books"][elem_dic_0]))).transpose()
 
     # Exportar la serie a un archivo CSV
-    file_excel = f'app/data/vuelos-{TODAY if today else TOMORROW }.xlsx'
+    file_excel = f'src/app/data/vuelos-{TODAY if today else TOMORROW }.xlsx'
     serie.to_excel(file_excel)
     print("Exito al cargar el Excel")
 

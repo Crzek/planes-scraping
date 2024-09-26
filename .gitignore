@@ -12,6 +12,6 @@ pandas1.ipynb
 Untitled.ipynb
 
 # data -> archivos generados por el programa
-app/data/
-app/data/*.xlsx
-app/data/*.csv
+src/app/data/
+src/app/data/*.xlsx
+src/app/data/*.csv

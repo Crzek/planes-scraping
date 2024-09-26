@@ -62,7 +62,7 @@ def print_doc(ws, title: str, print_area: str = 'A1:P25'):
 def main_styles(today: bool = False):
     from globals import TODAY, TOMORROW
 
-    data_url = 'app/data/'
+    data_url = 'src/app/data/'
     file = data_url + \
         f'vuelos-{TODAY if today else TOMORROW }.xlsx'
     # abrir un libro de trabajo
