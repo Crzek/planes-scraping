@@ -2,7 +2,7 @@
 from flask import Blueprint
 
 auth_bp = Blueprint(
-    "authBP",
+    "authBP",  # para usar en template html
     __name__,
     template_folder="templates",
     url_prefix="/auth")
