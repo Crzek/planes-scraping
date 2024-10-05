@@ -21,7 +21,9 @@
         </form>
         {% if vuelos %}
         <div>
-            <a href="{{url_for('static',filename=vuelos)}}">Descargar vuelos</a>
+            <a href="{{url_for('authBP.descargar',filename=vuelos)}}">
+                Descargar vuelos {{vuelos}}
+            </a>
         </div>
         {% endif %}
         {% if errors %}

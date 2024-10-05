@@ -1,4 +1,6 @@
-from flask import render_template, request, redirect, url_for
+from globals import PATH_STATIC_DATA, PATH_STATIC, TODAY, TOMORROW
+import os
+from flask import render_template, request, redirect, url_for, send_file
 
 # blueprint
 from . import auth_bp
@@ -98,7 +100,6 @@ def vuelos():
 
     from src.app.utils.styles import main_styles
     from src.app.main import main
-    from globals import TODAY, TOMORROW, PATH_STATIC_DATA
 
     if request.method == "POST":
         day = request.form['day']
@@ -110,11 +111,17 @@ def vuelos():
             hoy = False
 
         try:
-            main(hoy)
-            main_styles(hoy)
+            filename = f'vuelos-{TODAY if hoy else TOMORROW}.xlsx'
+            getcwd = os.getcwd()
+            filepath = f'{getcwd + "/" + PATH_STATIC_DATA +
+                          filename}'  # Ajusta según la ruta real
+            if not os.path.exists(filepath):
+                main(hoy)
+                main_styles(hoy)
+
             return render_template(
                 "vuelos.html",
-                vuelos=f'data/vuelos-{TODAY if hoy else TOMORROW}.xlsx')
+                vuelos=filename,)
 
         except Exception as e:
             print(f"Error {e}")
@@ -132,3 +139,20 @@ def thanks(email: str):
     return :
     """
     return render_template("thanks.html", email=email)
+
+
+@auth_bp.route("/descargar/data/<string:filename>", methods=["GET"])
+def descargar(filename: str):
+    try:
+
+        getcwd = os.getcwd()
+        filepath = f'{getcwd + "/" + PATH_STATIC_DATA +
+                      filename}'  # Ajusta según la ruta real
+        print("descargando", filepath)
+        if not os.path.exists(filepath):
+            print(f"Archivo no encontrado: {filepath}")
+            return "Archivo no encontrado", 404
+        return send_file(filepath, as_attachment=True)
+    except Exception as e:
+        print(f"Error al descargar el archivo: {e}")
+        return "Error al descargar el archivo", 404
