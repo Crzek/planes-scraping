@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>registro</title>
+</head>
+
+<body>
+    <h2>Registro para Obtener los vuelos</h2>
+    <!-- <form action="{{ url_for('authBP.thanks', email=email) }}" method="POST"> -->
+    <form action="{{ url_for('authBP.register')}}" method="POST">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email">
+        <br>
+        <label for="password">Contraseña</label>
+        <input type="password" name="password" id="password">
+        <br />
+        <button type="submit">Registrar</button>
+    </form>
+    <br />
+    <ul>
+        <li><a href="{{ url_for('authBP.login') }}">Iniciar Session</a></li>
+        <!-- <li><a href="{{ url_for('authBP.register') }}">Registro</a></li> -->
+    </ul>
+</body>
+
+</html

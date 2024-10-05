@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vuelos</title>
+</head>
+
+<body>
+    <h1>Vuelos del Dia {{ day }}</h1>
+    <div>
+        <form action="{{ url_for('authBP.vuelos')}}" method="POST">
+            <select id="day" name="day">
+                <option value="today">Hoy</option>
+                <option value="tomorrow">Mañana</option>
+
+            </select>
+
+            <button type="submit">Generar Excel</button>
+        </form>
+        {% if vuelos %}
+        <div>
+            <a href="{{url_for('static',filename=vuelos)}}">Descargar vuelos</a>
+        </div>
+        {% endif %}
+        {% if errors %}
+        <p class="error">{{errors}}</p>
+        {% endif %}
+
+    </div>
+</body>
+
+</html>
