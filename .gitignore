@@ -5,6 +5,7 @@ __pycache__/
 
 # varibles d'environnement
 .env
+dev-venv
 
 # archives de Jupiter lab
 mainLab.ipynb
@@ -15,3 +16,7 @@ Untitled.ipynb
 src/app/data/
 src/app/data/*.xlsx
 src/app/data/*.csv
+static/data/
+
+instance/
+

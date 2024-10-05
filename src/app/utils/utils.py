@@ -42,6 +42,7 @@ def save_Book_by_tag(cadena: str):
 
 def clas_to_series(today: bool = False):
     import datetime
+    from globals import PATH_STATIC_DATA
 
     # Crear una serie de Pandas de ejemplo
     data = get_all_reservas(AirCraft.all_reservas)
@@ -55,7 +56,7 @@ def clas_to_series(today: bool = False):
         START_DEL, START_DEL+len(data["books"][elem_dic_0]))).transpose()
 
     # Exportar la serie a un archivo CSV
-    file_excel = f'src/app/data/vuelos-{TODAY if today else TOMORROW }.xlsx'
+    file_excel = f"{PATH_STATIC_DATA}vuelos-{TODAY if today else TOMORROW}.xlsx"  # nopep8
     serie.to_excel(file_excel)
     print("Exito al cargar el Excel")
 

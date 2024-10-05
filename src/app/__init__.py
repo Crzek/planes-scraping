@@ -9,4 +9,4 @@ scrapping_bp = Blueprint(
     url_prefix="/scrapy"
 )
 
-# si tubieramos rutas la iportariasmos
+from .routes import routes  # nopep8
