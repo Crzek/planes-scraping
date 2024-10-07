@@ -24,6 +24,17 @@
             <a href="{{url_for('authBP.descargar',filename=vuelos)}}">
                 Descargar vuelos {{vuelos}}
             </a>
+            <br />
+            <h2>Volver a Generar {{ vuelos }}</h2>
+
+            <form action="{{ url_for('authBP.vuelos', remake='remake') }}" method="POST">
+                <select id="day" name="day">
+                    <option value="today">Hoy</option>
+                    <option value="tomorrow">Mañana</option>
+
+                </select>
+                <button type="submit" name="sumit_remake">Regenerar {{ vuelos }}</button>
+            </form>
         </div>
         {% endif %}
         {% if errors %}

@@ -92,10 +92,14 @@ def login():
     return render_template("login.html", errors=None)
 
 
+@auth_bp.route("/vuelos/<string:remake>", methods=["GET", "POST"])
 @auth_bp.route("/vuelos", methods=["GET", "POST"])
-def vuelos():
+def vuelos(remake: str = None):
     """
     generacion de vuelos
+
+    remake:str
+    values: None, "remake"
     """
 
     from src.app.utils.styles import main_styles
@@ -103,7 +107,7 @@ def vuelos():
 
     if request.method == "POST":
         day = request.form['day']
-        print("Dia", day)
+        print("ver Dia", day)
         # generar vuelos
         if day == "today":
             hoy = True
@@ -115,7 +119,8 @@ def vuelos():
             getcwd = os.getcwd()
             filepath = f'{getcwd + "/" + PATH_STATIC_DATA +
                           filename}'  # Ajusta según la ruta real
-            if not os.path.exists(filepath):
+
+            if not os.path.exists(filepath) or (remake == "remake"):
                 main(hoy)
                 main_styles(hoy)
 
@@ -145,14 +150,17 @@ def thanks(email: str):
 def descargar(filename: str):
     try:
 
-        getcwd = os.getcwd()
+        getcwd = os.getcwd()  # ruta actual
         filepath = f'{getcwd + "/" + PATH_STATIC_DATA +
                       filename}'  # Ajusta según la ruta real
         print("descargando", filepath)
+
         if not os.path.exists(filepath):
             print(f"Archivo no encontrado: {filepath}")
             return "Archivo no encontrado", 404
+
         return send_file(filepath, as_attachment=True)
+
     except Exception as e:
         print(f"Error al descargar el archivo: {e}")
         return "Error al descargar el archivo", 404
