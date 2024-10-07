@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vuelos</title>
+</head>
+
+<body>
+    <h1>Vuelos del Dia {{ day }}</h1>
+    <div>
+        <form action="{{ url_for('authBP.vuelos')}}" method="POST">
+            <select id="day" name="day">
+                <option value="today">Hoy</option>
+                <option value="tomorrow">Mañana</option>
+
+            </select>
+
+            <button type="submit">Generar Excel</button>
+        </form>
+        {% if vuelos %}
+        <div>
+            <a href="{{url_for('authBP.descargar',filename=vuelos)}}">
+                Descargar vuelos {{vuelos}}
+            </a>
+            <br />
+            <h2>Volver a Generar {{ vuelos }}</h2>
+
+            <form action="{{ url_for('authBP.vuelos', remake='remake') }}" method="POST">
+                <select id="day" name="day">
+                    <option value="today">Hoy</option>
+                    <option value="tomorrow">Mañana</option>
+
+                </select>
+                <button type="submit" name="sumit_remake">Regenerar {{ vuelos }}</button>
+            </form>
+        </div>
+        {% endif %}
+        {% if errors %}
+        <p class="error">{{errors}}</p>
+        {% endif %}
+
+    </div>
+</body>
+
+</html>

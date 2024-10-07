@@ -60,11 +60,13 @@ def print_doc(ws, title: str, print_area: str = 'A1:P25'):
 
 
 def main_styles(today: bool = False):
-    from globals import TODAY, TOMORROW
+    from globals import TODAY, TOMORROW, PATH_STATIC_DATA
 
-    data_url = 'app/data/'
-    file = data_url + \
-        f'vuelos-{TODAY if today else TOMORROW }.xlsx'
+    # data_url = 'src/app/data/'
+    # file = data_url + \
+    #     f'vuelos-{TODAY if today else TOMORROW }.xlsx'
+
+    file = f"{PATH_STATIC_DATA}vuelos-{TODAY if today else TOMORROW}.xlsx"
     # abrir un libro de trabajo
     print(f"Aplicando estilos al archivo de excel:\n{file}")
     wb = load_workbook(file)

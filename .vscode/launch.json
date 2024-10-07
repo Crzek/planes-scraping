@@ -5,12 +5,21 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
-            "type": "python",
+            "name": "Python Debugger: Flask",
+            "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/main.py",
-            "console": "integratedTerminal",
-            "justMyCode": true
+            "module": "flask",
+            "env": {
+                "FLASK_APP": "entrypoint.py",
+                "FLASK_DEBUG": "1"
+            },
+            "args": [
+                "run",
+                "--debugger",
+                "--reload"
+            ],
+            "jinja": true,
+            "autoStartBrowser": false
         }
     ]
 }

@@ -1,0 +1,1 @@
+SECRET_KEY = "MY_KEY-12"

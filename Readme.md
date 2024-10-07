@@ -25,12 +25,19 @@ pip install dependences/twister....
 pip install lxml
 pip install Scrapy  # para coger etiquetas de la web 
 
-
-
 ```
+# Development
+```shelll
+flask run --debug
+```
+
+# Production
+```shelll
+flask run --host=0.0.0.0
+```
+
 
 # run
 ```shell
 python main.py
-
 ```

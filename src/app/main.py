@@ -6,11 +6,11 @@ import time
 
 from bs4 import BeautifulSoup
 
-from app.utils.utils import clas_to_series
-from app.utils.wdriver import driver
+from src.app.utils.utils import clas_to_series
+from src.app.utils.wdriver import driver
 
-from app.utils.page import login, get_element_click_newPage, close_popup_with_js
-from app.utils.utils import save_Book_by_tag
+from src.app.utils.page import login, get_element_click_newPage, close_popup_with_js
+from src.app.utils.utils import save_Book_by_tag
 
 
 def navigate_to_programming(today: bool = False, sleep: int = 2):
@@ -95,7 +95,7 @@ def main(today: bool = False):
 
 
 if __name__ == '__main__':
-    from app.utils.styles import main_styles
+    from src.app.utils.styles import main_styles
     hoy = False
     main(hoy)
     main_styles(hoy)
