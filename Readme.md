@@ -1,3 +1,10 @@
+# Create files
+Crea este archivo primero
+src/config/default.py
+```python
+SECRET_KEY = "key"
+```
+
 # Installation Local
 
 [Notion refer](https://www.notion.so/erickcruz/WebScraping-97caab9b379846a58ad86389fa218ea7)
