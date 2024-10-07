@@ -117,8 +117,10 @@ def vuelos(remake: str = None):
         try:
             filename = f'vuelos-{TODAY if hoy else TOMORROW}.xlsx'
             getcwd = os.getcwd()
-            filepath = f'{getcwd + "/" + PATH_STATIC_DATA +
-                          filename}'  # Ajusta según la ruta real
+            filepath = (
+                f'{getcwd}/{PATH_STATIC_DATA}'
+                f'{filepath}'  # Ajusta según la ruta real
+            )
 
             if not os.path.exists(filepath) or (remake == "remake"):
                 main(hoy)
@@ -151,8 +153,10 @@ def descargar(filename: str):
     try:
 
         getcwd = os.getcwd()  # ruta actual
-        filepath = f'{getcwd + "/" + PATH_STATIC_DATA +
-                      filename}'  # Ajusta según la ruta real
+        filepath = (
+            f'{getcwd}/{PATH_STATIC_DATA}'
+            f'{filename}'  # Ajusta según la ruta real
+        )
         print("descargando", filepath)
 
         if not os.path.exists(filepath):
