@@ -2,7 +2,7 @@ FROM python:3.9.19-slim-bullseye as builder
 
 RUN apt-get update -y
 
-COPY dependences /app/dependences
+# COPY dependences /app/dependences
 
 WORKDIR /app
 

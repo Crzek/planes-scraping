@@ -1,1 +1,1 @@
-SECRET_KEY = "MY_KEY-12"
+SECRET_KEY = "dsjjdiufsinifdniur804i54"
