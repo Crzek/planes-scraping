@@ -19,4 +19,8 @@ src/app/data/*.csv
 static/data/
 
 instance/
+dependencies/
+
+# ky
+src/config/default.py
 
