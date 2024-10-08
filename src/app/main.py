@@ -96,6 +96,6 @@ def main(today: bool = False):
 
 if __name__ == '__main__':
     from src.app.utils.styles import main_styles
-    hoy = False
+    hoy = True
     main(hoy)
     main_styles(hoy)
