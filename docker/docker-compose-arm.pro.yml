@@ -4,7 +4,7 @@ services:
       context: ../ # Path: docker/
       dockerfile: docker/Dockerfile-py-arm
     image: vuelos-private-radar:1.1 # Name of the image
-    container_name: vuelos-private-radar
+    container_name: vuelos-private-radar-arm
     ports:
       - "5000:5000"
   # file: entrypoint.py

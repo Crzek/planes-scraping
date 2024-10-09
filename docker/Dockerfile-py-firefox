@@ -7,12 +7,18 @@ COPY ./requirements.txt /app/
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
 RUN apt update && \
+    # install -d -m 0755 /etc/apt/keyrings && \
     apt install -y --no-install-recommends wget unzip && \
-    apt install chromium -y && \
+    # wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null && \
+    # echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null && \
+    # apt update && apt install firefox -y && \
+    apt install firefox-esr -y && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
 
 # CMD [ "python" ,"main.py"]
+RUN which firefox
+
 
 # Segunda etapa
 FROM python:3.11.9-slim-bullseye

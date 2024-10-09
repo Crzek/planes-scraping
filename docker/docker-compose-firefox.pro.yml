@@ -2,9 +2,9 @@ services:
   vuelos-app:
     build:
       context: ../ # Path: docker/
-      dockerfile: docker/Dockerfile-py
+      dockerfile: docker/Dockerfile-py-firefox
     image: vuelos-private-radar:1.1 # Name of the image
-    container_name: vuelos-private-radar-py
+    container_name: vuelos-private-radar-firefox
     ports:
       - "5000:5000"
   # file: entrypoint.py
