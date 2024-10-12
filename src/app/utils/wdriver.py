@@ -26,14 +26,15 @@ url = os.getenv("base_url")
 PATH_FIREFOX = "/usr/bin/firefox"
 
 options = webdriver.FirefoxOptions()
+# Establece la ubicación del ejecutable de Brave
+options.binary_location = PATH_FIREFOX
+
 # no sandbox
 # configuración de la memoria para docker
-options.add_argument('--no-sandbox')
-options.add_argument('--headless')
-options.add_argument('--disable-dev-shm-usage')
+# options.add_argument('--no-sandbox')
+# options.add_argument('--headless')
+# options.add_argument('--disable-dev-shm-usage')
 
-# Establece la ubicación del ejecutable de Brave
-# options.binary_location = PATH_FIREFOX
 
 # Inicializa un navegador Brave
 # driver = webdriver.ChromiumEdge(options=options)

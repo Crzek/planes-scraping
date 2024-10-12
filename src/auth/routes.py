@@ -119,8 +119,9 @@ def vuelos(remake: str = None):
             getcwd = os.getcwd()
             filepath = (
                 f'{getcwd}/{PATH_STATIC_DATA}'
-                f'{filepath}'  # Ajusta según la ruta real
+                f'{filename}'  # Ajusta según la ruta real
             )
+            print("--filepath---", filepath)
 
             if not os.path.exists(filepath) or (remake == "remake"):
                 main(hoy)
