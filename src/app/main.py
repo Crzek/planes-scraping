@@ -14,8 +14,9 @@ from src.app.utils.utils import save_Book_by_tag
 
 
 def navigate_to_programming(today: bool = False, sleep: int = 2):
-    # eliminar wrapper
-    close_popup_with_js(driver, ".wrapper .ui-close")
+    # eliminar wrapper o popup
+    # close_popup_with_js(driver, ".wrapper .ui-close")
+
     # navegar a programacion
     print("navegar a programacion")
     get_element_click_newPage(driver)
@@ -37,12 +38,15 @@ def sacar_filtro(driver, time_sl: int = 4):
     print("click filtro")
     time.sleep(time_sl)
     # eliminar cancelado
-    get_element_click_newPage(driver, "div.ui-cancel")
+    get_element_click_newPage(
+        driver, ".myCheckbox.BookingTypeFilterDialogSection_colorCanceled__2FrtF .MuiFormControlLabel-root")
 
     time.sleep(time_sl+2)
     # aceptar config
     get_element_click_newPage(
-        driver, None, '//*[@id="box-schedule-filters"]/div[1]/div[3]/button[1]')
+        # driver, None, '//*[@id="box-schedule-filters"]/div[1]/div[3]/button[1]') #chrome
+        # firefox
+        driver, ".BaseDialog_buttons__2ubaL.MuiDialogActions-spacing > div:first-child > button[aria-label='Ok']")
 
 
 def tag_find_by_attr(list_tag: list, attr_tag: str, value: str = None):
