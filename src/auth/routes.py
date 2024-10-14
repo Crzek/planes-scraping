@@ -102,9 +102,6 @@ def vuelos(remake: str = None):
     values: None, "remake"
     """
 
-    from src.app.utils.styles import main_styles
-    from src.app.main import main
-
     if request.method == "POST":
         day = request.form['day']
         print("ver Dia", day)
@@ -124,6 +121,8 @@ def vuelos(remake: str = None):
             print("--filepath---", filepath)
 
             if not os.path.exists(filepath) or (remake == "remake"):
+                from src.app.utils.styles import main_styles
+                from src.app.main import main
                 main(hoy)
                 main_styles(hoy)
 
