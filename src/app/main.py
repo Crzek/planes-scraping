@@ -15,7 +15,7 @@ from src.app.utils.utils import save_Book_by_tag
 
 def navigate_to_programming(today: bool = False, sleep: int = 2):
     # eliminar wrapper o popup
-    # close_popup_with_js(driver, ".wrapper .ui-close")
+    close_popup_with_js(driver, ".wrapper .ui-close")
 
     # navegar a programacion
     print("navegar a programacion")
