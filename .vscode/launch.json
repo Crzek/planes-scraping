@@ -5,6 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Debug Flask src.app.main",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src.app.main",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "FLASK_APP": "src.app.main",
+                "FLASK_ENV": "development"
+            },
+            "args": [],
+            "justMyCode": false
+        },
+        {
             "name": "Python Debugger: Flask",
             "type": "debugpy",
             "request": "launch",
