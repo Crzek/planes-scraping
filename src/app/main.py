@@ -24,6 +24,7 @@ def navigate_to_programming(today: bool = False, sleep: int = 2):
 
     # eliminar wrapper
     close_popup_with_js(driver, ".wrapper .ui-close")
+
     # navegar a programacion
     print("navegar a programacion")
     get_element_click_newPage(driver)

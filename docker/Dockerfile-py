@@ -6,7 +6,7 @@ COPY ./requirements.txt /app/
 
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
-RUN apt-get update && \
+RUN apt-get update -y &&  apt-get upgrade -y && \
     apt-get install -y --no-install-recommends wget unzip && \
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
     apt-get install -y --no-install-recommends ./google-chrome-stable_current_amd64.deb && \

@@ -1,4 +1,3 @@
-
 from selenium import webdriver
 from dotenv import load_dotenv
 import os
@@ -16,7 +15,7 @@ USER = os.getenv("user")
 # BRAVE_PATH = r"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"
 
 # Linux
-# BRAVE_PATH = "/usr/bin/brave-browser"
+PATH_BROWSER = "/usr/bin/chromium"
 url = os.getenv("base_url")
 
 # Configura las opciones de Brave
@@ -25,6 +24,7 @@ PATH_BROWSER = "/usr/bin/google-chrome"
 
 # firefox path binary
 # PATH_BROWSER = "/usr/bin/firefox"
+
 
 # options = webdriver.FirefoxOptions()
 # Establece la ubicación del ejecutable de Brave

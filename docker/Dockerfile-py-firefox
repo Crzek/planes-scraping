@@ -6,7 +6,7 @@ COPY ./requirements.txt .
 
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
-RUN apt update && \
+RUN apt update -y &&  apt upgrade -y && \
     apt install wget unzip -y
 
 RUN install -d -m 0755 /etc/apt/keyrings && \
