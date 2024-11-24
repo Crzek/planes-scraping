@@ -23,15 +23,28 @@ def login(driver=driver):
     # escribir pas y user
     email.send_keys(USER)  # Ingresa texto en el cuadro de texto
     passw.send_keys(PAS)
-    time.sleep(3)  # 2 segundos
+    time.sleep(2)  # 2 segundos
     btn_Sing.click()
-    time.sleep(5)
+    # time.sleep(5)
 
     # driver.refresh()
 
 
 # ir a programa
 def get_element_click_newPage(driver, css_selector: str = "li[itemid='calendar']", xpath: str = None):
+    """
+    Clicks on an element in a web page using the given CSS selector or XPath.
+
+    Args:
+        driver: The WebDriver instance.
+        css_selector (str, optional): The CSS selector of the element to click. Defaults to "li[itemid='calendar']".
+        xpath (str, optional): The XPath of the element to click. Defaults to None.
+
+    Raises:
+        Exception: If an error occurs while trying to click on the element.
+
+    """
+
     try:
         # Espera a que el elemento sea clicable (visible y habilitado)
         if xpath is not None:
@@ -51,7 +64,7 @@ def get_element_click_newPage(driver, css_selector: str = "li[itemid='calendar']
 def close_popup_with_js(driver, css_selector: str = None):
     try:
         # Espera a que el botón "Not now" (o "ui-close") sea clicable
-        close_button = WebDriverWait(driver, 14).until(
+        close_button = WebDriverWait(driver, 4).until(
             EC.element_to_be_clickable(
                 (By.CSS_SELECTOR, ".installPwaBox .ui-close"))
         )

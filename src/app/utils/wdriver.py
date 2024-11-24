@@ -20,14 +20,15 @@ USER = os.getenv("user")
 url = os.getenv("base_url")
 
 # Configura las opciones de Brave
-# options = webdriver.ChromeOptions()
+options = webdriver.ChromeOptions()
+PATH_BROWSER = "/usr/bin/google-chrome"
 
 # firefox path binary
-PATH_FIREFOX = "/usr/bin/firefox"
+# PATH_BROWSER = "/usr/bin/firefox"
 
-options = webdriver.FirefoxOptions()
+# options = webdriver.FirefoxOptions()
 # Establece la ubicación del ejecutable de Brave
-options.binary_location = PATH_FIREFOX
+options.binary_location = PATH_BROWSER
 
 # no sandbox
 # configuración de la memoria para docker
@@ -37,8 +38,8 @@ options.binary_location = PATH_FIREFOX
 
 
 # Inicializa un navegador Brave
-# driver = webdriver.ChromiumEdge(options=options)
-driver = webdriver.Firefox(options=options)
+driver = webdriver.ChromiumEdge(options=options)
+# driver = webdriver.Firefox(options=options)
 
 # Ancho de 1024 píxeles y alto de 768 píxeles
 driver.set_window_size(1024, 768)

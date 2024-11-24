@@ -14,13 +14,21 @@ from src.app.utils.utils import save_Book_by_tag
 
 
 def navigate_to_programming(today: bool = False, sleep: int = 2):
+    """
+    Navigates to the programming page.
+
+    Args:
+        today (bool, optional): Flag indicating whether to navigate to today's programming. Defaults to False.
+        sleep (int, optional): Number of seconds to sleep before continuing. Defaults to 2.
+    """
+
     # eliminar wrapper
     close_popup_with_js(driver, ".wrapper .ui-close")
     # navegar a programacion
     print("navegar a programacion")
     get_element_click_newPage(driver)
 
-    sacar_filtro(driver)
+    show_filtro(driver)
 
     time.sleep(sleep)
     if not today:
@@ -30,19 +38,41 @@ def navigate_to_programming(today: bool = False, sleep: int = 2):
         print("siguiente dia")
 
 
-def sacar_filtro(driver, time_sl: int = 4):
-    # ir a filtro
-    time.sleep(time_sl-2)
-    get_element_click_newPage(driver, "i.ui-filters")
-    print("click filtro")
+def navigate_in_filter(driver, time_sl: int = 4):
     time.sleep(time_sl)
-    # eliminar cancelado
-    get_element_click_newPage(driver, "div.ui-cancel")
+    # Seleccionar todos los filtros
+    get_element_click_newPage(
+        driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/div[1]/div/label")
+    # desceleccionar Canceled
+    get_element_click_newPage(
+        driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/div[2]/div[15]/label"
+    )
+    # desceleccionar Maintenance
+    get_element_click_newPage(
+        driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/div[2]/div[16]/label"
+    )
+    # desceleccionar not avialable
+    get_element_click_newPage(
+        driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/div[2]/div[17]/label"
+    )
+    # desceleccionar type rating
+    get_element_click_newPage(
+        driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/div[2]/div[5]/label"
+    )
 
     time.sleep(time_sl+2)
     # aceptar config
     get_element_click_newPage(
-        driver, None, '//*[@id="box-schedule-filters"]/div[1]/div[3]/button[1]')
+        driver, xpath="/html/body/div[7]/div[3]/div/div[3]/div[1]/button")
+
+
+def show_filtro(driver, time_sl: int = 4):
+    # ir a filtro
+    time.sleep(time_sl-2)
+    get_element_click_newPage(driver, "i.ui-filters")
+    print("click filtro")
+
+    navigate_in_filter(driver, time_sl)
 
 
 def tag_find_by_attr(list_tag: list, attr_tag: str, value: str = None):
@@ -59,30 +89,57 @@ def tag_find_by_attr(list_tag: list, attr_tag: str, value: str = None):
     return list_vales
 
 
-def stract_info_from_tag(list_info: list):
+def stract_info_from_tag(list_info: list[str]):
     """
     stract info de un string
     """
     for info in list_info:
         if "DUAL" in info or "PIC" in info:
-            saved = save_Book_by_tag(info)
+            # incargado de guardar la reserva
+            saved: bool = save_Book_by_tag(info)
             # print(info + "\n")
+
+
+def delete_parts(soup: BeautifulSoup):
+
+    h1_simuladores = soup.find(
+        'h1', string=lambda text: text and text.strip().lower() == "simuladores")
+
+    # Eliminar desde el elemento encontrado hasta el final
+    if h1_simuladores:
+        # Obtener todos los elementos posteriores a `h2_simuladores` en el árbol
+        for sibling in h1_simuladores.find_all_next():
+            sibling.extract()  # Eliminar cada elemento
+
+        # Eliminar también el propio elemento h2_simuladores si es necesario
+        h1_simuladores.decompose()
+
+    return soup
 
 
 def main(today: bool = False):
     try:
         login(driver)
+        # toda la navegacion comienza aqui en esta funcion
         navigate_to_programming(today)
 
         # Cargar los datos
         time.sleep(6)
+        print("Cargando los datos...")
         soup = BeautifulSoup(driver.page_source, 'html.parser')
-        # content = soup.select(".ScheduleLine_calendar__TUHwI")
+
+        # Eliminar partes innecesarias
+        delete_parts(soup)
+
         booking = soup.select(".BookingContainer_wrapper__VpZwN")
 
         if booking:
             bookings_in_string: list = tag_find_by_attr(booking, "title")
+
+            # Se Encarga de extraer la informacion de la reserva
+            # ponerla en un objeto Book y crear un objeto AirCraft
             stract_info_from_tag(bookings_in_string)
+
             clas_to_series(today)
             print("Eliminar 0:  0;-0;; @")
         else:
@@ -96,6 +153,6 @@ def main(today: bool = False):
 
 if __name__ == '__main__':
     from src.app.utils.styles import main_styles
-    hoy = True
+    hoy = False
     main(hoy)
     main_styles(hoy)
