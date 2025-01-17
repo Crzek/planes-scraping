@@ -9,7 +9,8 @@
 
 <body>
     <h1>Iniciar session</h1>
-    <form action="/auth/login" method="POST">
+    <!-- Siempre poner el action de la misma funcion que lo llama -->
+    <form action="/login" method="POST">
         <label for="email">Username</label>
         <input type="email" id="email" name="email">
         {% if errors['email'] %}

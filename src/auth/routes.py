@@ -7,17 +7,22 @@ from . import auth_bp
 
 # nuetras routes
 from .models.users import User
+from flask_login import (
+    login_user,  # para logear
+    logout_user,  # para deslogear
+    login_required,  # para proteger rutas
+    current_user  # para saber el usuario actual
+)
 
 
 @auth_bp.route("/")
 def auth():
     """
-    coment
+    paguina principal   
 
-    input :
-    return :
+    return : redirect a login
     """
-    return "auth"
+    return redirect(url_for("authBP.login"))
 
 
 @auth_bp.route("/register", methods=["GET", "POST"])
@@ -33,6 +38,9 @@ def register():
     from src import db  # SQLalchemy
     from werkzeug.security import generate_password_hash
     try:
+
+        if current_user.is_authenticated:
+            return redirect(url_for("authBP.vuelos"))
 
         if request.method == "POST":
             email = request.form["email"]
@@ -51,7 +59,7 @@ def register():
                 print("------SAVED in DB----")
                 return redirect(url_for("authBP.thanks", email=email))
             else:
-                return f"User ya registrado {email}"
+                return f"User ya registrado {email} <a href='{url_for('authBP.login')}' > login < /a >"
         return render_template("register.html")
     except Exception as e:
         print(f"Error {e}")
@@ -66,22 +74,31 @@ def login():
     input :
     return :
     """
-    from werkzeug.security import check_password_hash
+    from werkzeug.security import check_password_hash  # nopep8
 
     print(request.method)
+    errors = dict()
+
+    if current_user.is_authenticated:
+        return redirect(url_for("authBP.vuelos"))
+
     if request.method == "POST":
         email = request.form["email"]
         passwd = request.form["password"]
-        print(email)
-        print(passwd)
-        user = User.query.filter_by(email=email).first()
-        print(user)
 
-        errors = dict()
+        # usuario en DB
+        user = User.query.filter_by(email=email).first()
+
         # ver si esta su email y ver si la contra es correcta
         if user:
             if check_password_hash(user.password, passwd):
-                return redirect(url_for("authBP.vuelos", email=email))
+                is_loged = login_user(user, remember=True)  # logear
+                print("----login----")
+                print(url_for("authBP.vuelos", email=email))
+                print(url_for("authBP.vuelos"))
+                # return redirect(url_for("authBP.vuelos", email=email)) #/vuelos?email=crzerick6@gmail.com
+                # return redirect(url_for("authBP.vuelos")) # /vuelos
+                return redirect(url_for("authBP.vuelos"))
 
             errors["pass"] = "Contraseña incorrecta"
         else:
@@ -89,11 +106,25 @@ def login():
 
         return render_template("login.html", errors=errors)
 
-    return render_template("login.html", errors=None)
+    return render_template("login.html", errors=errors)
 
 
-@auth_bp.route("/vuelos/<string:remake>", methods=["GET", "POST"])
+@auth_bp.route("/logout")
+@login_required
+def logout():
+    """
+    logout
+
+    input :
+    return :
+    """
+    logout_user()
+    return redirect(url_for("authBP.login"))
+
+
+@auth_bp.route("/vuelos/<string:remake>", methods=["POST"])
 @auth_bp.route("/vuelos", methods=["GET", "POST"])
+@login_required
 def vuelos(remake: str = None):
     """
     generacion de vuelos
@@ -111,8 +142,10 @@ def vuelos(remake: str = None):
         else:
             hoy = False
 
+        date = TODAY if hoy else TOMORROW
+
         try:
-            filename = f'vuelos-{TODAY if hoy else TOMORROW}.xlsx'
+            filename = f'vuelos-{date}.xlsx'
             getcwd = os.getcwd()
             filepath = (
                 f'{getcwd}/{PATH_STATIC_DATA}'
@@ -123,16 +156,18 @@ def vuelos(remake: str = None):
             if not os.path.exists(filepath) or (remake == "remake"):
                 from src.app.utils.styles import main_styles
                 from src.app.main import main
-                main(hoy)
+                main(hoy, hidden=True)
                 main_styles(hoy)
 
             return render_template(
                 "vuelos.html",
-                vuelos=filename,)
+                vuelos=filename,
+                day=date
+            )
 
         except Exception as e:
             print(f"Error {e}")
-            return render_template("vuelos.html", vuelos=None, errros="Error al cargar los vuelos")
+            return render_template("vuelos.html", vuelos=None, errors="Error al cargar los vuelos", day=date)
 
     return render_template("vuelos.html", vuelos=None)
 
@@ -149,6 +184,7 @@ def thanks(email: str):
 
 
 @auth_bp.route("/descargar/data/<string:filename>", methods=["GET"])
+@login_required
 def descargar(filename: str):
     try:
 

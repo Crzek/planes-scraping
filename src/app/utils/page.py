@@ -4,8 +4,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 
-from .wdriver import driver
-from .wdriver import PAS, USER
+from .wdriver import CustomChromeDriver
+from globals import PAS, USER
 
 """
 se encarga de la navegacion en la pagina
@@ -15,7 +15,7 @@ se encarga de la navegacion en la pagina
 # login
 
 
-def login(driver=driver):
+def login_page(driver: CustomChromeDriver):
     email = driver.find_element(by=By.ID, value='email')
     passw = driver.find_element(by=By.ID, value='component-outlined')
     btn_Sing = driver.find_element(by=By.ID, value="signInButton")

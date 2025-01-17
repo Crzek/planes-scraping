@@ -7,13 +7,13 @@ import time
 from bs4 import BeautifulSoup
 
 from src.app.utils.utils import clas_to_series
-from src.app.utils.wdriver import driver
+from src.app.utils.wdriver import CustomChromeDriver
 
-from src.app.utils.page import login, get_element_click_newPage, close_popup_with_js
+from src.app.utils.page import login_page, get_element_click_newPage, close_popup_with_js
 from src.app.utils.utils import save_Book_by_tag
 
 
-def navigate_to_programming(today: bool = False, sleep: int = 2):
+def navigate_to_programming(today: bool = False, sleep: int = 2, driver: CustomChromeDriver = None):
     """
     Navigates to the programming page.
 
@@ -118,11 +118,13 @@ def delete_parts(soup: BeautifulSoup):
     return soup
 
 
-def main(today: bool = False):
+def main(today: bool = False, hidden: bool = False):
+    # from src.app.utils.wdriver import driver  # nopep8
     try:
-        login(driver)
+        driver = CustomChromeDriver(hidden_windows=hidden)
+        login_page(driver)
         # toda la navegacion comienza aqui en esta funcion
-        navigate_to_programming(today)
+        navigate_to_programming(today, driver=driver)
 
         # Cargar los datos
         time.sleep(6)
@@ -146,10 +148,13 @@ def main(today: bool = False):
         else:
             print("No hay booking")
 
+    # except Exception as e:
+    #     print(f"Error en main(): {e}")
+
     finally:
         # Cerrar el navegador
         print("Cerrando el navegador...")
-        driver.quit()
+        driver.close_driver()
 
 
 if __name__ == '__main__':
