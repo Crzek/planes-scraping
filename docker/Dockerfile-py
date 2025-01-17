@@ -1,4 +1,25 @@
-FROM python:3.11.9-slim-bullseye as builder
+FROM python:3.11.9-bullseye 
+#3.12.6
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends wget unzip
+
+
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+    apt-get install -y --no-install-recommends ./google-chrome-stable_current_amd64.deb && \
+    rm google-chrome-stable_current_amd64.deb && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+# # install google chrome
+# RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+# RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+# RUN apt-get -y update --fix-missing
+# RUN apt-get install -y google-chrome-stable
+
+# # install chromedriver
+# RUN apt-get install -yqq unzip
+# RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
+# RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
 
 WORKDIR /app
 
@@ -6,26 +27,33 @@ COPY ./requirements.txt /app/
 
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends wget unzip && \
-    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
-    apt-get install -y --no-install-recommends ./google-chrome-stable_current_amd64.deb && \
-    rm google-chrome-stable_current_amd64.deb && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+#     apt-get install -y --no-install-recommends ./google-chrome-stable_current_amd64.deb && \
+#     rm google-chrome-stable_current_amd64.deb && \
+#     apt-get clean && \
+#     rm -rf /var/lib/apt/lists/*
 
 # CMD [ "python" ,"main.py"]
 
-
-# Segunda etapa
-FROM python:3.11.9-slim-bullseye
-
-WORKDIR /app
-
-COPY . /app/
-
-# Copiamos los paquetes instalados de la primera etapa
-COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
-COPY --from=builder /usr/local/bin /usr/local/bin
-
 CMD [ "/bin/sh" ]
+
+# multiStage build 
+# FROM python:3.11.9-slim-bullseye
+
+# # Configuración de trabajo
+# WORKDIR /app
+
+# # Copiar aplicación y dependencias desde la etapa anterior
+# COPY . /app/
+# COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
+# COPY --from=builder /usr/local/bin /usr/local/bin
+
+# # Copiar Google Chrome y ChromeDriver desde la etapa anterior
+# COPY --from=builder /usr/bin/google-chrome /usr/bin/google-chrome
+# COPY --from=builder /usr/bin/chromedriver /usr/bin/chromedriver
+
+# # Configuración del PATH (asegúrate de que Chrome y ChromeDriver estén accesibles)
+# ENV PATH="/usr/bin/google-chrome:/usr/bin:${PATH}"
+
+# # Comando de inicio
+# CMD ["gunicorn", "-w", "1", "-b", "0.0.0.0:5000", "entrypoint:app"]

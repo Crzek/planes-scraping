@@ -3,11 +3,18 @@ services:
     build:
       context: ../ # Path: docker/
       dockerfile: docker/Dockerfile-py-arm
-    image: vuelos-private-radar:1.1 # Name of the image
+    image: vuelos-private-radar:1.1-arm # Name of the image
     container_name: vuelos-private-radar-arm
     ports:
       - "5000:5000"
-  # file: entrypoint.py
-  # instance the flask: app = Flask(__name__) // app = create_app()
-  # gunicorn normally is use port 8000
-    command: ["gunicorn", "-w", "1", "-b", "0.0.0.0:5000", "entrypoint:app"]
+
+    volumes: # poner el path igual qu eel contexto
+      - ../:/app
+
+    environment:
+      - PYTHONUNBUFFERED=1 # para mostrar los logs en tiempo real
+    # file: entrypoint.py
+    # instance the flask: app = Flask(__name__) // app = create_app()
+    # gunicorn normally is use port 8000
+    # command: sleep infinity
+    command: gunicorn -w 2 -b 0.0.0.0:5000 --capture-output entrypoint:app

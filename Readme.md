@@ -62,3 +62,12 @@ gunicorn -w 2 -b '0.0.0.0:5000' 'entrypoint:app'
 ```shell
 python main.py
 ```
+
+## Notes
+1.  Ver donde esta intalado chrome y chrome driver:
+```shell
+which google-chrome
+
+google-chrome --version
+chromedriver --version
+```

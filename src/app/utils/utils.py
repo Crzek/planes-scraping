@@ -10,23 +10,41 @@ from globals import START_DEL, END_DEL, TODAY, TOMORROW
 
 PLANES = []  # [DFG,GHG]
 BOOKS = {}  # "DFR" :{"takeoff":[], "landing":[]}
-No_Plane = [
-    "EC-LYS",
-    # "EC-CZZ",
+No_Plane = {
+    "EC-CVY",
+    "EC-GV8",
+    "D-0118",
+    "EC-LYS	",
+    "F-GBIM",
+    "EC-KYA	",
+    "EC-IXA",
+    "EC-MZF	",
+    "F-CFBX",
     "EC-FCD",
     "F-CESI",
+    "EC-NMV",
+    "F-CEGG",
+    "D-KBIU",
+    "EC-LGS",
     "ES-3A-096-7",
     "ES-3A-042",
-    "EC-IXA"
-]  # aviones excuidos
+}  # aviones excuidos
 
 
 def save_Book_by_tag(cadena: str):
+    """
+    File: `src/app/utils/utils.py`
+    Author: `g:crzek
+    Email: `g:crzerick6@gmail.com
+    Github: `g:crzek_github
+    Description: 
+    almacena la reserva en un objeto Book y crea un objeto AirCraft
+    """
     hora, planeName, reservaName, *res = cadena.split("\n")
 
     if hora and planeName and reservaName:
-        takeoff = hora[:5]
-        landing = hora[6:]
+        takeoff = hora[:5]  # 09:00
+        landing = hora[6:]  # - 11:00
         # Cremos avion
         plane = AirCraft(planeName, "ok")
         # Reserva
@@ -68,6 +86,14 @@ def clas_to_series(today: bool = False):
 
 
 def get_all_reservas(all_book: dict):
+    """
+    File: `src/app/utils/utils.py`
+    Author: `g:crzek
+    Email: `g:crzerick@gmail.com
+    Github: `g:crzek_github
+    Description: 
+    obtiene todas las reservas de los aviones
+    """
     codigos = list(all_book.keys())
     PLANES = codigos
     for code in codigos:

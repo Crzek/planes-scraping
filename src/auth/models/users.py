@@ -10,15 +10,15 @@ class User(UserMixin, db.Model):
 
     __tablename__ = 'users'
 
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(128))
-    password = db.Column(db.String(128))
-    firstname = db.Column(db.String(250))
-    lastname = db.Column(db.String(250))
+    id: int = db.Column(db.Integer, primary_key=True)
+    email: str = db.Column(db.String(128))
+    password: str = db.Column(db.String(128))
+    firstname: str = db.Column(db.String(250))
+    lastname: str = db.Column(db.String(250))
 
     # para verificar la contraseña del usuario, mejor desde fuera o abajo
     @staticmethod
-    def get_user_db(user_id: int = None, user_emial: str = None):
+    def get_user_db(user_id: int = None, user_email: str = None):
         """
         get user by id or Email
 
@@ -27,9 +27,9 @@ class User(UserMixin, db.Model):
         return : USER searched or False if it is not in DB
         """
         if user_id is not None:
-            return db.query(User).filter_by(id=user_id).first()
+            return User.query.filter_by(id=user_id).first()
         else:
-            return db.query(User).filter_by(email=user_emial).first()
+            return User.query.filter_by(email=user_email).first()
 
             # si usamos una DB como SQLite, postgres, mySQL
 

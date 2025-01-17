@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <h1>Vuelos del Dia {{ day }}</h1>
+    <h1>Vuelos del Dia {{ day }} (y-m-d)</h1>
     <div>
         <form action="{{ url_for('authBP.vuelos')}}" method="POST">
             <select id="day" name="day">
@@ -25,7 +25,7 @@
                 Descargar vuelos {{vuelos}}
             </a>
             <br />
-            <h2>Volver a Generar {{ vuelos }}</h2>
+            <h2>Los datos de los Vuelos ya Existen, quieres volver a Generar Excel de vuelos ?</h2>
 
             <form action="{{ url_for('authBP.vuelos', remake='remake') }}" method="POST">
                 <select id="day" name="day">
@@ -33,7 +33,7 @@
                     <option value="tomorrow">Mañana</option>
 
                 </select>
-                <button type="submit" name="sumit_remake">Regenerar {{ vuelos }}</button>
+                <button type="submit" name="sumit_remake">Regenerar Vuelos</button>
             </form>
         </div>
         {% endif %}

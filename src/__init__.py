@@ -1,25 +1,22 @@
 from flask import Flask
-from flask_login import LoginManager
-from flask_sqlalchemy import SQLAlchemy
+from extencions import login_manager, load_user, db
 
-
-# Esto se sebera de importar en la clases de Models
-db = SQLAlchemy()
+from .error import register_error_handlers
 
 
 def create_app(config_filename):
-    app = Flask(__name__)
+    print("*********Incico APP *********")
+    app = Flask(__name__, template_folder="src/auth/templates")
     app.config.from_pyfile(config_filename)
 
     # Inciacion Login Manager
-    login_manager = LoginManager()
+    # login_manager = LoginManager()
     login_manager.init_app(app)
 
-    # Define el loader para obtener el usuario desde su id
-    @login_manager.user_loader
-    def load_user(user_id):
-        # Debe ser el método que retorna el usuario por id
-        return User.get_user_db(user_id)
+    # en ves de definir la funcion load_user la importamos
+    login_manager.user_loader(load_user)
+    # redirige a la pagina de login, cuando no esta logeado
+    login_manager.login_view = "authBP.login"
 
     # DDBB
     db.init_app(app)
@@ -38,5 +35,8 @@ def create_app(config_filename):
         app.register_blueprint(auth_bp)
 
         print("---- ALL blueprint resgistrados")
+
+        # error handlers
+        register_error_handlers(app)
 
     return app

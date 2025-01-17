@@ -6,7 +6,7 @@ COPY ./requirements.txt /app/
 
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
-RUN apt update && \
+RUN apt update -y &&  apt upgrade -y && \
     apt install -y --no-install-recommends wget unzip && \
     apt install chromium -y && \
     apt clean && \
@@ -15,14 +15,14 @@ RUN apt update && \
 # CMD [ "python" ,"main.py"]
 
 # Segunda etapa
-FROM python:3.11.9-slim-bullseye
+# FROM python:3.11.9-slim-bullseye
 
-WORKDIR /app
+# WORKDIR /app
 
-COPY . /app/
+# COPY . /app/
 
-# Copiamos los paquetes instalados de la primera etapa
-COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
-COPY --from=builder /usr/local/bin /usr/local/bin
+# # Copiamos los paquetes instalados de la primera etapa
+# COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
+# COPY --from=builder /usr/local/bin /usr/local/bin
 
-CMD [ "/bin/sh" ]
+# CMD [ "/bin/sh" ]

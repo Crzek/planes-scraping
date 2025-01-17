@@ -1,47 +1,59 @@
-
 from selenium import webdriver
-from dotenv import load_dotenv
-import os
+from selenium.common.exceptions import WebDriverException
+# from selenium.webdriver.chrome.service import Service
+from globals import PATH_BROWSER, URL, PATH_DRIVER
+
+"""
+    Mirar archivo test/webdriver.py
+    Es donde se encutra el código original que funciona en contenedor
+"""
 
 
-load = load_dotenv('.env')
-if load:
-    print(".env Cargadas")
+class CustomChromeDriver(webdriver.Chrome):
+    def __init__(
+        self,
+        path_browser: str = PATH_BROWSER,
+        url: str = URL,
+        driver_path: str = PATH_DRIVER,
+        hidden_windows=False
+    ):
+        self.options = webdriver.ChromeOptions()
+        self.options.binary_location = path_browser
 
-PAS = os.getenv("password")
-USER = os.getenv("user")
+        if hidden_windows:
+            self.options.add_argument('--no-sandbox')
+            self.options.add_argument('--disable-dev-shm-usage')
+            self.options.add_argument('--headless')
 
-# config webdriver
-# Widows
-# BRAVE_PATH = r"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"
+        # Crear el servicio de Chrome
+        # chrome_service = Service(driver_path)
 
-# Linux
-# BRAVE_PATH = "/usr/bin/brave-browser"
-url = os.getenv("base_url")
+        try:
+            # super().__init__(service=chrome_service, options=self.options)
+            super().__init__(options=self.options)
+            self.set_window_size(1024, 768)
+        except WebDriverException as e:
+            print(f"Error al inicializar el navegador: {e}")
 
-# Configura las opciones de Brave
-options = webdriver.ChromeOptions()
+        self.navigate_to_url(url)
 
-# firefox path binary
-# PATH_FIREFOX = "/usr/bin/firefox"
+    def navigate_to_url(self, url):
+        try:
+            self.get(url)
+        except WebDriverException as e:
+            print(f"Error al navegar a la URL {url}: {e}")
 
-# options = webdriver.FirefoxOptions()
-# no sandbox
-# configuración de la memoria para docker
-options.add_argument('--no-sandbox')
-options.add_argument('--headless')
-options.add_argument('--disable-dev-shm-usage')
-
-# Establece la ubicación del ejecutable de Brave
-# options.binary_location = PATH_FIREFOX
-
-# Inicializa un navegador Brave
-driver = webdriver.Chrome(options=options)
-# driver = webdriver.Firefox(options=options)
-
-# Ancho de 1024 píxeles y alto de 768 píxeles
-driver.set_window_size(1024, 768)
+    def close_driver(self):
+        try:
+            self.close()
+            self.quit()
+        except WebDriverException as e:
+            print(f"Error al cerrar el navegador: {e}")
 
 
-# Abre una página web
-driver.get(url)
+# Ejemplo de uso
+if __name__ == "__main__":
+    driver = CustomChromeDriver(sandbox=True)
+    if driver:
+        driver.navigate_to_url("http://google.com")
+        driver.close_driver()
