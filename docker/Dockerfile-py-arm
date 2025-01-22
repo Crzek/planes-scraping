@@ -1,16 +1,32 @@
-FROM python:3.11.9-slim-bullseye as builder
+# FROM python:3.11.9-slim-bullseye as builder
+# Usa una imagen base compatible con ARM
+FROM --platform=linux/arm64 python:3.11.9-bullseye
 
+# Establece el directorio de trabajo
 WORKDIR /app
 
+# Copia los requisitos al contenedor
 COPY ./requirements.txt /app/
 
+# Instala las dependencias de Python
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
-RUN apt update -y &&  apt upgrade -y && \
-    apt install -y --no-install-recommends wget unzip && \
-    apt install chromium -y && \
+# Actualiza e instala dependencias necesarias para ARM
+RUN apt update -y && apt upgrade -y && \
+    apt install -y --no-install-recommends \
+    wget \
+    unzip \
+    chromium && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
+
+# Variables de entorno necesarias para Chromium en ARM
+ENV CHROME_BIN=/usr/bin/chromium \
+    CHROMEDRIVER_PATH=/usr/bin/chromedriver
+
+# Añade una instrucción de salud opcional (si aplica)
+HEALTHCHECK CMD wget --spider http://localhost:8000 || exit 1
+
 
 # CMD [ "python" ,"main.py"]
 
@@ -25,4 +41,4 @@ RUN apt update -y &&  apt upgrade -y && \
 # COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
 # COPY --from=builder /usr/local/bin /usr/local/bin
 
-# CMD [ "/bin/sh" ]
+CMD [ "/bin/sh" ]

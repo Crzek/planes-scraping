@@ -9,6 +9,8 @@ services:
       - "5000:5000"
     environment:
       - PYTHONUNBUFFERED=1 # para mostrar los logs en tiempo real
+      - FLASK_ENV=production
+      - CONFIG_ENV=${FLASK_ENV}
     volumes:
       - ../:/app
   # file: entrypoint.py
