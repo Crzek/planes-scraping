@@ -7,12 +7,12 @@ services:
     container_name: vuelos-private-radar-arm
     ports:
       - "5000:5000"
-
-    volumes: # poner el path igual qu eel contexto
-      - ../:/app
-
     environment:
       - PYTHONUNBUFFERED=1 # para mostrar los logs en tiempo real
+      - FLASK_ENV=production
+      - CONFIG_ENV=${FLASK_ENV}
+    volumes:
+      - ../:/app
     # file: entrypoint.py
     # instance the flask: app = Flask(__name__) // app = create_app()
     # gunicorn normally is use port 8000
