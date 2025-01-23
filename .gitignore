@@ -22,5 +22,5 @@ instance/
 dependencies/
 
 # ky
-src/config/default.py
+# src/config/default.py
 
