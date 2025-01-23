@@ -9,7 +9,8 @@ WORKDIR /app
 COPY ./requirements.txt /app/
 
 # Instala las dependencias de Python
-RUN pip install --trusted-host pypi.python.org -r requirements.txt
+# RUN pip install --trusted-host pypi.python.org -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Actualiza e instala dependencias necesarias para ARM
 RUN apt update -y && apt upgrade -y && \
@@ -25,7 +26,7 @@ ENV CHROME_BIN=/usr/bin/chromium \
     CHROMEDRIVER_PATH=/usr/bin/chromedriver
 
 # Añade una instrucción de salud opcional (si aplica)
-HEALTHCHECK CMD wget --spider http://localhost:8000 || exit 1
+# HEALTHCHECK CMD wget --spider http://localhost:8000 || exit 1
 
 
 # CMD [ "python" ,"main.py"]
