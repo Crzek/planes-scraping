@@ -29,8 +29,8 @@ RUN apt-get update -qqy \
 # RUN mkdir -p /var/chromedriver/
 
 # # copy the chromedriver binary, so that it can be patched by undetected_chromedriver
-# ENV CHROMEDRIVER_PATH=/var/chromedriver/chromedriver_copy
-# RUN cp /usr/bin/chromedriver ${CHROMEDRIVER_PATH}
+# ENV CHROMEpath_driver=/var/chromedriver/chromedriver_copy
+# RUN cp /usr/bin/chromedriver ${CHROMEpath_driver}
 
 # Segunda etapa
 # FROM python:3.11.9-slim-bullseye

@@ -12,7 +12,7 @@ options.add_argument("--disable-dev-shm-usage")
 
 # Reemplaza con la ruta correcta a tu ChromeDriver
 # s = Service(executable_path="/usr/bin/chromedriver")
-s = Service(executable_path="/usr/bin/chromium")
+s = Service(executable_path="/usr/bin/chromedriver")
 driver = webdriver.Chrome(options=options, service=s)
 
 

@@ -1,6 +1,6 @@
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
-# from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.service import Service
 from globals import PATH_BROWSER, URL, PATH_DRIVER
 
 """
@@ -14,7 +14,7 @@ class CustomChromeDriver(webdriver.Chrome):
         self,
         path_browser: str = PATH_BROWSER,
         url: str = URL,
-        driver_path: str = PATH_DRIVER,
+        path_driver: str = PATH_DRIVER,
         hidden_windows=False
     ):
         self.options = webdriver.ChromeOptions()
@@ -26,8 +26,9 @@ class CustomChromeDriver(webdriver.Chrome):
             self.options.add_argument('--headless')
 
         try:
-            if driver_path is None:  # chromium _definir chromediiver
-                chrome_service = Service(driver_path)
+            # chromium  ->_definir chromediiver, normalmente ("/usr/bin/chromedriver"
+            if (path_driver is not None) or (path_driver != ""):
+                chrome_service = Service(path_driver)
                 super().__init__(options=self.options, service=chrome_service)
             else:
                 super().__init__(options=self.options)
@@ -56,7 +57,7 @@ class CustomChromeDriver(webdriver.Chrome):
 # Ejemplo de uso
 if __name__ == "__main__":
     driver = CustomChromeDriver(
-        sandbox=True, driver_path="/usr/bin/chromedriver")
+        sandbox=True, path_driver="/usr/bin/chromedriver")
     if driver:
         driver.navigate_to_url("http://google.com")
         driver.close_driver()
