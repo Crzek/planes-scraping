@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 # from selenium.webdriver.chrome.service import Service
-from globals import PATH_BROWSER, URL, PATH_DRIVER
+from globals import PATH_CHROME, PATH_CHROMIUM, URL, PATH_DRIVER
 
 """
     Mirar archivo test/webdriver.py
@@ -12,26 +12,28 @@ from globals import PATH_BROWSER, URL, PATH_DRIVER
 class CustomChromeDriver(webdriver.Chrome):
     def __init__(
         self,
-        path_browser: str = PATH_BROWSER,
+        PATH_CHROME: str = (PATH_CHROME if PATH_CHROME else PATH_CHROMIUM),
         url: str = URL,
         driver_path: str = PATH_DRIVER,
         hidden_windows=False
     ):
         self.options = webdriver.ChromeOptions()
-        self.options.binary_location = path_browser
+        self.options.binary_location = PATH_CHROME
 
         if hidden_windows:
             self.options.add_argument('--no-sandbox')
             self.options.add_argument('--disable-dev-shm-usage')
             self.options.add_argument('--headless')
 
-        # Crear el servicio de Chrome
-        # chrome_service = Service(driver_path)
-
         try:
-            # super().__init__(service=chrome_service, options=self.options)
-            super().__init__(options=self.options)
+            if driver_path is None:  # chromium _definir chromediiver
+                chrome_service = Service(driver_path)
+                super().__init__(options=self.options, service=chrome_service)
+            else:
+                super().__init__(options=self.options)
+
             self.set_window_size(1024, 768)
+
         except WebDriverException as e:
             print(f"Error al inicializar el navegador: {e}")
 
@@ -53,7 +55,8 @@ class CustomChromeDriver(webdriver.Chrome):
 
 # Ejemplo de uso
 if __name__ == "__main__":
-    driver = CustomChromeDriver(sandbox=True)
+    driver = CustomChromeDriver(
+        sandbox=True, driver_path="/usr/bin/chromedriver")
     if driver:
         driver.navigate_to_url("http://google.com")
         driver.close_driver()
