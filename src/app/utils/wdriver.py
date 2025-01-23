@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 # from selenium.webdriver.chrome.service import Service
-from globals import PATH_CHROME, PATH_CHROMIUM, URL, PATH_DRIVER
+from globals import PATH_BROWSER, URL, PATH_DRIVER
 
 """
     Mirar archivo test/webdriver.py
@@ -12,13 +12,13 @@ from globals import PATH_CHROME, PATH_CHROMIUM, URL, PATH_DRIVER
 class CustomChromeDriver(webdriver.Chrome):
     def __init__(
         self,
-        PATH_CHROME: str = (PATH_CHROME if PATH_CHROME else PATH_CHROMIUM),
+        path_browser: str = PATH_BROWSER,
         url: str = URL,
         driver_path: str = PATH_DRIVER,
         hidden_windows=False
     ):
         self.options = webdriver.ChromeOptions()
-        self.options.binary_location = PATH_CHROME
+        self.options.binary_location = path_browser
 
         if hidden_windows:
             self.options.add_argument('--no-sandbox')

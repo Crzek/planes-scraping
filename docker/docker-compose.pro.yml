@@ -11,6 +11,9 @@ services:
       - PYTHONUNBUFFERED=1 # para mostrar los logs en tiempo real
       - FLASK_ENV=production
       - CONFIG_ENV=${FLASK_ENV}
+
+    env_file:
+      - .env.chrome
     volumes:
       - ../:/app
   # file: entrypoint.py

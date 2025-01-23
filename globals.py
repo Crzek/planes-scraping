@@ -21,6 +21,5 @@ URL = os.getenv("base_url")
 SQLALCHEMY_DATABASE_URL = os.getenv("SQLALCHEMY_DATABASE_URL")
 
 
-PATH_CHROME = os.getenv("PATH_CHROME", None)
+PATH_BROWSER = os.getenv("PATH_BROWSER", None)
 PATH_DRIVER = os.getenv("PATH_CHROMEDRIVER", None)
-PATH_CHROMIUM = os.getenv("PATH_CHROMIUM", None)
