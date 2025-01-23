@@ -13,7 +13,7 @@ services:
       - CONFIG_ENV=${FLASK_ENV}
 
     env_file:
-      - .env.chrome
+      - ../.env.chrome
     volumes:
       - ../:/app
   # file: entrypoint.py
