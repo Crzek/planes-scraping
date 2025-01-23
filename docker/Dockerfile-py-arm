@@ -12,23 +12,20 @@ COPY ./requirements.txt /app/
 # RUN pip install --trusted-host pypi.python.org -r requirements.txt
 RUN pip install -r requirements.txt
 
-# # install google chrome
-# RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-# RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-# RUN apt-get -y update --fix-missing
-# RUN apt-get install -y google-chrome-stable
 
-# # install chromedriver
-# RUN apt-get install -yqq unzip
-# RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
-# RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
+# install chromedriver, which will be located at /usr/bin/chromedriver
+RUN apt-get update -qqy \
+    && apt-get -qqy install chromium-driver \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
+# #... (install dependencies)
 
-# Añade una instrucción de salud opcional (si aplica)
-# HEALTHCHECK CMD wget --spider http://localhost:8000 || exit 1
+# # Create the necessary directories for copying the binary
+# RUN mkdir -p /var/chromedriver/
 
-
-# CMD [ "python" ,"main.py"]
+# # copy the chromedriver binary, so that it can be patched by undetected_chromedriver
+# ENV CHROMEDRIVER_PATH=/var/chromedriver/chromedriver_copy
+# RUN cp /usr/bin/chromedriver ${CHROMEDRIVER_PATH}
 
 # Segunda etapa
 # FROM python:3.11.9-slim-bullseye
