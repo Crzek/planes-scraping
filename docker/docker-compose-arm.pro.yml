@@ -16,5 +16,5 @@ services:
     # file: entrypoint.py
     # instance the flask: app = Flask(__name__) // app = create_app()
     # gunicorn normally is use port 8000
-    # command: sleep infinity
-    command: gunicorn -w 2 -b 0.0.0.0:5000 --capture-output entrypoint:app
+    command: sleep infinity
+    # command: gunicorn -w 2 -b 0.0.0.0:5000 --capture-output entrypoint:app
