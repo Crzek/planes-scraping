@@ -1,23 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page not Found</title>
-</head>
+{% block title %}Page not Found{% endblock %}
 
-<body>
-    <h1>404</h1>
-    <p>Page not found</p>
-
-    <h2>Links</h2>
-    <ul>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/register">Registro</a></li>
-        <li><a href="/vuelos">Vuelo</a></li>
-    </ul>
-
-</body>
-
-</html>
+{% block content %}
+<div class="flex items-center justify-center h-screen">
+    <div class="text-center">
+        <h1 class="text-6xl font-bold text-gray-800 mb-4">404</h1>
+        <p class="text-xl text-gray-600 mb-8">Page not found</p>
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Links</h2>
+        <ul class="text-lg text-blue-500">
+            {% if not islogged %}
+            <li class="mb-2"><a href="/login" class="hover:text-blue-800">Login</a></li>
+            <li class="mb-2"><a href="/register" class="hover:text-blue-800">Registro</a></li>
+            {% endif %}
+            <li class="mb-2"><a href="/vuelos" class="hover:text-blue-800">Vuelo</a></li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

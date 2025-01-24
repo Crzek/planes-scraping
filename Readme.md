@@ -71,3 +71,6 @@ which google-chrome
 google-chrome --version
 chromedriver --version
 ```
+
+### To install chromium and chromedriver for ARM64
+[link to install chrome driver](https://github.com/ultrafunkamsterdam/undetected-chromedriver/issues/911)

@@ -1,47 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vuelos</title>
-</head>
+{% block title %}Vuelos{% endblock %}
 
-<body>
-    <h1>Vuelos del Dia {{ day }} (y-m-d)</h1>
+{% block content %}
+<div class="container mx-auto p-4">
+    <div class="flex justify-between items-center mb-4">
+        <h1 class="text-2xl font-bold">Vuelos del Dia {{ day }} (y-m-d)</h1>
+        <a href="{{ url_for('authBP.logout') }}" class="text-blue-500 hover:text-blue-800">Cerrar Session</a>
+    </div>
     <div>
-        <form action="{{ url_for('authBP.vuelos')}}" method="POST">
-            <select id="day" name="day">
-                <option value="today">Hoy</option>
-                <option value="tomorrow">Mañana</option>
-
-            </select>
-
-            <button type="submit">Generar Excel</button>
+        {% if not vuelos %}
+        <!-- Vuelos  -->
+        <form id="vuelosForm" action="{{ url_for('authBP.vuelos')}}" method="POST"
+            class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div class="mb-4">
+                <label for="day" class="block text-gray-700 text-sm font-bold mb-2">Selecciona el día</label>
+                <select id="day" name="day"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="today">Hoy</option>
+                    <option value="tomorrow">Mañana</option>
+                </select>
+            </div>
+            <div class="flex items-center justify-between">
+                <button type="submit"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Generar
+                    Excel</button>
+            </div>
         </form>
+        <div id="loading" class="hidden text-center text-blue-500">Procesando...</div>
+        {% endif %}
+
         {% if vuelos %}
+        <!-- Vuelos ya se encentran generados -->
         <div>
-            <a href="{{url_for('authBP.descargar',filename=vuelos)}}">
+            <a href="{{url_for('authBP.descargar',filename=vuelos)}}"
+                class="text-2xl font-bold text-red-500 hover:text-blue-800">
                 Descargar vuelos {{vuelos}}
             </a>
             <br />
-            <h2>Los datos de los Vuelos ya Existen, quieres volver a Generar Excel de vuelos ?</h2>
-
-            <form action="{{ url_for('authBP.vuelos', remake='remake') }}" method="POST">
-                <select id="day" name="day">
-                    <option value="today">Hoy</option>
-                    <option value="tomorrow">Mañana</option>
-
-                </select>
-                <button type="submit" name="sumit_remake">Regenerar Vuelos</button>
+            <br />
+            <br />
+            <h2 class="text-xl font-bold mb-4">Los datos de los Vuelos ya Existen, quieres volver a Generar Excel de
+                vuelos?</h2>
+            <form action="{{ url_for('authBP.vuelos', remake='remake') }}" method="POST"
+                class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                <div class="mb-4">
+                    <label for="day" class="block text-gray-700 text-sm font-bold mb-2">Selecciona el día</label>
+                    <select id="day" name="day"
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="today">Hoy</option>
+                        <option value="tomorrow">Mañana</option>
+                    </select>
+                </div>
+                <div class="flex items-center justify-between">
+                    <button type="submit" name="submit_remake"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Regenerar
+                        Vuelos</button>
+                </div>
             </form>
         </div>
         {% endif %}
         {% if errors %}
-        <p class="error">{{errors}}</p>
+        <p class="text-red-500 text-xs italic">{{errors}}</p>
         {% endif %}
-
     </div>
-</body>
+</div>
+{% endblock %}
 
-</html>
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/vuelos.js') }}"></script>
+{% endblock %}

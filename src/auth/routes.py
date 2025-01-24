@@ -59,7 +59,14 @@ def register():
                 print("------SAVED in DB----")
                 return redirect(url_for("authBP.thanks", email=email))
             else:
-                return f"User ya registrado {email} <a href='{url_for('authBP.login')}' > login < /a >"
+                content_html = (
+                    f"<p>User ya registrado: "
+                    f"<span class='text-gray-700 font-bold'>{email}</span>"
+                    f"</br><a href='{url_for('authBP.login')}'"
+                    f"class='text-blue-500' > login </a></p>"
+                )
+                title = "Usuario ya registrado"
+                return render_template("generic_content.html", title=title, content=content_html)
         return render_template("register.html")
     except Exception as e:
         print(f"Error {e}")

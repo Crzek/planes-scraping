@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 import os
 import datetime
 
-load = load_dotenv('.env')
+load = load_dotenv()
 if load:
     print(".env Cargadas")
 

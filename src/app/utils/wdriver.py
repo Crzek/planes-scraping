@@ -15,10 +15,13 @@ class CustomChromeDriver(webdriver.Chrome):
         path_browser: str = PATH_BROWSER,
         url: str = URL,
         path_driver: str = PATH_DRIVER,
-        hidden_windows=False
+        hidden_windows=False,
+        platform="linux",
+        architecture="arm64",  # amd64
     ):
         self.options = webdriver.ChromeOptions()
         self.options.binary_location = path_browser
+        print("--- path_browser", path_browser)
 
         if hidden_windows:
             self.options.add_argument('--no-sandbox')
@@ -27,8 +30,9 @@ class CustomChromeDriver(webdriver.Chrome):
 
         try:
             # chromium  ->_definir chromediiver, normalmente ("/usr/bin/chromedriver"
-            if (path_driver is not None) or (path_driver != ""):
+            if (path_driver is not None) or (path_driver != "") or (architecture == "arm64"):
                 chrome_service = Service(path_driver)
+                print("--- path_driver", path_driver)
                 super().__init__(options=self.options, service=chrome_service)
             else:
                 super().__init__(options=self.options)

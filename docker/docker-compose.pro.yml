@@ -9,14 +9,15 @@ services:
       - "5000:5000"
     environment:
       - PYTHONUNBUFFERED=1 # para mostrar los logs en tiempo real
-      - FLASK_ENV=production
-      - CONFIG_ENV=${FLASK_ENV}
+      # - FLASK_ENV=production
+      # - CONFIG_ENV=${FLASK_ENV}
 
     env_file:
-      - ../.env.chrome
+      - ../.env.chrome.env 
+      # production env
     volumes:
       - ../:/app
   # file: entrypoint.py
   # instance the flask: app = Flask(__name__) // app = create_app()
   # gunicorn normally is use port 8000
-    command: ["gunicorn", "-w", "3", "-b", "0.0.0.0:5000","--timeout","300",  "entrypoint:app"]
+    command: ["gunicorn", "-w", "3", "-b", "0.0.0.0:5000","--timeout","300","--reload",  "entrypoint:app"]

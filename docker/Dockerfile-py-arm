@@ -23,14 +23,6 @@ RUN apt-get update -qqy \
     && apt-get -qqy install chromium-driver \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-# #... (install dependencies)
-
-# # Create the necessary directories for copying the binary
-# RUN mkdir -p /var/chromedriver/
-
-# # copy the chromedriver binary, so that it can be patched by undetected_chromedriver
-# ENV CHROMEpath_driver=/var/chromedriver/chromedriver_copy
-# RUN cp /usr/bin/chromedriver ${CHROMEpath_driver}
 
 # Segunda etapa
 # FROM python:3.11.9-slim-bullseye

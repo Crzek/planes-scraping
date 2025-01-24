@@ -25,7 +25,6 @@ def exec(day: str = 'today'):
     else:
         exect_aviones(False)
 
-
     return redirect(url_for('scrapBP.index'))
 
 
@@ -43,5 +42,5 @@ def exect_aviones(today: bool = True):
     from src.app.main import main
 
     hoy = today
-    main(hoy)
+    main(hoy, hidden=True)
     main_styles(hoy)
