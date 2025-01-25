@@ -20,8 +20,8 @@
                 <label for="day" class="block text-gray-700 text-sm font-bold mb-2">Selecciona el día</label>
                 <select id="day" name="day"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                    <option value="today">Hoy</option>
-                    <option value="tomorrow">Mañana</option>
+                    <option value="today">Hoy {{ today }}</option>
+                    <option value="tomorrow">Mañana {{ tomorrow }}</option>
                 </select>
             </div>
             <div class="flex items-center justify-between">
@@ -50,8 +50,8 @@
                     <label for="day" class="block text-gray-700 text-sm font-bold mb-2">Selecciona el día</label>
                     <select id="day" name="day"
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        <option value="today">Hoy</option>
-                        <option value="tomorrow">Mañana</option>
+                        <option value="today">Hoy {{ today }}</option>
+                        <option value="tomorrow">Mañana {{ tomorrow }}</option>
                     </select>
                 </div>
                 <div class="flex items-center justify-between">

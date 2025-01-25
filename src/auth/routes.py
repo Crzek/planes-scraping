@@ -142,12 +142,7 @@ def vuelos(remake: str = None):
     PATH origin: /app/src/auth/templates/static/js/vuelos.js
     """
     # /app/src/auth
-    ruta_base = os.path.dirname(os.path.abspath(__file__))
-    # /app/src/auth/templates/static/js/vuelos.js
-    ruta_archivo_js = os.path.join(
-        ruta_base, 'templates', 'static', 'js', 'vuelos.js')
-    print("ruta_archivo_js:", ruta_archivo_js)
-    print("file:", ruta_base)
+
     if request.method == "POST":
         day = request.form['day']
         print("ver Dia", day)
@@ -178,7 +173,7 @@ def vuelos(remake: str = None):
                 "vuelos.html",
                 vuelos=filename,
                 day=date,
-                jsVuelos=ruta_archivo_js
+                today=TODAY, tomorrow=TOMORROW
             )
 
         except Exception as e:
@@ -188,11 +183,11 @@ def vuelos(remake: str = None):
                 vuelos=None,
                 errors=f"Error al cargar los vuelos::: {e}",
                 day=date,
-                jsVuelos=ruta_archivo_js
+                today=TODAY, tomorrow=TOMORROW
 
             )
 
-    return render_template("vuelos.html", vuelos=None, jsVuelos=ruta_archivo_js)
+    return render_template("vuelos.html", vuelos=None, today=TODAY, tomorrow=TOMORROW)
 
 
 @auth_bp.route("/thanks/<string:email>")
