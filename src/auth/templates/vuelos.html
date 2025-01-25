@@ -8,7 +8,10 @@
         <h1 class="text-2xl font-bold">Vuelos del Dia {{ day }} (y-m-d)</h1>
         <a href="{{ url_for('authBP.logout') }}" class="text-blue-500 hover:text-blue-800">Cerrar Session</a>
     </div>
-    <div>
+    <div id="loading" class="hidden text-center text-blue-500">extracción de datos, esto puede tardar varios segundos
+        ...
+    </div>
+    <div id="container-form">
         {% if not vuelos %}
         <!-- Vuelos  -->
         <form id="vuelosForm" action="{{ url_for('authBP.vuelos')}}" method="POST"
@@ -27,7 +30,6 @@
                     Excel</button>
             </div>
         </form>
-        <div id="loading" class="hidden text-center text-blue-500">Procesando...</div>
         {% endif %}
 
         {% if vuelos %}
@@ -42,7 +44,7 @@
             <br />
             <h2 class="text-xl font-bold mb-4">Los datos de los Vuelos ya Existen, quieres volver a Generar Excel de
                 vuelos?</h2>
-            <form action="{{ url_for('authBP.vuelos', remake='remake') }}" method="POST"
+            <form id="remakeForm" action="{{ url_for('authBP.vuelos', remake='remake') }}" method="POST"
                 class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <div class="mb-4">
                     <label for="day" class="block text-gray-700 text-sm font-bold mb-2">Selecciona el día</label>
@@ -68,5 +70,6 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/vuelos.js') }}"></script>
+<script src="{{ url_for('authBP.static', filename='js/vuelos.js') }}"></script>
+
 {% endblock %}

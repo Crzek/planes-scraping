@@ -3,7 +3,6 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 
-load_env = load_dotenv()
 
 db = SQLAlchemy()
 login_manager = LoginManager()

@@ -5,10 +5,12 @@ services:
       dockerfile: docker/Dockerfile-py-arm
     image: vuelos-private-radar:1.1-arm # Name of the image
     container_name: vuelos-private-radar-arm
+    restart: always
     ports:
       - "5000:5000"
     environment:
       - PYTHONUNBUFFERED=1 # para mostrar los logs en tiempo real
+      - ENV_FILE=".env"
       # - FLASK_ENV=production
       # - CONFIG_ENV=${FLASK_ENV}
     env_file:
@@ -19,4 +21,9 @@ services:
     # instance the flask: app = Flask(__name__) // app = create_app()
     # gunicorn normally is use port 8000
     # command: sleep infinity
-    command: gunicorn -w 2 -b 0.0.0.0:5000 --timeout 120 --capture-output entrypoint:app
+    command: gunicorn -w 2 -b 0.0.0.0:5000 --timeout 120 --reload --capture-output entrypoint:app
+
+networks:
+  default:
+    external:
+      name: vuelos-private-radar-network-arm

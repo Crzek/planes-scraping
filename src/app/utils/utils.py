@@ -59,7 +59,6 @@ def save_Book_by_tag(cadena: str):
 
 
 def clas_to_series(today: bool = False):
-    import datetime
     from globals import PATH_STATIC_DATA
 
     # Crear una serie de Pandas de ejemplo
@@ -75,7 +74,7 @@ def clas_to_series(today: bool = False):
 
     # Exportar la serie a un archivo CSV
     file_excel = f"{PATH_STATIC_DATA}vuelos-{TODAY if today else TOMORROW}.xlsx"  # nopep8
-    serie.to_excel(file_excel)
+    serie.to_excel(file_excel, startrow=2)
     print("Exito al cargar el Excel")
 
 # convertir en HTML

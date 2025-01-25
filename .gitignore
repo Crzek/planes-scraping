@@ -5,6 +5,7 @@ __pycache__/
 
 # varibles d'environnement
 .env
+.env.chrome.env
 dev-venv
 
 # archives de Jupiter lab

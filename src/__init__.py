@@ -1,3 +1,4 @@
+# src/__init__.py
 from flask import Flask
 from extencions import login_manager, load_user, db
 
@@ -6,7 +7,7 @@ from .error import register_error_handlers
 
 def create_app(config_filename):
     print("*********Incico APP *********")
-    app = Flask(__name__, template_folder="src/auth/templates")
+    app = Flask(__name__)
     app.config.from_pyfile(config_filename)
 
     # Inciacion Login Manager

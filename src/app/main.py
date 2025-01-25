@@ -121,7 +121,8 @@ def delete_parts(soup: BeautifulSoup):
 def main(today: bool = False, hidden: bool = False):
     # from src.app.utils.wdriver import driver  # nopep8
     try:
-        driver = CustomChromeDriver(hidden_windows=hidden)
+        driver = CustomChromeDriver(
+            hidden_windows=hidden, architecture="amd64")
         login_page(driver)
         # toda la navegacion comienza aqui en esta funcion
         navigate_to_programming(today, driver=driver)

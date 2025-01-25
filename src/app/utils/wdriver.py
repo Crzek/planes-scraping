@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.service import Service
-from globals import PATH_BROWSER, URL, PATH_DRIVER
+from globals import PATH_BROWSER, URL, PATH_DRIVER, ENV_FILE
 
 """
     Mirar archivo test/webdriver.py
@@ -32,7 +32,7 @@ class CustomChromeDriver(webdriver.Chrome):
             # chromium  ->_definir chromediiver, normalmente ("/usr/bin/chromedriver"
             if (path_driver is not None) or (path_driver != "") or (architecture == "arm64"):
                 chrome_service = Service(path_driver)
-                print("--- path_driver", path_driver)
+                print("--- path_driver", path_driver, ENV_FILE)
                 super().__init__(options=self.options, service=chrome_service)
             else:
                 super().__init__(options=self.options)
@@ -59,6 +59,7 @@ class CustomChromeDriver(webdriver.Chrome):
 
 
 # Ejemplo de uso
+print("__name__", __name__)
 if __name__ == "__main__":
     driver = CustomChromeDriver(
         sandbox=True, path_driver="/usr/bin/chromedriver")

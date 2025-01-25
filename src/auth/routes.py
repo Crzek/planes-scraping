@@ -1,6 +1,7 @@
+# src/auth/routes.py
 from globals import PATH_STATIC_DATA, PATH_STATIC, TODAY, TOMORROW
 import os
-from flask import render_template, request, redirect, url_for, send_file
+from flask import render_template, request, redirect, url_for, send_file, send_from_directory
 
 # blueprint
 from . import auth_bp
@@ -138,8 +139,15 @@ def vuelos(remake: str = None):
 
     remake:str
     values: None, "remake"
+    PATH origin: /app/src/auth/templates/static/js/vuelos.js
     """
-
+    # /app/src/auth
+    ruta_base = os.path.dirname(os.path.abspath(__file__))
+    # /app/src/auth/templates/static/js/vuelos.js
+    ruta_archivo_js = os.path.join(
+        ruta_base, 'templates', 'static', 'js', 'vuelos.js')
+    print("ruta_archivo_js:", ruta_archivo_js)
+    print("file:", ruta_base)
     if request.method == "POST":
         day = request.form['day']
         print("ver Dia", day)
@@ -169,14 +177,22 @@ def vuelos(remake: str = None):
             return render_template(
                 "vuelos.html",
                 vuelos=filename,
-                day=date
+                day=date,
+                jsVuelos=ruta_archivo_js
             )
 
         except Exception as e:
             print(f"Error {e}")
-            return render_template("vuelos.html", vuelos=None, errors="Error al cargar los vuelos", day=date)
+            return render_template(
+                "vuelos.html",
+                vuelos=None,
+                errors=f"Error al cargar los vuelos::: {e}",
+                day=date,
+                jsVuelos=ruta_archivo_js
 
-    return render_template("vuelos.html", vuelos=None)
+            )
+
+    return render_template("vuelos.html", vuelos=None, jsVuelos=ruta_archivo_js)
 
 
 @auth_bp.route("/thanks/<string:email>")

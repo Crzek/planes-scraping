@@ -2,9 +2,13 @@ from dotenv import load_dotenv
 import os
 import datetime
 
-load = load_dotenv()
+ENV_FILE = os.getenv("ENV_FILE")
+load = load_dotenv(ENV_FILE)
+
 if load:
+    print("--- Cargando: ", ENV_FILE)
     print(".env Cargadas")
+
 
 PATH_STATIC = "static/"
 PATH_STATIC_DATA = PATH_STATIC + "data/"
@@ -18,8 +22,9 @@ PAS = os.getenv("password")
 USER = os.getenv("user")
 URL = os.getenv("base_url")
 
-SQLALCHEMY_DATABASE_URL = os.getenv("SQLALCHEMY_DATABASE_URL")
-
-
 PATH_BROWSER = os.getenv("PATH_BROWSER", None)
 PATH_DRIVER = os.getenv("PATH_CHROMEDRIVER", None)
+print("--- PATH_DRIVER", PATH_DRIVER)
+print("--- PATH_BROWSER", PATH_BROWSER)
+
+SQLALCHEMY_DATABASE_URL = os.getenv("SQLALCHEMY_DATABASE_URL")

@@ -64,7 +64,7 @@ def get_element_click_newPage(driver, css_selector: str = "li[itemid='calendar']
 def close_popup_with_js(driver, css_selector: str = None):
     try:
         # Espera a que el botón "Not now" (o "ui-close") sea clicable
-        close_button = WebDriverWait(driver, 4).until(
+        close_button = WebDriverWait(driver, 1).until(
             EC.element_to_be_clickable(
                 (By.CSS_SELECTOR, ".installPwaBox .ui-close"))
         )

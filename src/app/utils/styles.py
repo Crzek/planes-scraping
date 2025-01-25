@@ -10,7 +10,7 @@ Aplicar estilos a un archivo de Excel
 
 def apply_styles(celda):
     """
-    applicar estilos a un archivo de excel
+    Aplica boderes y alineación a una celda de Excel
 
     args:
         celda : openpyxl.cell.cell.Cell
@@ -30,7 +30,14 @@ def apply_styles(celda):
 
 
 def apply_styles_font(ws: Workbook = None, col: str = None, row: int = None):
+    """
+    Aplica negrita en col 1 o fila A
 
+    Args:
+        ws (Workbook, optional): _description_. Defaults to None.
+        col (str, optional): _description_. Defaults to None.
+        row (int, optional): _description_. Defaults to None.
+    """
     def apply(col_o_row):
         for celda in ws[col_o_row]:
             celda.font = Font(name="Calibri", bold=True, size=17)
@@ -77,18 +84,28 @@ def main_styles(today: bool = False):
     max_col = ws.max_column
 
     # Iterar sobre todas las celdas desde A1 hasta la celda máxima
-    for fila in ws.iter_rows(min_row=1, max_row=max_row, min_col=1, max_col=max_col):
+    # con el min_row=3 se salta la fila 1 y 2
+    for fila in ws.iter_rows(min_row=3, max_row=max_row, min_col=1, max_col=max_col):
         # Ajustar la altura de la fila 1 a 40 (valor en puntos)
+        if fila[0].row == 0:
+            continue
         ws.row_dimensions[fila[0].row].height = 20
         for celda in fila:
             apply_styles(celda)
 
     # hacer mas hacho 1r columna
     ws.column_dimensions['A'].width = 13
-    apply_styles_font(ws, col='A', row=1)
+    # aplicar estilos a la fila 1
+    apply_styles_font(ws, col='A', row=3)
+
+    # aplicar estilos a la fila 1
+    # poner nombre en fila A1
+    ws['A1'] = TODAY if today else TOMORROW
+    # ws.row_dimensions[1].height = 20  # Altura de la fila
+    ws["A1"].font = Font(bold=True, size=11)  # Negrita y tamaño
 
     # definir config impresion
-    print_doc(ws, "Vuelos")
+    print_doc(ws, f"Vuelos {TODAY if today else TOMORROW}")
 
     wb.save(file)
     print("Estilos aplicados con éxito")
