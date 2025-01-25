@@ -23,7 +23,8 @@ services:
     # command: sleep infinity
     command: gunicorn -w 2 -b 0.0.0.0:5000 --timeout 120 --reload --capture-output entrypoint:app
 
+# definimos la red global para que los contenedores puedan comunicarse entre ellos
+# desde otro archivo de docker-compose se puede hacer referencia a esta red
 networks:
-  default:
-    external:
-      name: vuelos-private-radar-network-arm
+  app-python-global:
+    external: true
