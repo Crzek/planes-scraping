@@ -1,0 +1,65 @@
+# Deploy to mi private server raspi
+
+name: Deploy to Raspi
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+  workflow_dispatch:
+# env:
+#   AWS_REGION: MY_AWS_REGION                   # set this to your preferred AWS region, e.g. us-west-1
+#   ECR_REPOSITORY: MY_ECR_REPOSITORY           # set this to your Amazon ECR repository name
+#   ECS_SERVICE: MY_ECS_SERVICE                 # set this to your Amazon ECS service name
+#   ECS_CLUSTER: MY_ECS_CLUSTER                 # set this to your Amazon ECS cluster name
+#   ECS_TASK_DEFINITION: MY_ECS_TASK_DEFINITION # set this to the path to your Amazon ECS task definition
+#                                                # file, e.g. .aws/task-definition.json
+#   CONTAINER_NAME: MY_CONTAINER_NAME           # set this to the name of the container in the
+#                                                # containerDefinitions section of your task definition
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+      runs-on: ubuntu-latest
+  
+      steps:
+        # 1. Checkout el repositorio
+        - name: Checkout repository
+          uses: actions/checkout@v3
+    
+        # 2. Resolver la IP de la Raspberry Pi desde tu dominio
+        - name: Fetch Raspberry Pi IP
+          id: fetch_ip
+          run: |
+            # Cambia 'mi-dominio.com' por tu dominio real
+            RASPBERRY_IP=$(dig +short vuelos.cruzerick.com | tail -n1)
+            if [ -z "$RASPBERRY_IP" ]; then
+              echo "Error: No se pudo resolver la IP del dominio."
+              exit 1
+            fi
+            echo "Raspberry Pi IP: $RASPBERRY_IP"
+            echo "RASPBERRY_IP=$RASPBERRY_IP" >> $GITHUB_ENV
+    
+        # 3. Configurar SSH con la IP resuelta
+        - name: Set up SSH
+          run: |
+            mkdir -p ~/.ssh
+            echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+            chmod 600 ~/.ssh/id_rsa
+            ssh-keyscan -H ${{ env.RASPBERRY_IP }} >> ~/.ssh/known_hosts
+    
+        # 4. Conectarse al servidor y desplegar el proyecto
+        - name: Deploy project
+          run: |
+            ssh pi@${{ env.RASPBERRY_IP }} << 'EOF'
+              cd /ruta/de/tu/proyecto
+              git pull origin main
+              docker compose -f docker/docker-compose.pro.yml down
+              docker compose -f docker/docker-compose.pro.yml up --build -d
+            EOF
