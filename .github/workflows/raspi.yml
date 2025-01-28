@@ -48,13 +48,13 @@ jobs:
 
       # 3. Configurar SSH con la IP resuelta
       - name: Set up SSH
+        # ssh-keyscan -H ${{ env.RASPBERRY_IP }} >> ~/.ssh/known_hosts
         run: |
           mkdir -p ~/.ssh
           echo "creating ssh key"
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa_raspi
           chmod 600 ~/.ssh/id_rsa_raspi
           ls -al ~/.ssh
-          ssh-keyscan -H ${{ env.RASPBERRY_IP }} >> ~/.ssh/known_hosts
 
       # 4. Conectarse a raspi y desplegar el proyecto
       - name: Deploy project
