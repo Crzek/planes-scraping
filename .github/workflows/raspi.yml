@@ -68,7 +68,8 @@ jobs:
           host: ${{ env.RASPBERRY_IP }}
           username: ${{ secrets.USER_RASPI }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          passphrase: ${{ secrets.PASSPHRASE }}
+          passphrase: ${{ secrets.PASSPHRSE }}
+          timeout: 120s
           # key_path: ~/.ssh/id_rsa
           debug: true
 
