@@ -69,7 +69,7 @@ jobs:
           username: ${{ secrets.USER_RASPI }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
-          key_path: ~/.ssh/id_rsa
+          # key_path: ~/.ssh/id_rsa
           debug: true
 
           script: |
