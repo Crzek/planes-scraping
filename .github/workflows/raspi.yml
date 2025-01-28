@@ -36,7 +36,7 @@ jobs:
       # 2. Resolver la IP de la Raspberry Pi desde tu dominio
       - name: Fetch Raspberry Pi IP
         id: fetch_ip
-        # Cambia 'mi-dominio.com' por tu dominio real
+        # otenr ip atraves de un dominio
         run: |
           RASPBERRY_IP=$(dig +short "${{ vars.DOMAIN }}" | tail -n1)
           if [ -z "$RASPBERRY_IP" ]; then
@@ -48,8 +48,8 @@ jobs:
 
       # 3. Configurar SSH con la IP resuelta
       - name: Set up SSH
+        # mkdir -p ~/.ssh
         run: |
-          mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa_raspi
           chmod 600 ~/.ssh/id_rsa_raspi
           ssh-keyscan -H ${{ env.RASPBERRY_IP }} >> ~/.ssh/known_hosts
