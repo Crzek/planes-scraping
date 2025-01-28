@@ -49,21 +49,27 @@ jobs:
       - name: install ssh
         run: apt update && apt install openssh-client -y
 
-      # 3. Configurar SSH con la IP resuelta
+      # # 3. Configurar SSH con la IP resuelta
+      # - name: Set up SSH
+      #   # ssh-keyscan -H ${{ env.RASPBERRY_IP }} >> ~/.ssh/known_hosts
+      #   run: |
+      #     mkdir -p ~/.ssh
+      #     echo "creating ssh key"
+      #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+      #     chmod 600 ~/.ssh/id_rsa
+      #     ls -al ~/.ssh
+      #     ssh-keyscan -H ${{ env.RASPBERRY_IP }} >> ~/.ssh/known_hosts
+
+      # Paso 2: Configurar la clave SSH
       - name: Set up SSH
-        # ssh-keyscan -H ${{ env.RASPBERRY_IP }} >> ~/.ssh/known_hosts
-        run: |
-          mkdir -p ~/.ssh
-          echo "creating ssh key"
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ls -al ~/.ssh
-          ssh-keyscan -H ${{ env.RASPBERRY_IP }} >> ~/.ssh/known_hosts
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       # 4. Conectarse a raspi y desplegar el proyecto
       - name: Deploy project
         run: |
-          ssh -T -vvv -o StrictHostKeyChecking=no ${{ secrets.USER_RASPI }}@${{ env.RASPBERRY_IP }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.USER_RASPI }}@${{ env.RASPBERRY_IP }} << 'EOF'
             cd "${{ secrets.PATH_PROY }}"
             git pull origin main
             docker compose -f docker/docker-compose.pro.yml down -v
