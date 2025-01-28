@@ -1,6 +1,6 @@
 # Deploy to mi private server raspi
 
-name: Deploy to Raspi
+name: Deploy vuelos.cruzerick.com to Raspi
 
 on:
   push:
@@ -26,40 +26,40 @@ permissions:
 
 jobs:
   deploy:
-      runs-on: ubuntu-latest
-  
-      steps:
-        # 1. Checkout el repositorio
-        - name: Checkout repository
-          uses: actions/checkout@v3
-    
-        # 2. Resolver la IP de la Raspberry Pi desde tu dominio
-        - name: Fetch Raspberry Pi IP
-          id: fetch_ip
-          run: |
-            # Cambia 'mi-dominio.com' por tu dominio real
-            RASPBERRY_IP=$(dig +short vuelos.cruzerick.com | tail -n1)
-            if [ -z "$RASPBERRY_IP" ]; then
-              echo "Error: No se pudo resolver la IP del dominio."
-              exit 1
-            fi
-            echo "Raspberry Pi IP: $RASPBERRY_IP"
-            echo "RASPBERRY_IP=$RASPBERRY_IP" >> $GITHUB_ENV
-    
-        # 3. Configurar SSH con la IP resuelta
-        - name: Set up SSH
-          run: |
-            mkdir -p ~/.ssh
-            echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-            chmod 600 ~/.ssh/id_rsa
-            ssh-keyscan -H ${{ env.RASPBERRY_IP }} >> ~/.ssh/known_hosts
-    
-        # 4. Conectarse al servidor y desplegar el proyecto
-        - name: Deploy project
-          run: |
-            ssh pi@${{ env.RASPBERRY_IP }} << 'EOF'
-              cd /ruta/de/tu/proyecto
-              git pull origin main
-              docker compose -f docker/docker-compose.pro.yml down
-              docker compose -f docker/docker-compose.pro.yml up --build -d
-            EOF
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout el repositorio
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Resolver la IP de la Raspberry Pi desde tu dominio
+      - name: Fetch Raspberry Pi IP
+        id: fetch_ip
+        # Cambia 'mi-dominio.com' por tu dominio real
+        run: |
+          RASPBERRY_IP=$(dig +short "${{ vars.DOMAIN }}" | tail -n1)
+          if [ -z "$RASPBERRY_IP" ]; then
+            echo "Error: No se pudo resolver la IP del dominio."
+            exit 1
+          fi
+          echo "Raspberry Pi IP: $RASPBERRY_IP"
+          echo "RASPBERRY_IP=$RASPBERRY_IP" >> $GITHUB_ENV
+
+      # 3. Configurar SSH con la IP resuelta
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa_raspi
+          chmod 600 ~/.ssh/id_rsa_raspi
+          ssh-keyscan -H ${{ env.RASPBERRY_IP }} >> ~/.ssh/known_hosts
+
+      # 4. Conectarse a raspi y desplegar el proyecto
+      - name: Deploy project
+        run: |
+          ssh ${{ secrets.USER_RASPI }}@${{ env.RASPBERRY_IP }} << 'EOF'
+            cd "${{ secrets.PATH_PROY }}"
+            git pull origin main
+            docker compose -f docker/docker-compose.pro.yml down -v
+            docker compose -f docker/docker-compose.pro.yml up --build -d
+          EOF
