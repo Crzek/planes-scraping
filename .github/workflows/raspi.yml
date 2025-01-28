@@ -48,9 +48,11 @@ jobs:
 
       # 3. Configurar SSH con la IP resuelta
       - name: Set up SSH
-        # mkdir -p ~/.ssh
         run: |
+          mkdir -p ~/.ssh
+          echo "creating ssh key"
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa_raspi
+          ls -al ~/.ssh
           chmod 600 ~/.ssh/id_rsa_raspi
           ssh-keyscan -H ${{ env.RASPBERRY_IP }} >> ~/.ssh/known_hosts
 
