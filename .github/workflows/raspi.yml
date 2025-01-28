@@ -66,6 +66,7 @@ jobs:
         with:
           host: ${{ env.RASPBERRY_IP }}
           username: linuxserver.io
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
             cd "${{ secrets.PATH_PROY }}"
