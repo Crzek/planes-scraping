@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       # 1. Checkout el repositorio
@@ -36,6 +36,7 @@ jobs:
           echo "RASPBERRY_IP=$RASPBERRY_IP" >> $GITHUB_ENV
 
       # 3. Configurar SSH con la IP resuelta
+      # https://github.com/marketplace/actions/ssh-remote-commands
       # Esto no hace falt pero podemos hacerlo, para guardar key en el servidor
       # - name: Set up SSH
       #   run: |
