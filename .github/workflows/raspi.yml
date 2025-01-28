@@ -1,5 +1,4 @@
 # Deploy to mi private server raspi
-
 name: Deploy vuelos.cruzerick.com to Raspi
 
 on:
@@ -11,15 +10,6 @@ on:
       - main
 
   workflow_dispatch:
-# env:
-#   AWS_REGION: MY_AWS_REGION                   # set this to your preferred AWS region, e.g. us-west-1
-#   ECR_REPOSITORY: MY_ECR_REPOSITORY           # set this to your Amazon ECR repository name
-#   ECS_SERVICE: MY_ECS_SERVICE                 # set this to your Amazon ECS service name
-#   ECS_CLUSTER: MY_ECS_CLUSTER                 # set this to your Amazon ECS cluster name
-#   ECS_TASK_DEFINITION: MY_ECS_TASK_DEFINITION # set this to the path to your Amazon ECS task definition
-#                                                # file, e.g. .aws/task-definition.json
-#   CONTAINER_NAME: MY_CONTAINER_NAME           # set this to the name of the container in the
-#                                                # containerDefinitions section of your task definition
 
 permissions:
   contents: read
@@ -36,7 +26,6 @@ jobs:
       # 2. Resolver la IP de la Raspberry Pi desde tu dominio
       - name: Fetch Raspberry Pi IP
         id: fetch_ip
-        # otenr ip atraves de un dominio
         run: |
           RASPBERRY_IP=$(dig +short "${{ vars.DOMAIN }}" | tail -n1)
           if [ -z "$RASPBERRY_IP" ]; then
@@ -46,45 +35,26 @@ jobs:
           echo "Raspberry Pi IP: $RASPBERRY_IP"
           echo "RASPBERRY_IP=$RASPBERRY_IP" >> $GITHUB_ENV
 
-      # - name: install ssh
-      #   run: sudo apt update && apt install openssh-client -y
+      # 3. Configurar SSH con la IP resuelta
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ env.RASPBERRY_IP }} >> ~/.ssh/known_hosts
 
-      # # 3. Configurar SSH con la IP resuelta
-      # - name: Set up SSH
-      #   # ssh-keyscan -H ${{ env.RASPBERRY_IP }} >> ~/.ssh/known_hosts
-      #   run: |
-      #     mkdir -p ~/.ssh
-      #     echo "creating ssh key"
-      #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-      #     chmod 600 ~/.ssh/id_rsa
-      #     ls -al ~/.ssh
-      #     ssh-keyscan -H ${{ env.RASPBERRY_IP }} >> ~/.ssh/known_hosts
-
-      # more info : https://github.com/marketplace/actions/ssh-remote-commands
-      # Paso 2: Configurar la clave SSH
-      - name: executing remote ssh commands using password
+      # 4. Conectar y ejecutar comandos remotos usando SSH
+      - name: executing remote ssh commands
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ env.RASPBERRY_IP }}
           username: ${{ secrets.USER_RASPI }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          passphrase: ${{ secrets.PASSPHRSE }}
+          passphrase: ${{ secrets.PASSPHRASE }}
           timeout: 120s
-          # key_path: ~/.ssh/id_rsa
           debug: true
-
           script: |
             cd "${{ secrets.PATH_PROY }}"
             git pull origin main
             docker compose -f docker/docker-compose.pro.yml down -v
             docker compose -f docker/docker-compose.pro.yml up --build -d
-
-      # 4. Conectarse a raspi y desplegar el proyecto
-      # - name: Deploy project
-      #   run: |
-      #     ssh -o StrictHostKeyChecking=no ${{ secrets.USER_RASPI }}@${{ env.RASPBERRY_IP }} << 'EOF'
-      #       cd "${{ secrets.PATH_PROY }}"
-      #       git pull origin main
-      #       docker compose -f docker/docker-compose.pro.yml down -v
-      #       docker compose -f docker/docker-compose.pro.yml up --build -d
-      #     EOF
