@@ -58,8 +58,8 @@ jobs:
           username: ${{ secrets.USER_RASPI }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
-          command_timeout: 10m
-          debug: true
+          command_timeout: 5m
+          # debug: true
           script: |
             cd "${{ secrets.PATH_PROY }}"
             git pull origin main
