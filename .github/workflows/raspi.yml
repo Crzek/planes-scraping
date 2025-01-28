@@ -60,12 +60,13 @@ jobs:
       #     ls -al ~/.ssh
       #     ssh-keyscan -H ${{ env.RASPBERRY_IP }} >> ~/.ssh/known_hosts
 
+      # more info : https://github.com/marketplace/actions/ssh-remote-commands
       # Paso 2: Configurar la clave SSH
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ env.RASPBERRY_IP }}
-          username: linuxserver.io
+          username: ${{ secrets.USER_RASPI }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
