@@ -46,8 +46,8 @@ jobs:
           echo "Raspberry Pi IP: $RASPBERRY_IP"
           echo "RASPBERRY_IP=$RASPBERRY_IP" >> $GITHUB_ENV
 
-      - name: install ssh
-        run: apt update && apt install openssh-client -y
+      # - name: install ssh
+      #   run: sudo apt update && apt install openssh-client -y
 
       # # 3. Configurar SSH con la IP resuelta
       # - name: Set up SSH
