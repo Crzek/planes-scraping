@@ -36,15 +36,29 @@ pip install Scrapy  # para coger etiquetas de la web
 
 # Install Docker compose
 ```shelll
-# produccion
+# produccion ARM arch
+docker-compose -f docker/pro/docker-compose-arm.pro.yml up --build
+
+# produccion AMD arch
 docker-compose -f docker/pro/docker-compose-pro.yml up --build
-# para desarrollo
+
+# para desarrollo para debugar
 docker-compose -f dockerdev/docker-compose-dev.yml up --build
 
 ```
+Dentro del contenedor, recuerda seleccionar el Interprete de python.
+
+
 # Development
 ```shelll
 flask run --debug
+```
+
+## Local develoment
+```shell
+export ENV_FILE=chrome.env
+flask run --debug --reload
+
 ```
 
 # Production

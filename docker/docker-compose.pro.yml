@@ -10,11 +10,9 @@ services:
       - "5000:5000"
     environment:
       - PYTHONUNBUFFERED=1 # para mostrar los logs en tiempo real
-      - ENV_FILE=".env.chrome.env"
-      # - FLASK_ENV=production
-      # - CONFIG_ENV=${FLASK_ENV}
+      - ENV_FILE=chrome.env
     env_file:
-      - ../.env.chrome.env 
+      - ../chrome.env 
       # production env
     volumes:
       - ../:/app

@@ -1,8 +1,8 @@
 # src/auth/routes.py
-from globals import PATH_STATIC_DATA, PATH_STATIC, TODAY, TOMORROW
+from globals import PATH_STATIC_DATA, PATH_STATIC
 import os
 from flask import render_template, request, redirect, url_for, send_file, send_from_directory
-
+import datetime
 # blueprint
 from . import auth_bp
 
@@ -152,6 +152,9 @@ def vuelos(remake: str = None):
         else:
             hoy = False
 
+        TODAY = datetime.date.today()
+        TOMORROW = datetime.date.today() + datetime.timedelta(days=1)
+
         date = TODAY if hoy else TOMORROW
 
         try:
@@ -166,7 +169,7 @@ def vuelos(remake: str = None):
             if not os.path.exists(filepath) or (remake == "remake"):
                 from src.app.utils.styles import main_styles
                 from src.app.main import main
-                main(hoy, hidden=True)
+                main(hoy, hidden=False)
                 main_styles(hoy)
 
             return render_template(

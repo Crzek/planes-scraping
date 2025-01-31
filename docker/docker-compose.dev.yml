@@ -9,10 +9,12 @@ services:
       - "5000:5000"
     environment:
       - PYTHONUNBUFFERED=1 # para mostrar los logs en tiempo real
-      - FLASK_ENV=production
-      - CONFIG_ENV=${FLASK_ENV}
+      - ENV_FILE=chrome.env
+    env_file:
+      - ../chrome.env 
     volumes:
       - ../:/app
   # file: entrypoint.py
   # instance the flask: app = Flask(__name__) // app = create_app()
-    command: flask run --host=0.0.0.0:5000 --reload
+    # command: flask run --host=0.0.0.0:5000 --reload
+    command: sleep infinity

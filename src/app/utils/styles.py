@@ -80,8 +80,8 @@ def main_styles(today: bool = False):
     # seleccionar la hoja de trabajo
     ws = wb.active
 
-    max_row = ws.max_row
-    max_col = ws.max_column
+    max_row = ws.max_row  # cantidad de filas escritas
+    max_col = ws.max_column  # cantidad de columnas escritas
 
     # Iterar sobre todas las celdas desde A1 hasta la celda máxima
     # con el min_row=3 se salta la fila 1 y 2
