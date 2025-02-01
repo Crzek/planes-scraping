@@ -72,6 +72,8 @@ def clas_to_series(today: bool = False):
     serie = pd.DataFrame(data["books"], index=range(
         START_DEL, START_DEL+len(data["books"][elem_dic_0]))).transpose()
 
+    print("Serie de Pandas-------.......\n")
+    print(serie)
     # Exportar la serie a un archivo CSV
     file_excel = f"{PATH_STATIC_DATA}vuelos-{TODAY if today else TOMORROW}.xlsx"  # nopep8
     serie.to_excel(file_excel, startrow=2)
