@@ -143,6 +143,8 @@ def vuelos(remake: str = None):
     """
     # /app/src/auth
 
+    TODAY = datetime.date.today()
+    TOMORROW = datetime.date.today() + datetime.timedelta(days=1)
     if request.method == "POST":
         day = request.form['day']
         print("ver Dia", day)
@@ -151,9 +153,6 @@ def vuelos(remake: str = None):
             hoy = True
         else:
             hoy = False
-
-        TODAY = datetime.date.today()
-        TOMORROW = datetime.date.today() + datetime.timedelta(days=1)
 
         date = TODAY if hoy else TOMORROW
 
