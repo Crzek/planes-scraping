@@ -158,6 +158,7 @@ def vuelos(remake: str = None):
 
         try:
             filename = f'vuelos-{date}.xlsx'
+            f_s = f'vuelos-{date}_s.xlsx'
             getcwd = os.getcwd()
             filepath = (
                 f'{getcwd}/{PATH_STATIC_DATA}'
@@ -176,6 +177,7 @@ def vuelos(remake: str = None):
             return render_template(
                 "vuelos.html",
                 vuelos=filename,
+                file_s=f_s,
                 day=date,
                 today=TODAY, tomorrow=TOMORROW
             )

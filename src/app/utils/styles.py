@@ -107,7 +107,8 @@ def main_styles(today: bool = False):
     # definir config impresion
     print_doc(ws, f"Vuelos {TODAY if today else TOMORROW}")
 
-    wb.save(file)
+    file_s = f"{PATH_STATIC_DATA}vuelos-{TODAY if today else TOMORROW}_s.xlsx"
+    wb.save(file_s)
     print("Estilos aplicados con éxito")
 
 
