@@ -168,7 +168,9 @@ def vuelos(remake: str = None):
             if not os.path.exists(filepath) or (remake == "remake"):
                 from src.app.utils.styles import main_styles
                 from src.app.main import main
-                main(hoy, hidden=False)
+                # en arm heddin True
+                # AMD hideen False
+                main(hoy, hidden=True)
                 main_styles(hoy)
 
             return render_template(
