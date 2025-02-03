@@ -171,7 +171,7 @@ def vuelos(remake: str = None):
                 from src.app.main import main
                 # en arm heddin True
                 # AMD hideen False
-                main(hoy, hidden=True)
+                main(hoy, hidden=True, architecture="arm64")
                 main_styles(hoy)
 
             return render_template(

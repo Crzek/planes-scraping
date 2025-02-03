@@ -39,6 +39,38 @@ def navigate_to_programming(today: bool = False, sleep: int = 2, driver: CustomC
         print("siguiente dia")
 
 
+def config_hour_navigate(driver: CustomChromeDriver):
+    """
+    Configura la hora local en la navegacion.
+
+    Args:
+        driver (CustomChromeDriver): Driver de selenium.
+    """
+    # abrir navegacion
+    get_element_click_newPage(driver, "#menuButtonOpen")
+    # abrir configuracion
+    get_element_click_newPage(
+        driver, xpath="/html/body/div[2]/div[5]/div[2]/ul[2]/li[2]")
+
+    # config programacion
+    get_element_click_newPage(
+        driver, xpath="/html/body/div[4]/div[3]/div/div[2]/header/div/div[2]/div/button[3]/span[1]")
+
+    time.sleep(1)
+    # abrir input desplagable
+    get_element_click_newPage(
+        driver, xpath="/html/body/div[4]/div[3]/div/div[2]/div[1]/div/div[1]/div/div")
+
+    # seleccionar hora local
+    get_element_click_newPage(
+        driver, xpath="/html/body/div[5]/div[3]/ul/li[1]")
+
+    time.sleep(1)
+    # aceptar config
+    get_element_click_newPage(
+        driver, xpath="/html/body/div[4]/div[3]/div/div[2]/div[2]/div[1]/button")
+
+
 def navigate_in_filter(driver, time_sl: int = 4):
     time.sleep(time_sl)
     # Seleccionar todos los filtros
@@ -118,12 +150,18 @@ def delete_parts(soup: BeautifulSoup):
     return soup
 
 
-def main(today: bool = False, hidden: bool = False):
+def main(today: bool = False, hidden: bool = False, architecture: str = "arm64"):
     # from src.app.utils.wdriver import driver  # nopep8
     try:
         driver = CustomChromeDriver(
-            hidden_windows=hidden, architecture="amd64")
+            hidden_windows=hidden,
+            architecture=architecture
+        )
         login_page(driver)
+
+        # Configurar la hora local
+        config_hour_navigate(driver)
+
         # toda la navegacion comienza aqui en esta funcion
         navigate_to_programming(today, driver=driver)
 
@@ -159,7 +197,10 @@ def main(today: bool = False, hidden: bool = False):
 
 
 if __name__ == '__main__':
+    """
+    Para ejecutar desde pc Local yq que tiene un arch AMD64
+    """
     from src.app.utils.styles import main_styles
     hoy = False
-    main(hoy)
+    main(hoy, hidden=False, architecture="amd64")
     main_styles(hoy)
