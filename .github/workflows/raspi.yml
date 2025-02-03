@@ -59,6 +59,7 @@ jobs:
           username: ${{ secrets.USER_RASPI }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
+          password: ${{ secrets.PASSWORD }}
           command_timeout: 5m
           # debug: true
           script: |
