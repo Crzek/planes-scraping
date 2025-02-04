@@ -27,7 +27,8 @@ def navigate_to_programming(today: bool = False, sleep: int = 2, driver: CustomC
 
     # navegar a programacion
     print("navegar a programacion")
-    get_element_click_newPage(driver)
+    get_element_click_newPage(
+        driver, xpath="/html/body/div[2]/div[1]/div/div[3]/ul/li[5]")
 
     show_filtro(driver)
 
@@ -52,7 +53,14 @@ def config_hour_navigate(driver: CustomChromeDriver):
     get_element_click_newPage(
         driver, xpath="/html/body/div[2]/div[5]/div[2]/ul[2]/li[2]")
 
-    # config programacion
+    # Seccion -> config General
+    get_element_click_newPage(
+        driver, xpath="/html/body/div[4]/div[3]/div/div[2]/div[1]/div/div[2]/div/div")
+    get_element_click_newPage(
+        driver, xpath="/html/body/div[5]/div[3]/ul/li[1]")
+    # END Seccion -> config General
+
+    # Seccion -> config programacion
     get_element_click_newPage(
         driver, xpath="/html/body/div[4]/div[3]/div/div[2]/header/div/div[2]/div/button[3]/span[1]")
 
@@ -69,6 +77,16 @@ def config_hour_navigate(driver: CustomChromeDriver):
     # aceptar config
     get_element_click_newPage(
         driver, xpath="/html/body/div[4]/div[3]/div/div[2]/div[2]/div[1]/button")
+    print("configuracion de hora local")
+
+
+def logout(driver: CustomChromeDriver):
+    # abrir navegacion
+    get_element_click_newPage(driver, "#menuButtonOpen")
+
+    # desconectar
+    get_element_click_newPage(
+        driver, xpath="/html/body/div[2]/div[5]/div[2]/ul[3]/li[2]")
 
 
 def navigate_in_filter(driver, time_sl: int = 4):
@@ -150,7 +168,7 @@ def delete_parts(soup: BeautifulSoup):
     return soup
 
 
-def main(today: bool = False, hidden: bool = False, architecture: str = "arm64"):
+def main(today: bool = False, hidden: bool = False, architecture: str = "arm64", to_pdf: bool = False):
     # from src.app.utils.wdriver import driver  # nopep8
     try:
         driver = CustomChromeDriver(
@@ -159,8 +177,13 @@ def main(today: bool = False, hidden: bool = False, architecture: str = "arm64")
         )
         login_page(driver)
 
-        # Configurar la hora local
-        config_hour_navigate(driver)
+        # # Configurar la hora local
+        # config_hour_navigate(driver)
+
+        # # desloagaer y volver a logear
+        # logout(driver)
+        # time.sleep(2)
+        # login_page(driver)
 
         # toda la navegacion comienza aqui en esta funcion
         navigate_to_programming(today, driver=driver)
@@ -182,8 +205,9 @@ def main(today: bool = False, hidden: bool = False, architecture: str = "arm64")
             # ponerla en un objeto Book y crear un objeto AirCraft
             stract_info_from_tag(bookings_in_string)
 
-            clas_to_series(today)
+            serie,  file = clas_to_series(today)
             print("Eliminar 0:  0;-0;; @")
+            return serie, file
         else:
             print("No hay booking")
 

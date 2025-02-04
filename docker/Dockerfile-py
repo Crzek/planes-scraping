@@ -2,7 +2,12 @@ FROM python:3.11.9-bullseye
 #3.12.6
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends wget unzip
+    apt-get install -y --no-install-recommends wget unzip && \
+    apt-get install wkhtmltopdf -y
+
+# Configurar la zona horaria (ajusta según tu región)
+ENV TZ=Europe/Madrid
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # install chrome y chromedriver
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \

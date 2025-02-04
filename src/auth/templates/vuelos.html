@@ -35,14 +35,19 @@
         {% if vuelos %}
         <!-- Vuelos ya se encentran generados -->
         <div>
-            <a href="{{url_for('authBP.descargar',filename=vuelos)}}"
+            <a href="{{url_for('authBP.descargar',filename=vuelos, path='data')}}"
                 class="text-2xl font-bold text-red-500 hover:text-blue-800">
                 Descargar vuelos sin Styles {{vuelos}}
             </a>
             <br />
-            <a href="{{url_for('authBP.descargar',filename=file_s)}}"
+            <!-- <a href="{{url_for('authBP.descargar',filename=file_s, path='data')}}"
                 class="text-2xl font-bold text-red-500 hover:text-blue-800">
                 Descargar vuelos con styles {{vuelos}}
+            </a>
+            <br /> -->
+            <a href="{{url_for('authBP.descargar',filename=pdf_file, path='pdf')}}"
+                class="text-2xl font-bold text-red-500 hover:text-blue-800">
+                Descargar vuelos en PDF {{file_pdf}}
             </a>
             <br />
             <br />

@@ -13,10 +13,15 @@ COPY ./requirements.txt /app/
 RUN pip install -r requirements.txt
 
 RUN apt update -y && apt upgrade -y && \
+    apt install wkhtmltopdf -y \
     apt install -y --no-install-recommends \
     wget \
     unzip \
-    chromium
+    chromium 
+
+# Configurar la zona horaria (ajusta según tu región)
+ENV TZ=Europe/Madrid
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # install chromedriver, which will be located at /usr/bin/chromedriver
 RUN apt-get update -qqy \

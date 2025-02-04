@@ -18,6 +18,7 @@ TODAY = datetime.date.today()
 TOMORROW = datetime.date.today() + datetime.timedelta(days=1)
 START_DEL = 7
 END_DEL = 3
+CARACTER_NOT_FLIGHT = "   "
 
 PAS = env_values.get("password")
 USER = env_values.get("user")

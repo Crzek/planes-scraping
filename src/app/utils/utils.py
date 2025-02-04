@@ -3,7 +3,8 @@ from src.app.models.book import Book
 
 import pandas as pd
 
-from globals import START_DEL, END_DEL, TODAY, TOMORROW
+from globals import START_DEL, END_DEL, TODAY, TOMORROW, CARACTER_NOT_FLIGHT
+from src.app.utils.export import export_to_pdf
 
 
 # from src.app.test.export import excel_to_pdf
@@ -59,7 +60,7 @@ def save_Book_by_tag(cadena: str):
 
 
 def clas_to_series(today: bool = False):
-    from globals import PATH_STATIC_DATA
+    from globals import PATH_STATIC_DATA, PATH_STATIC
 
     # Crear una serie de Pandas de ejemplo
     data = get_all_reservas(AirCraft.all_reservas)
@@ -74,10 +75,18 @@ def clas_to_series(today: bool = False):
 
     print("Serie de Pandas-------.......\n")
     print(serie)
+    file_name = f"vuelos-{TODAY if today else TOMORROW}"
     # Exportar la serie a un archivo CSV
-    file_excel = f"{PATH_STATIC_DATA}vuelos-{TODAY if today else TOMORROW}.xlsx"  # nopep8
+    file_excel = f"{PATH_STATIC_DATA + file_name}.xlsx"  # nopep8
     serie.to_excel(file_excel, startrow=2)
     print("Exito al cargar el Excel")
+
+    # Exportar la serie a un archivo PDF y html
+    file_html_output = PATH_STATIC + "html/" + f"{file_name}.html"
+    file_pdf_output = PATH_STATIC + "pdf/" + f"{file_name}.pdf"
+    export_to_pdf(serie, file_html_output, file_pdf_output, date=file_name)
+
+    return serie, file_excel
 
 # convertir en HTML
 # main(serie)
@@ -122,7 +131,8 @@ def replace_salidas(takeoff: list):
     Returns:
         array: [0,0,0,0,0,0,0,0,0,9,0,11,0,0,0,0,0,0,0,0,0,0,0,0]
     """
-    array24_horas = [None]*24
+    # generamos un array de 24 horas con None
+    array24_horas = [CARACTER_NOT_FLIGHT]*24
     if len(takeoff) != 0:
         for hour in takeoff:
             for index_zero in range(len(array24_horas)):

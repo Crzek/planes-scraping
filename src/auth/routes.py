@@ -157,18 +157,26 @@ def vuelos(remake: str = None):
         date = TODAY if hoy else TOMORROW
 
         try:
-            filename = f'vuelos-{date}.xlsx'
-            f_s = f'vuelos-{date}_s.xlsx'
+            filename = f'vuelos-{date}.xlsx'  # excel
+            name = filename.split(".")[0]
+            # f_s = f'vuelos-{date}_s.xlsx'  # excel con stylos
             getcwd = os.getcwd()
+
             filepath = (
                 f'{getcwd}/{PATH_STATIC_DATA}'
                 f'{filename}'  # Ajusta según la ruta real
             )
             print("--filepath---", filepath)
+            # html_output = getcwd + "/" + PATH_STATIC + "html/" + name + ".html"
+            # pdf_output = getcwd + "/" + PATH_STATIC + "pdf/" + name + ".pdf"
+            pdf_output = f"{name}.pdf"
+            html_output = f"{name}.html"
+            print("pdf_output ----", pdf_output)
 
             if not os.path.exists(filepath) or (remake == "remake"):
                 from src.app.utils.styles import main_styles
                 from src.app.main import main
+
                 # en arm heddin True
                 # AMD hideen False
                 main(hoy, hidden=True, architecture="arm64")
@@ -177,7 +185,9 @@ def vuelos(remake: str = None):
             return render_template(
                 "vuelos.html",
                 vuelos=filename,
-                file_s=f_s,
+                # file_s=f_s,
+                pdf_file=pdf_output,
+                html_file=html_output,
                 day=date,
                 today=TODAY, tomorrow=TOMORROW
             )
@@ -207,16 +217,22 @@ def thanks(email: str):
     return render_template("thanks.html", email=email)
 
 
-@auth_bp.route("/descargar/data/<string:filename>", methods=["GET"])
+@auth_bp.route("/descargar/<string:path>/<string:filename>", methods=["GET"])
 @login_required
-def descargar(filename: str):
+def descargar(filename: str, path: str = "data"):
     try:
 
         getcwd = os.getcwd()  # ruta actual
-        filepath = (
-            f'{getcwd}/{PATH_STATIC_DATA}'
-            f'{filename}'  # Ajusta según la ruta real
-        )
+        if path == "data":
+            filepath = (
+                f'{getcwd}/{PATH_STATIC_DATA}'
+                f'{filename}'  # Ajusta según la ruta real
+            )
+        else:
+            filepath = (
+                f'{getcwd}/{PATH_STATIC}'
+                f'{path}/{filename}'  # Ajusta según la ruta real
+            )
         print("descargando", filepath)
 
         if not os.path.exists(filepath):

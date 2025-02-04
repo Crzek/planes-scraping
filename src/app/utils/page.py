@@ -58,7 +58,7 @@ def get_element_click_newPage(driver, css_selector: str = "li[itemid='calendar']
 
         element.click()
     except Exception as e:
-        print(f"Error al intentar hacer clic en el elemento: {e}")
+        print(f"Error al intentar hacer clic en el elemento: {e} \n-------\n {css_selector if css_selector else xpath}")
 
 
 def close_popup_with_js(driver, css_selector: str = None):
