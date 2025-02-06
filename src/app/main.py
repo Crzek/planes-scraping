@@ -3,6 +3,7 @@
 
 # In[33]
 import time
+import datetime
 
 from bs4 import BeautifulSoup
 
@@ -168,7 +169,7 @@ def delete_parts(soup: BeautifulSoup):
     return soup
 
 
-def main(today: bool = False, hidden: bool = False, architecture: str = "arm64", to_pdf: bool = False):
+def main(today: bool = False, hidden: bool = False, architecture: str = "arm64", to_pdf: bool = False, date: datetime.date = None):
     # from src.app.utils.wdriver import driver  # nopep8
     try:
         driver = CustomChromeDriver(
@@ -205,7 +206,7 @@ def main(today: bool = False, hidden: bool = False, architecture: str = "arm64",
             # ponerla en un objeto Book y crear un objeto AirCraft
             stract_info_from_tag(bookings_in_string)
 
-            serie,  file = clas_to_series(today)
+            serie,  file = clas_to_series(today, date)
             print("Eliminar 0:  0;-0;; @")
             return serie, file
         else:
@@ -226,5 +227,7 @@ if __name__ == '__main__':
     """
     from src.app.utils.styles import main_styles
     hoy = False
-    main(hoy, hidden=False, architecture="amd64")
-    main_styles(hoy)
+    date = datetime.date.today if hoy else datetime.date.today() + \
+        datetime.timedelta(days=1)
+    main(hoy, hidden=False, architecture="amd64", date=date)
+    main_styles(hoy, date=date)

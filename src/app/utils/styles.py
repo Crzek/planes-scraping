@@ -66,14 +66,14 @@ def print_doc(ws, title: str, print_area: str = 'A1:P25'):
     print("Configuración de impresión aplicada con éxito")
 
 
-def main_styles(today: bool = False):
-    from globals import TODAY, TOMORROW, PATH_STATIC_DATA
+def main_styles(today: bool = False, date: datetime.date = None):
+    from globals import PATH_STATIC_DATA
 
     # data_url = 'src/app/data/'
     # file = data_url + \
     #     f'vuelos-{TODAY if today else TOMORROW }.xlsx'
 
-    file = f"{PATH_STATIC_DATA}vuelos-{TODAY if today else TOMORROW}.xlsx"
+    file = f"{PATH_STATIC_DATA}vuelos-{date}.xlsx"
     # abrir un libro de trabajo
     print(f"Aplicando estilos al archivo de excel:\n{file}")
     wb = load_workbook(file)
@@ -100,18 +100,20 @@ def main_styles(today: bool = False):
 
     # aplicar estilos a la fila 1
     # poner nombre en fila A1
-    ws['A1'] = TODAY if today else TOMORROW
+    ws['A1'] = date
     # ws.row_dimensions[1].height = 20  # Altura de la fila
     ws["A1"].font = Font(bold=True, size=11)  # Negrita y tamaño
 
     # definir config impresion
-    print_doc(ws, f"Vuelos {TODAY if today else TOMORROW}")
+    print_doc(ws, f"Vuelos {date}")
 
-    file_s = f"{PATH_STATIC_DATA}vuelos-{TODAY if today else TOMORROW}.xlsx"
+    file_s = f"{PATH_STATIC_DATA}vuelos-{date}.xlsx"
     # file_s = f"{PATH_STATIC_DATA}vuelos-{TODAY if today else TOMORROW}_s.xlsx"
     wb.save(file_s)
     print("Estilos aplicados con éxito")
 
 
 if __name__ == "__main__":
-    main_styles()
+    # falta definir el arg date
+    date = datetime.date.today()
+    main_styles(date=date)

@@ -2,8 +2,9 @@ from src.app.models.aircraft import AirCraft
 from src.app.models.book import Book
 
 import pandas as pd
+import datetime
 
-from globals import START_DEL, END_DEL, TODAY, TOMORROW, CARACTER_NOT_FLIGHT
+from globals import START_DEL, END_DEL, CARACTER_NOT_FLIGHT
 from src.app.utils.export import export_to_pdf
 
 
@@ -59,7 +60,7 @@ def save_Book_by_tag(cadena: str):
         return False
 
 
-def clas_to_series(today: bool = False):
+def clas_to_series(today: bool = False, date: datetime.date = None):
     from globals import PATH_STATIC_DATA, PATH_STATIC
 
     # Crear una serie de Pandas de ejemplo
@@ -75,7 +76,8 @@ def clas_to_series(today: bool = False):
 
     print("Serie de Pandas-------.......\n")
     print(serie)
-    file_name = f"vuelos-{TODAY if today else TOMORROW}"
+
+    file_name = f"vuelos-{date}"
     # Exportar la serie a un archivo CSV
     file_excel = f"{PATH_STATIC_DATA + file_name}.xlsx"  # nopep8
     serie.to_excel(file_excel, startrow=2)

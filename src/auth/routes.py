@@ -155,7 +155,6 @@ def vuelos(remake: str = None):
             hoy = False
 
         date = TODAY if hoy else TOMORROW
-
         try:
             filename = f'vuelos-{date}.xlsx'  # excel
             name = filename.split(".")[0]
@@ -179,8 +178,8 @@ def vuelos(remake: str = None):
 
                 # en arm heddin True
                 # AMD hideen False
-                main(hoy, hidden=True, architecture="arm64")
-                main_styles(hoy)
+                main(hoy, hidden=True, architecture="arm64", date=date)
+                main_styles(hoy, date=date)
 
             return render_template(
                 "vuelos.html",
