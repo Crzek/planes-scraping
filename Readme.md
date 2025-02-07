@@ -51,7 +51,12 @@ Dentro del contenedor, recuerda seleccionar el Interprete de python.
 
 # Development
 ```shelll
-flask run --debug
+# run container and attaching
+docker-compose run --rm dev-vuelos-private-radar-py-amd64 
+
+# into the continer run:
+
+flask run --host 0.0.0.0 --debug --reload
 ```
 
 ## Local develoment

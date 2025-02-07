@@ -14,7 +14,4 @@ services:
       - ../chrome.env 
     volumes:
       - ../:/app
-  # file: entrypoint.py
-  # instance the flask: app = Flask(__name__) // app = create_app()
-    # command: flask run --host=0.0.0.0:5000 --reload
-    command: sleep infinity
+    command: bash

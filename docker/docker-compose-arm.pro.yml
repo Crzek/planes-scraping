@@ -9,7 +9,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - PYTHONUNBUFFERED=1 # para mostrar los logs en tiempo real
+      # - PYTHONUNBUFFERED=1 # para mostrar los logs en tiempo real
       - ENV_FILE=.env
       # - FLASK_ENV=production
       # - CONFIG_ENV=${FLASK_ENV}
