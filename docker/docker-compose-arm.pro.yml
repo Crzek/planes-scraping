@@ -25,6 +25,7 @@ services:
 
 # definimos la red global para que los contenedores puedan comunicarse entre ellos
 # desde otro archivo de docker-compose se puede hacer referencia a esta red
+# crear la red global con el comando: docker network create app-python-global
 networks:
   app-python-global:
     external: true
