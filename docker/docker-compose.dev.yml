@@ -3,7 +3,7 @@ services:
     build:
       context: ../ # Path: docker/
       dockerfile: docker/Dockerfile-py
-    image: vuelos-private-radar:1.1-py # Name of the image
+    image: vuelos-private-radar:1.1-dev # Name of the image
     container_name: dev-vuelos-private-radar-py-amd64
     ports:
       - "5000:5000"

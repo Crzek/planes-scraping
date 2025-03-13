@@ -40,10 +40,10 @@ pip install Scrapy  # para coger etiquetas de la web
 docker-compose -f docker/docker-compose-arm.pro.yml up --build
 
 # produccion AMD arch
-docker-compose -f docker/docker-compose-pro.yml up --build
+docker-compose -f docker/docker-compose.pro.yml up --build
 
 # para desarrollo para debugar
-docker-compose -f docker/docker-compose-dev.yml up --build
+docker-compose -f docker/docker-compose.dev.yml up --build
 
 ```
 Dentro del contenedor, recuerda seleccionar el Interprete de python.
@@ -52,7 +52,7 @@ Dentro del contenedor, recuerda seleccionar el Interprete de python.
 # Development
 ```shelll
 # run container and attaching
-docker-compose run --rm dev-vuelos-private-radar-py-amd64 
+docker compose -f docker/docker-compose.dev.yml run --rm vuelos-app bash
 
 # into the continer run:
 
