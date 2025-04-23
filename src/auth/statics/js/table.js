@@ -13,7 +13,7 @@ function addRowControls(row) {
 
 // Función para inicializar los controles en filas existentes
 function initializeRowControls() {
-    const rows = table.querySelectorAll("tbody tr");
+    const rows = table.querySelectorAll("tbody tr, thead tr");
     rows.forEach((row) => {
         addRowControls(row); // Agregar controles a cada fila existente
     });
@@ -146,22 +146,25 @@ function enableCellEditing() {
 // Función para alternar (toggle) entre habilitar/deshabilitar edición
 function toggleEditMode() {
     const controlButtons = table.querySelectorAll(".control-buttons");
-    const cells = table.querySelectorAll("tbody td");
+    const cells = table.querySelectorAll("tbody td:not(.no-edit)"); // Excluir la columna de botones
+    const editButton = document.getElementById("edit-btn");
+
+    // Determinar si actualmente está habilitada la edición
+    const isEditingEnabled = cells[0]?.isContentEditable;
 
     // Alternar visibilidad de los botones de control
     controlButtons.forEach((buttonCell) => {
-        buttonCell.style.display = buttonCell.style.display === "none" ? "" : "none";
+        buttonCell.style.display = isEditingEnabled ? "" : "none";
     });
 
     // Alternar entre habilitar/deshabilitar edición
     cells.forEach((cell) => {
         if (cell.classList.contains("no-edit")) return; // No editar las celdas de control
-        if (cell.isContentEditable) {
-            cell.contentEditable = "false"; // Deshabilitar edición
-        } else {
-            cell.contentEditable = "true"; // Habilitar edición
-        }
+        cell.contentEditable = !isEditingEnabled; // Alternar el estado de edición
     });
+
+    // Actualizar el texto del botón
+    editButton.textContent = isEditingEnabled ? "Deshabilitar Edición" : "Habilitar Edición";
 }
 
 // Función para agregar el botón de "Habilitar Edición" al final de la tabla
@@ -172,7 +175,7 @@ function addToggleEditButton() {
     toggleButtonCell.style.textAlign = "center";
 
     toggleButtonCell.innerHTML = `
-        <button onclick="toggleEditMode()">Habilitar Edición</button>
+        <button onclick="toggleEditMode()" class="no-edit" id="edit-btn" >Deshabilitar Edición</button>
     `;
     toggleButtonRow.appendChild(toggleButtonCell);
     table.querySelector("tbody").appendChild(toggleButtonRow);
