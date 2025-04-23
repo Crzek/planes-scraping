@@ -31,7 +31,7 @@ class CustomChromeDriver(webdriver.Chrome):
         logger.info("--- path_browser %s", path_browser)
         logger.info("--- path_driver %s", path_driver)
         logger.info("debug hidden-windows: %s", hidden_windows)
-        logger.info("debug platform: %s", platform.mahine())
+        logger.info("debug platform: %s", platform.machine())
 
         if hidden_windows:
             self.options.add_argument('--no-sandbox')
