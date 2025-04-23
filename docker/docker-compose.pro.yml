@@ -19,4 +19,5 @@ services:
   # file: entrypoint.py
   # instance the flask: app = Flask(__name__) // app = create_app()
   # gunicorn normally is use port 8000
-    command: ["gunicorn", "-w", "3", "-b", "0.0.0.0:5000","--timeout","120","--reload",  "entrypoint:app"]
+    # command: ["gunicorn", "-w", "3", "-b", "0.0.0.0:5000","--timeout","120","--reload",  "entrypoint:app"]
+    command: flask run --host=0.0.0.0

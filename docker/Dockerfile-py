@@ -1,4 +1,21 @@
-FROM python:3.11.9-bullseye 
+# Stage 1: Builder
+# --------------------
+FROM python:3.12-slim-bullseye AS builder
+
+# PDM (solo se usa para exportar las dependencias)
+RUN pip install --no-cache-dir pdm
+WORKDIR /app
+
+# Copia definición del proyecto y lockfile
+COPY pyproject.toml pdm.lock* ./
+
+# Exporta dependencias de producción a requirements.txt
+RUN pdm export --prod --without-hashes -o requirements.txt
+
+# Stage 2: Final Image
+# --------------------
+# FROM python:3.11.9-bullseye
+FROM python:3.12-slim-bullseye
 #3.12.6
 
 RUN apt-get update && \
@@ -18,7 +35,8 @@ RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.d
 
 WORKDIR /app
 
-COPY ./requirements.txt /app/
+# Copiar requerimientos generados en la etapa anterior
+COPY --from=builder /app/requirements.txt .
 
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
