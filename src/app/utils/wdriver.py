@@ -40,7 +40,7 @@ class CustomChromeDriver(webdriver.Chrome):
             architecture_os = platform.machine()  # 'x86_64', 'arm64':
             logger.info("system Machine: %s", architecture_os)
             # chromium  ->_definir chromediiver, normalmente ("/usr/bin/chromedriver"
-            if architecture_os == "arm64":
+            if architecture_os == "aarch64":  # arm64
                 # if (path_driver is not None) or (path_driver != "") or (architecture == "arm64"):
                 chrome_service = Service(path_driver)
                 logger.info(
