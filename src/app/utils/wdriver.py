@@ -23,14 +23,15 @@ class CustomChromeDriver(webdriver.Chrome):
         url: str = URL,
         path_driver: str = PATH_DRIVER,
         hidden_windows=False,
-        platform="linux",
-        architecture="x86_64",  # 'x86_64', 'arm64'
+        # platform="linux",
+        # architecture="x86_64",  # 'x86_64', 'arm64'
     ):
         self.options = webdriver.ChromeOptions()
         self.options.binary_location = path_browser
         logger.info("--- path_browser %s", path_browser)
         logger.info("--- path_driver %s", path_driver)
-        logger.debug("debug hidden-windows: %s", hidden_windows)
+        logger.info("debug hidden-windows: %s", hidden_windows)
+        logger.info("debug platform: %s", platform.mahine())
 
         if hidden_windows:
             self.options.add_argument('--no-sandbox')
@@ -43,6 +44,8 @@ class CustomChromeDriver(webdriver.Chrome):
             logger.info("system Machine: %s", architecture_os)
             # chromium  ->_definir chromediiver, normalmente ("/usr/bin/chromedriver"
             if architecture_os == "aarch64":  # arm64
+                logger.info(
+                    "Architecture: ARM64, ha ingresado en el bloque chromium")
                 # if (path_driver is not None) or (path_driver != "") or (architecture == "arm64"):
                 chrome_service = Service(path_driver)
                 logger.info(
