@@ -1,7 +1,7 @@
 import datetime
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, Color, Alignment, Border, Side, PatternFill
-
+from .. import logger
 
 """
 Aplicar estilos a un archivo de Excel
@@ -63,7 +63,7 @@ def print_doc(ws, title: str, print_area: str = 'A1:P25'):
     ws.page_margins.bottom = 0.3
     ws.page_setup.orientation = ws.ORIENTATION_LANDSCAPE
     ws.page_setup.paperSize = ws.PAPERSIZE_A4
-    print("Configuración de impresión aplicada con éxito")
+    logger.info("Configuración de impresión aplicada con éxito")
 
 
 def main_styles(today: bool = False, date: datetime.date = None):
@@ -75,7 +75,7 @@ def main_styles(today: bool = False, date: datetime.date = None):
 
     file = f"{PATH_STATIC_DATA}vuelos-{date}.xlsx"
     # abrir un libro de trabajo
-    print(f"Aplicando estilos al archivo de excel:\n{file}")
+    logger.info(f"Aplicando estilos al archivo de excel:\n{file}")
     wb = load_workbook(file)
     # seleccionar la hoja de trabajo
     ws = wb.active
@@ -110,7 +110,7 @@ def main_styles(today: bool = False, date: datetime.date = None):
     file_s = f"{PATH_STATIC_DATA}vuelos-{date}.xlsx"
     # file_s = f"{PATH_STATIC_DATA}vuelos-{TODAY if today else TOMORROW}_s.xlsx"
     wb.save(file_s)
-    print("Estilos aplicados con éxito")
+    logger.info("Estilos aplicados con éxito")
 
 
 if __name__ == "__main__":

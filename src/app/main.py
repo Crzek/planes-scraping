@@ -13,6 +13,8 @@ from src.app.utils.wdriver import CustomChromeDriver
 from src.app.utils.page import login_page, get_element_click_newPage, close_popup_with_js
 from src.app.utils.utils import save_Book_by_tag
 
+# logging que esta el modulo (__init__.py)
+from . import logger
 
 def navigate_to_programming(today: bool = False, sleep: int = 2, driver: CustomChromeDriver = None):
     """
@@ -26,7 +28,7 @@ def navigate_to_programming(today: bool = False, sleep: int = 2, driver: CustomC
     # eliminar wrapper
     close_popup_with_js(driver, ".wrapper .ui-close")
 
-    # navegar a programacion
+    # navegar a programacion, icono program
     print("navegar a programacion")
     get_element_click_newPage(
         driver, xpath="/html/body/div[2]/div[1]/div/div[3]/ul/li[5]")
@@ -38,7 +40,7 @@ def navigate_to_programming(today: bool = False, sleep: int = 2, driver: CustomC
         # Sigiente dia
         # <span class="datebtn ui-after"></span>
         get_element_click_newPage(driver, "span.ui-after")
-        print("siguiente dia")
+        logger.info("siguiente dia")
 
 
 def config_hour_navigate(driver: CustomChromeDriver):
@@ -78,7 +80,7 @@ def config_hour_navigate(driver: CustomChromeDriver):
     # aceptar config
     get_element_click_newPage(
         driver, xpath="/html/body/div[4]/div[3]/div/div[2]/div[2]/div[1]/button")
-    print("configuracion de hora local")
+    logger.info("configuracion de hora local")
 
 
 def logout(driver: CustomChromeDriver):
@@ -122,7 +124,7 @@ def show_filtro(driver, time_sl: int = 4):
     # ir a filtro
     time.sleep(time_sl-2)
     get_element_click_newPage(driver, "i.ui-filters")
-    print("click filtro")
+    logger.info("click filtro")
 
     navigate_in_filter(driver, time_sl)
 
@@ -169,7 +171,12 @@ def delete_parts(soup: BeautifulSoup):
     return soup
 
 
-def main(today: bool = False, hidden: bool = False, architecture: str = "arm64", to_pdf: bool = False, date: datetime.date = None):
+def main(
+    today: bool = False,
+    hidden: bool = False,
+    architecture: str = "arm64",
+    to_pdf: bool = False,
+    date: datetime.date = None):
     # from src.app.utils.wdriver import driver  # nopep8
     try:
         driver = CustomChromeDriver(
@@ -191,13 +198,19 @@ def main(today: bool = False, hidden: bool = False, architecture: str = "arm64",
 
         # Cargar los datos
         time.sleep(6)
-        print("Cargando los datos...")
+        logger.info("Cargando los datos...")
         soup = BeautifulSoup(driver.page_source, 'html.parser')
 
         # Eliminar partes innecesarias
         delete_parts(soup)
-
+        
+        # titulo de la pagina (dia, mes, año)
+        title_day = soup.find("span", class_="date").get_text()
+        
+        # obtener solo vuelos
         booking = soup.select(".BookingContainer_wrapper__VpZwN")
+        logger.info("title_day: %s", title_day)
+        logger.info("Booking: %s", len(booking))
 
         if booking:
             bookings_in_string: list = tag_find_by_attr(booking, "title")
@@ -207,17 +220,17 @@ def main(today: bool = False, hidden: bool = False, architecture: str = "arm64",
             stract_info_from_tag(bookings_in_string)
 
             serie,  file = clas_to_series(today, date)
-            print("Eliminar 0:  0;-0;; @")
-            return serie, file
+            logger.info("Eliminar 0:  0;-0;; @")
+            return serie, file, title_day
         else:
-            print("No hay booking")
+            logger.warning("No hay booking")
 
     # except Exception as e:
     #     print(f"Error en main(): {e}")
 
     finally:
         # Cerrar el navegador
-        print("Cerrando el navegador...")
+        logger.info("Cerrando el navegador...")
         driver.close_driver()
 
 

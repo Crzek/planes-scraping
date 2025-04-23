@@ -5,6 +5,7 @@ from flask import render_template, request, redirect, url_for, send_file, send_f
 import datetime
 # blueprint
 from . import auth_bp
+import logging
 
 # nuetras routes
 from .models.users import User
@@ -15,6 +16,7 @@ from flask_login import (
     current_user  # para saber el usuario actual
 )
 
+logger = logging.getLogger(__name__)
 
 @auth_bp.route("/")
 def auth():
@@ -46,7 +48,7 @@ def register():
         if request.method == "POST":
             email = request.form["email"]
             passwd = request.form["password"]
-            print(f"metodo-{request.method} Valor email {email}")
+            logger.info(f"metodo-{request.method} Valor email {email}")
             # verificar mail
             user = User.query.filter_by(email=email).first()
             if not user:
@@ -57,7 +59,7 @@ def register():
                 new_user = User(email=email, password=pass_hash)
                 db.session.add(new_user)
                 db.session.commit()
-                print("------SAVED in DB----")
+                logger.info("------SAVED in DB----")
                 return redirect(url_for("authBP.thanks", email=email))
             else:
                 content_html = (
@@ -70,7 +72,7 @@ def register():
                 return render_template("generic_content.html", title=title, content=content_html)
         return render_template("register.html")
     except Exception as e:
-        print(f"Error {e}")
+        logger.error(f"Error {e}")
         return f"Error {e}"
 
 
@@ -101,9 +103,10 @@ def login():
         if user:
             if check_password_hash(user.password, passwd):
                 is_loged = login_user(user, remember=True)  # logear
-                print("----login----")
-                print(url_for("authBP.vuelos", email=email))
-                print(url_for("authBP.vuelos"))
+                logger.info("----login----")
+                logger.info(f"login {is_loged}")
+                logger.info(url_for("authBP.vuelos", email=email))
+                logger.info(url_for("authBP.vuelos"))
                 # return redirect(url_for("authBP.vuelos", email=email)) #/vuelos?email=crzerick6@gmail.com
                 # return redirect(url_for("authBP.vuelos")) # /vuelos
                 return redirect(url_for("authBP.vuelos"))
@@ -147,7 +150,7 @@ def vuelos(remake: str = None):
     TOMORROW = datetime.date.today() + datetime.timedelta(days=1)
     if request.method == "POST":
         day = request.form['day']
-        print("ver Dia", day)
+        logger.info("ver Dia %s", day)
         # generar vuelos
         if day == "today":
             hoy = True
@@ -165,21 +168,22 @@ def vuelos(remake: str = None):
                 f'{getcwd}/{PATH_STATIC_DATA}'
                 f'{filename}'  # Ajusta según la ruta real
             )
-            print("--filepath---", filepath)
+            logger.info("--filepath--- %s",filepath)
             # html_output = getcwd + "/" + PATH_STATIC + "html/" + name + ".html"
             # pdf_output = getcwd + "/" + PATH_STATIC + "pdf/" + name + ".pdf"
             pdf_output = f"{name}.pdf"
             html_output = f"{name}.html"
-            print("pdf_output ----", pdf_output)
-
+            logger.info("pdf_output ---- %s", pdf_output)
             if not os.path.exists(filepath) or (remake == "remake"):
                 from src.app.utils.styles import main_styles
                 from src.app.main import main
 
                 # en arm heddin True
                 # AMD hideen False
-                main(hoy, hidden=True, architecture="arm64", date=date)
+                *_, title_day = main(hoy, hidden=True, architecture="arm64", date=date)
+                logger.info("title_day -- %s",title_day)
                 main_styles(hoy, date=date)
+                
 
             return render_template(
                 "vuelos.html",
@@ -188,21 +192,24 @@ def vuelos(remake: str = None):
                 pdf_file=pdf_output,
                 html_file=html_output,
                 day=date,
+                title_day=None,
+                # title_day=title_day,
                 today=TODAY, tomorrow=TOMORROW
             )
 
         except Exception as e:
-            print(f"Error {e}")
+            logger.error(f"Error {e}")
             return render_template(
                 "vuelos.html",
                 vuelos=None,
                 errors=f"Error al cargar los vuelos::: {e}",
                 day=date,
+                title_day=None,
                 today=TODAY, tomorrow=TOMORROW
 
             )
 
-    return render_template("vuelos.html", vuelos=None, today=TODAY, tomorrow=TOMORROW)
+    return render_template("vuelos.html", vuelos=None, today=TODAY, tomorrow=TOMORROW, title_day=None)
 
 
 @auth_bp.route("/thanks/<string:email>")
@@ -232,14 +239,14 @@ def descargar(filename: str, path: str = "data"):
                 f'{getcwd}/{PATH_STATIC}'
                 f'{path}/{filename}'  # Ajusta según la ruta real
             )
-        print("descargando", filepath)
+        logger.info("descargando - %s",filepath)
 
         if not os.path.exists(filepath):
-            print(f"Archivo no encontrado: {filepath}")
+            logger.info("Archivo no encontrado: %s",filepath)
             return "Archivo no encontrado", 404
 
         return send_file(filepath, as_attachment=True)
 
     except Exception as e:
-        print(f"Error al descargar el archivo: {e}")
+        logger.info("Error al descargar el archivo: %s", e)
         return "Error al descargar el archivo", 404

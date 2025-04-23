@@ -1,6 +1,6 @@
 import pandas as pd
 import pdfkit
-
+from .. import logger
 
 def export_to_pdf(
         df: pd.DataFrame,
@@ -29,10 +29,10 @@ def export_to_pdf(
 
         # Convertir el archivo HTML a PDF
         pdfkit.from_file(output_path_html, output_path_pdf)
-        print(f"✅ PDF generado: {output_path_pdf}")
+        logger.info(f"✅ PDF generado: {output_path_pdf}")
 
     except Exception as e:
-        print("❌ ERROR al exportar a PDF:", e)
+        logger.error("❌ ERROR al exportar a PDF:", e)
 
 
 def save_file(html_content, output_path):
@@ -42,7 +42,7 @@ def save_file(html_content, output_path):
             f.write(html_content)
         print(f"{format} guardado en {output_path}")
     except Exception as e:
-        print("ERROR al guardar el {format}:", e)
+        logger.error("ERROR al guardar el {format}:", e)
 
     # # Cargar Excel
     # df = pd.read_excel("archivo.xlsx")

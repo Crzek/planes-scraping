@@ -6,7 +6,7 @@ import datetime
 
 from globals import START_DEL, END_DEL, CARACTER_NOT_FLIGHT
 from src.app.utils.export import export_to_pdf
-
+from .. import logger
 
 # from src.app.test.export import excel_to_pdf
 
@@ -74,14 +74,14 @@ def clas_to_series(today: bool = False, date: datetime.date = None):
     serie = pd.DataFrame(data["books"], index=range(
         START_DEL, START_DEL+len(data["books"][elem_dic_0]))).transpose()
 
-    print("Serie de Pandas-------.......\n")
+    logger.info("Serie de Pandas------")
     print(serie)
 
     file_name = f"vuelos-{date}"
     # Exportar la serie a un archivo CSV
     file_excel = f"{PATH_STATIC_DATA + file_name}.xlsx"  # nopep8
     serie.to_excel(file_excel, startrow=2)
-    print("Exito al cargar el Excel")
+    logger.info("Exito al cargar el Excel")
 
     # Exportar la serie a un archivo PDF y html
     file_html_output = PATH_STATIC + "html/" + f"{file_name}.html"

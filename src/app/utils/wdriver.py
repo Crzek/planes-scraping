@@ -1,7 +1,14 @@
+import logging
+import platform
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.service import Service
 from globals import PATH_BROWSER, URL, PATH_DRIVER, ENV_FILE
+
+# Configuración básica del logger
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 
 """
     Mirar archivo test/webdriver.py
@@ -17,11 +24,11 @@ class CustomChromeDriver(webdriver.Chrome):
         path_driver: str = PATH_DRIVER,
         hidden_windows=False,
         platform="linux",
-        architecture="arm64",  # amd64
+        architecture="x86_64",  # 'x86_64', 'arm64'
     ):
         self.options = webdriver.ChromeOptions()
         self.options.binary_location = path_browser
-        print("--- path_browser", path_browser)
+        logger.info("--- path_browser %s", path_browser)
 
         if hidden_windows:
             self.options.add_argument('--no-sandbox')
@@ -29,10 +36,15 @@ class CustomChromeDriver(webdriver.Chrome):
             self.options.add_argument('--headless')
 
         try:
+            # system = platform.system()  # 'Linux', 'Windows'
+            architecture_os = platform.machine()  # 'x86_64', 'arm64':
+            logger.info("system Machine: %s", architecture_os)
             # chromium  ->_definir chromediiver, normalmente ("/usr/bin/chromedriver"
-            if (path_driver is not None) or (path_driver != "") or (architecture == "arm64"):
+            if architecture_os == "arm64":
+                # if (path_driver is not None) or (path_driver != "") or (architecture == "arm64"):
                 chrome_service = Service(path_driver)
-                print("--- path_driver", path_driver, ENV_FILE)
+                logger.info(
+                    "--- path_driver, %s env: %s", path_driver, ENV_FILE)
                 super().__init__(options=self.options, service=chrome_service)
             else:
                 super().__init__(options=self.options)
@@ -40,7 +52,7 @@ class CustomChromeDriver(webdriver.Chrome):
             self.set_window_size(1024, 768)
 
         except WebDriverException as e:
-            print(f"Error al inicializar el navegador: {e}")
+            logger.critical(f"Error al inicializar el navegador: {e}")
 
         self.navigate_to_url(url)
 
@@ -48,14 +60,14 @@ class CustomChromeDriver(webdriver.Chrome):
         try:
             self.get(url)
         except WebDriverException as e:
-            print(f"Error al navegar a la URL {url}: {e}")
+            logger.error(f"Error al navegar a la URL {url}: {e}")
 
     def close_driver(self):
         try:
             self.close()
             self.quit()
         except WebDriverException as e:
-            print(f"Error al cerrar el navegador: {e}")
+            logger.error(f"Error al cerrar el navegador: {e}")
 
 
 # Ejemplo de uso
