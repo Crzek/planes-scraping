@@ -16,10 +16,11 @@ if env_values:
 
 PATH_STATIC = "static/"
 PATH_STATIC_DATA = PATH_STATIC + "data/"
+PATH_STATIC_PDF = PATH_STATIC + "pdf/"
 
 TODAY = datetime.date.today()
 TOMORROW = datetime.date.today() + datetime.timedelta(days=1)
-START_DEL = 7
+START_DEL = 8
 END_DEL = 3
 CARACTER_NOT_FLIGHT = "   "
 

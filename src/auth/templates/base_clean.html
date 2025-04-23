@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %} {% endblock %}
+    </title>
+</head>
+
+<body class="bg-gray-100">
+    {% block content %}
+    {#
+    En Jinja2, el contenido HTML que se pasa a una plantilla se escapa por defecto para evitar vulnerabilidades de
+    inyección de código. Si content_body contiene HTML que deseas renderizar como código HTML válido, debes marcarlo
+    como seguro utilizando el filtro |safe.
+    #}
+    {{ content|safe }}
+    {% endblock %}
+
+    {% block scripts %}
+    <script src="{{ url_for('authBP.static', filename='js/table.js') }}"></script>
+
+    {% endblock %}
+
+</body>
+
+</html>

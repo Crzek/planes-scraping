@@ -220,9 +220,9 @@ def main(
             # ponerla en un objeto Book y crear un objeto AirCraft
             stract_info_from_tag(bookings_in_string)
 
-            serie,  file = clas_to_series(today, date)
+            *_, html_table = clas_to_series(today, date)
             logger.info("Eliminar 0:  0;-0;; @")
-            return serie, file, title_day
+            return title_day, html_table
         else:
             logger.warning("No hay booking")
 

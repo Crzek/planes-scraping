@@ -5,7 +5,7 @@ import pandas as pd
 import datetime
 
 from globals import START_DEL, END_DEL, CARACTER_NOT_FLIGHT
-from src.app.utils.export import export_to_pdf
+from src.app.utils.export import generate_html_table
 from .. import logger
 
 # from src.app.test.export import excel_to_pdf
@@ -86,9 +86,10 @@ def clas_to_series(today: bool = False, date: datetime.date = None):
     # Exportar la serie a un archivo PDF y html
     file_html_output = PATH_STATIC + "html/" + f"{file_name}.html"
     file_pdf_output = PATH_STATIC + "pdf/" + f"{file_name}.pdf"
-    export_to_pdf(serie, file_html_output, file_pdf_output, date=file_name)
+    # export_to_pdf(serie, file_html_output, file_pdf_output, date=file_name)
+    html_table = generate_html_table(serie, date=file_name)
 
-    return serie, file_excel
+    return serie, file_excel, html_table
 
 # convertir en HTML
 # main(serie)

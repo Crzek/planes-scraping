@@ -2,12 +2,33 @@ import pandas as pd
 import pdfkit
 from .. import logger
 
+
+def generate_html_table(df: pd.DataFrame, date: str = None) -> str:
+    """Genera una tabla HTML a partir de un DataFrame
+
+    Args:
+        df (pd.DataFrame): DataFrame a convertir
+
+    Returns:
+        str: Tabla HTML generada
+    """
+    # Convertir el DataFrame a HTML
+    html_content = df.to_html()
+
+    # Agregar estilos básicos al HTML
+    styled_html = (
+        f"<style>table {{border-collapse: collapse; width: 100%; text-align: center;}}"
+        f"th, td {{border: 1px solid black; padding: 5px;}}</style>"
+        f"<h3>{date}</h3>"
+        f"{html_content}")
+    return styled_html
+
+
 def export_to_pdf(
         df: pd.DataFrame,
         output_path_html: str,
         output_path_pdf,
-        date: str = None,
-):
+        date: str = None):
     """Exporta un DataFrame a un archivo PDF
 
     Args:
@@ -28,7 +49,7 @@ def export_to_pdf(
             f.write(content)
 
         # Convertir el archivo HTML a PDF
-        pdfkit.from_file(output_path_html, output_path_pdf)
+        pdfkit.from_string(output_path_html, output_path_pdf)
         logger.info(f"✅ PDF generado: {output_path_pdf}")
 
     except Exception as e:
@@ -40,24 +61,25 @@ def save_file(html_content, output_path):
     try:
         with open(output_path, "w") as f:
             f.write(html_content)
-        print(f"{format} guardado en {output_path}")
+            print(f"{format} guardado en {output_path}")
+
     except Exception as e:
         logger.error("ERROR al guardar el {format}:", e)
 
-    # # Cargar Excel
-    # df = pd.read_excel("archivo.xlsx")
+        # # Cargar Excel
+        # df = pd.read_excel("archivo.xlsx")
 
-    # # Convertir DataFrame a HTML con estilos básicos
-    # html_content = df.to_html(index=False)
+        # # Convertir DataFrame a HTML con estilos básicos
+        # html_content = df.to_html(index=False)
 
-    # # Guardar HTML en un archivo
-    # html_path = "temp.html"
-    # pdf_path = "salida.pdf"
+        # # Guardar HTML en un archivo
+        # html_path = "temp.html"
+        # pdf_path = "salida.pdf"
 
-    # with open(html_path, "w") as f:
-    #     f.write(f"<style>table {{border-collapse: collapse; width: 100%;}} th, td {{border: 1px solid black; padding: 5px;}}</style>{html_content}")
+        # with open(html_path, "w") as f:
+        #     f.write(f"<style>table {{border-collapse: collapse; width: 100%;}} th, td {{border: 1px solid black; padding: 5px;}}</style>{html_content}")
 
-    # # Convertir HTML a PDF
-    # pdfkit.from_file(html_path, pdf_path)
+        # # Convertir HTML a PDF
+        # pdfkit.from_file(html_path, pdf_path)
 
-    # print("✅ PDF generado con formato básico.")
+        # print("✅ PDF generado con formato básico.")

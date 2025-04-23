@@ -1,5 +1,6 @@
 # src/auth/routes.py
-from globals import PATH_STATIC_DATA, PATH_STATIC
+from globals import PATH_STATIC, PATH_STATIC_DATA
+
 import os
 from flask import render_template, request, redirect, url_for, send_file, send_from_directory
 import datetime
@@ -22,7 +23,7 @@ logger = logging.getLogger(__name__)
 @auth_bp.route("/")
 def auth():
     """
-    paguina principal   
+    paguina principal
 
     return : redirect a login
     """
@@ -160,7 +161,7 @@ def vuelos(remake: str = None):
 
         date = TODAY if hoy else TOMORROW
         try:
-            filename = f'vuelos-{date}.xlsx'  # excel
+            filename = f'vuelos-{date}.xlsx'  # antes excel
             name = filename.split(".")[0]
             # f_s = f'vuelos-{date}_s.xlsx'  # excel con stylos
             getcwd = os.getcwd()
@@ -181,7 +182,7 @@ def vuelos(remake: str = None):
 
                 # en arm heddin True
                 # AMD hideen False
-                *_, title_day = main(hoy, hidden=True, date=date)
+                title_day, html_table = main(hoy, hidden=True, date=date)
                 logger.info("title_day -- %s", title_day)
                 main_styles(hoy, date=date)
 
@@ -250,3 +251,48 @@ def descargar(filename: str, path: str = "data"):
     except Exception as e:
         logger.info("Error al descargar el archivo: %s", e)
         return "Error al descargar el archivo", 404
+
+
+@auth_bp.route("/time")
+def localTime():
+    """
+    Para ver la hora local
+    input : email  para dar la Bienvenida
+    return :
+    """
+    from globals import TODAY, TOMORROW
+    # import pytz
+    # from datetime import datetime
+
+    today = datetime.date.today()
+    hora = datetime.datetime.now()
+    tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+    body = f"""
+        <h1>Hora local</h1>
+        <p>Hoy de varible global: {TODAY}</p>
+        <p>Mañana de varible global: {TOMORROW}</p>
+        <br/>
+        <p>Hoy de datetime: {today}</p>
+        <p>Mañana de datetime: {tomorrow}</p>
+        <p>Hora local: {hora}</p>
+    """
+    return render_template("generic_content.html", title="Hora local", content=body)
+
+
+@auth_bp.route("/table/<string:file_name>")
+def page_html_table(file_name: str):
+    """
+    obtiene el html de la tabla de vuelos
+    input : 
+    title : str
+    body : str
+    return :
+        template base limpio
+    """
+    getcwd = os.getcwd()
+    file = f"{getcwd}/{PATH_STATIC}/html/{file_name}"
+    logger.info("page_html_table, file: %s", file)
+    with open(file, "r", encoding="utf-8") as f:
+        content_body = f.read()
+
+    return render_template("base_clean.html", title="Hora local", content=content_body)
