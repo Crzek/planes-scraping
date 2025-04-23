@@ -18,6 +18,7 @@ from flask_login import (
 
 logger = logging.getLogger(__name__)
 
+
 @auth_bp.route("/")
 def auth():
     """
@@ -168,7 +169,7 @@ def vuelos(remake: str = None):
                 f'{getcwd}/{PATH_STATIC_DATA}'
                 f'{filename}'  # Ajusta según la ruta real
             )
-            logger.info("--filepath--- %s",filepath)
+            logger.info("--filepath--- %s", filepath)
             # html_output = getcwd + "/" + PATH_STATIC + "html/" + name + ".html"
             # pdf_output = getcwd + "/" + PATH_STATIC + "pdf/" + name + ".pdf"
             pdf_output = f"{name}.pdf"
@@ -180,10 +181,9 @@ def vuelos(remake: str = None):
 
                 # en arm heddin True
                 # AMD hideen False
-                *_, title_day = main(hoy, hidden=True, architecture="arm64", date=date)
-                logger.info("title_day -- %s",title_day)
+                *_, title_day = main(hoy, hidden=True, date=date)
+                logger.info("title_day -- %s", title_day)
                 main_styles(hoy, date=date)
-                
 
             return render_template(
                 "vuelos.html",
@@ -239,10 +239,10 @@ def descargar(filename: str, path: str = "data"):
                 f'{getcwd}/{PATH_STATIC}'
                 f'{path}/{filename}'  # Ajusta según la ruta real
             )
-        logger.info("descargando - %s",filepath)
+        logger.info("descargando - %s", filepath)
 
         if not os.path.exists(filepath):
-            logger.info("Archivo no encontrado: %s",filepath)
+            logger.info("Archivo no encontrado: %s", filepath)
             return "Archivo no encontrado", 404
 
         return send_file(filepath, as_attachment=True)
