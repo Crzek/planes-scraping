@@ -54,3 +54,8 @@ license = {text = "MIT"}
 
 [tool.pdm]
 distribution = false
+
+[tool.pdm.scripts]
+serve = "flask run --reload"
+migrate = "flask db migrate"
+
