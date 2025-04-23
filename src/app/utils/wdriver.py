@@ -29,6 +29,8 @@ class CustomChromeDriver(webdriver.Chrome):
         self.options = webdriver.ChromeOptions()
         self.options.binary_location = path_browser
         logger.info("--- path_browser %s", path_browser)
+        logger.info("--- path_driver %s", path_driver)
+        logger.debug("debug hidden-windows: %s", hidden_windows)
 
         if hidden_windows:
             self.options.add_argument('--no-sandbox')

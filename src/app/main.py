@@ -16,6 +16,7 @@ from src.app.utils.utils import save_Book_by_tag
 # logging que esta el modulo (__init__.py)
 from . import logger
 
+
 def navigate_to_programming(today: bool = False, sleep: int = 2, driver: CustomChromeDriver = None):
     """
     Navigates to the programming page.
@@ -172,16 +173,16 @@ def delete_parts(soup: BeautifulSoup):
 
 
 def main(
-    today: bool = False,
-    hidden: bool = False,
-    architecture: str = "arm64",
-    to_pdf: bool = False,
-    date: datetime.date = None):
+        today: bool = False,
+        hidden: bool = False,
+        architecture: str = "arm64",
+        to_pdf: bool = False,
+        date: datetime.date = None):
     # from src.app.utils.wdriver import driver  # nopep8
     try:
         driver = CustomChromeDriver(
             hidden_windows=hidden,
-            architecture=architecture
+            # architecture=architecture
         )
         login_page(driver)
 
@@ -203,10 +204,10 @@ def main(
 
         # Eliminar partes innecesarias
         delete_parts(soup)
-        
+
         # titulo de la pagina (dia, mes, año)
         title_day = soup.find("span", class_="date").get_text()
-        
+
         # obtener solo vuelos
         booking = soup.select(".BookingContainer_wrapper__VpZwN")
         logger.info("title_day: %s", title_day)
