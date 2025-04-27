@@ -289,10 +289,20 @@ def page_html_table(file_name: str):
     return :
         template base limpio
     """
-    getcwd = os.getcwd()
-    file = f"{getcwd}/{PATH_STATIC}/html/{file_name}"
-    logger.info("page_html_table, file: %s", file)
-    with open(file, "r", encoding="utf-8") as f:
-        content_body = f.read()
+    try:
+        getcwd = os.getcwd()
+        file = f"{getcwd}/{PATH_STATIC}/html/{file_name}"
 
-    return render_template("base_clean.html", title="Hora local", content=content_body)
+        if os.path.exists(file):
+            logger.info("page_html_table, file: %s", file)
+            with open(file, "r", encoding="utf-8") as f:
+                content_body = f.read()
+            return render_template("base_clean.html", title="Hora local", content=content_body)
+
+        else:
+            logger.error("File html No found: %s", file)
+            return render_template("base_clean.html", title="Error", content=f"Error al cargar el HTML (Not Found): {file}")
+
+    except Exception as e:
+        logger.error("Error al cargar el HTML: %s", e)
+        return render_template("base_clean.html", title="Error", content=f"Error al cargar el HTML: {e}")

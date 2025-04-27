@@ -86,8 +86,12 @@ def clas_to_series(today: bool = False, date: datetime.date = None):
     # Exportar la serie a un archivo PDF y html
     file_html_output = PATH_STATIC + "html/" + f"{file_name}.html"
     file_pdf_output = PATH_STATIC + "pdf/" + f"{file_name}.pdf"
-    # export_to_pdf(serie, file_html_output, file_pdf_output, date=file_name)
-    html_table = generate_html_table(serie, date=file_name)
+
+    # Guarda HTML Generado
+    html_table = generate_html_table(
+        serie, date=file_name,
+        output_path=file_html_output
+    )
 
     return serie, file_excel, html_table
 
