@@ -186,6 +186,9 @@ function initializeTable() {
     initializeRowControls(); // Agregar controles a filas existentes
     enableCellEditing(); // Habilitar edición de celdas
     addToggleEditButton(); // Agregar el botón de "Habilitar Edición"
+    
+    // desabilitar Edición al cargar la página
+    toggleEditMode();
 }
 
 // Llamar a la función para inicializar la tabla
