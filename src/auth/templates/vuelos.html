@@ -23,6 +23,12 @@
                     <option value="today">Hoy {{ today }}</option>
                     <option value="tomorrow">Mañana {{ tomorrow }}</option>
                 </select>
+                <br />
+                <br />
+                <!-- checkbox para seleccionar todo -->
+                <label for="select_all">Seleciona todo</label>
+                <input id="select_all" name="select_all" value="all" type="checkbox">
+                <br />
             </div>
             <div class="flex items-center justify-between">
                 <button type="submit"
@@ -47,12 +53,12 @@
                         Descargar vuelos Excel {{vuelos}}
                     </a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="{{url_for('authBP.descargar',filename=pdf_file, path='pdf')}}"
                         class="text-2xl font-bold text-red-500 hover:text-blue-800">
                         Descargar vuelos en PDF {{file_pdf}}
                     </a>
-                </li>
+                </li> -->
                 <li>
                     <a href="{{url_for('authBP.page_html_table',file_name=html_file)}}"
                         class="text-2xl font-bold text-red-500 hover:text-blue-800">
@@ -70,14 +76,20 @@
                 vuelos?</h2>
             <form id="remakeForm" action="{{ url_for('authBP.vuelos', remake='remake') }}" method="POST"
                 class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                <div class="mb-4">
-                    <label for="day" class="block text-gray-700 text-sm font-bold mb-2">Selecciona el día</label>
-                    <select id="day" name="day"
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        <option value="today">Hoy {{ today }}</option>
-                        <option value="tomorrow">Mañana {{ tomorrow }}</option>
-                    </select>
-                </div>
+                <label for="day" class="block text-gray-700 text-sm font-bold mb-2">Selecciona el día</label>
+                <select id="day" name="day"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="today">Hoy {{ today }}</option>
+                    <option value="tomorrow">Mañana {{ tomorrow }}</option>
+                </select>
+
+                <br />
+                <br />
+                <!-- checkbox para seleccionar todo -->
+                <label for="select_all">Seleciona todo</label>
+                <input id="select_all" name="select_all" value="all" type="checkbox">
+                <br>
+                <br>
                 <div class="flex items-center justify-between">
                     <button type="submit" name="submit_remake"
                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Regenerar

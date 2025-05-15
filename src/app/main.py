@@ -17,7 +17,12 @@ from src.app.utils.utils import save_Book_by_tag
 from . import logger
 
 
-def navigate_to_programming(today: bool = False, sleep: int = 2, driver: CustomChromeDriver = None):
+def navigate_to_programming(
+    today: bool = False,
+    sleep: int = 2,
+    driver: CustomChromeDriver = None,
+    select_all: bool = False
+):
     """
     Navigates to the programming page.
 
@@ -26,15 +31,15 @@ def navigate_to_programming(today: bool = False, sleep: int = 2, driver: CustomC
         sleep (int, optional): Number of seconds to sleep before continuing. Defaults to 2.
     """
 
-    # eliminar wrapper
-    close_popup_with_js(driver, ".wrapper .ui-close")
+    # eliminar wrapper, antes habia un popap
+    # close_popup_with_js(driver, ".wrapper .ui-close")
 
     # navegar a programacion, icono program
     print("navegar a programacion")
     get_element_click_newPage(
         driver, xpath="/html/body/div[2]/div[1]/div/div[3]/ul/li[5]")
 
-    show_filtro(driver)
+    show_filtro(driver, select_all=select_all)
 
     time.sleep(sleep)
     if not today:
@@ -93,11 +98,14 @@ def logout(driver: CustomChromeDriver):
         driver, xpath="/html/body/div[2]/div[5]/div[2]/ul[3]/li[2]")
 
 
-def navigate_in_filter(driver, time_sl: int = 4):
+def navigate_in_filter(driver, time_sl: int = 4, select_all: bool = False):
     time.sleep(time_sl)
-    # Seleccionar todos los filtros
-    get_element_click_newPage(
-        driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/div[1]/div/label")
+    if select_all:
+        # Seleccionar todos los filtros
+        get_element_click_newPage(
+            driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/div[1]/div/label")
+
+    # time.sleep(2)
     # desceleccionar Canceled
     get_element_click_newPage(
         driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/div[2]/div[15]/label"
@@ -121,16 +129,16 @@ def navigate_in_filter(driver, time_sl: int = 4):
         driver, xpath="/html/body/div[7]/div[3]/div/div[3]/div[1]/button")
 
 
-def show_filtro(driver, time_sl: int = 4):
+def show_filtro(driver, time_sl: int = 4, select_all: bool = False):
     # ir a filtro
     time.sleep(time_sl-2)
     get_element_click_newPage(driver, "i.ui-filters")
     logger.info("click filtro")
 
-    navigate_in_filter(driver, time_sl)
+    navigate_in_filter(driver, time_sl, select_all)
 
 
-def tag_find_by_attr(list_tag: list, attr_tag: str, value: str = None):
+def tag_find_by_attr(list_tag: list, attr_tag: str):
     """
     find tag by attribute and value
 
@@ -175,14 +183,13 @@ def delete_parts(soup: BeautifulSoup):
 def main(
         today: bool = False,
         hidden: bool = False,
-        architecture: str = "arm64",
-        to_pdf: bool = False,
-        date: datetime.date = None):
+        date: datetime.date = None,
+        select_all: bool = False
+):
     # from src.app.utils.wdriver import driver  # nopep8
     try:
         driver = CustomChromeDriver(
             hidden_windows=hidden,
-            # architecture=architecture
         )
         login_page(driver)
 
@@ -195,7 +202,7 @@ def main(
         # login_page(driver)
 
         # toda la navegacion comienza aqui en esta funcion
-        navigate_to_programming(today, driver=driver)
+        navigate_to_programming(today, driver=driver, select_all=select_all)
 
         # Cargar los datos
         time.sleep(6)

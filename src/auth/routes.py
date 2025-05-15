@@ -152,6 +152,10 @@ def vuelos(remake: str = None):
     TOMORROW = datetime.date.today() + datetime.timedelta(days=1)
     if request.method == "POST":
         day = request.form['day']
+        # si no se marca es None (no existe)
+        select_all = True if request.form.get(
+            "select_all") == "all" else False
+
         logger.info("ver Dia %s", day)
         # generar vuelos
         if day == "today":
@@ -182,7 +186,8 @@ def vuelos(remake: str = None):
 
                 # en arm heddin True
                 # AMD hideen False
-                title_day, html_table = main(hoy, hidden=True, date=date)
+                title_day, html_table = main(
+                    hoy, hidden=False, date=date, select_all=select_all)
                 logger.info("title_day -- %s", title_day)
                 main_styles(hoy, date=date)
 
