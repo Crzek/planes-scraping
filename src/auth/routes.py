@@ -187,7 +187,7 @@ def vuelos(remake: str = None):
                 # en arm heddin True
                 # AMD hideen False
                 title_day, html_table = main(
-                    hoy, hidden=False, date=date, select_all=select_all)
+                    hoy, hidden=True, date=date, select_all=select_all)
                 logger.info("title_day -- %s", title_day)
                 main_styles(hoy, date=date)
 
