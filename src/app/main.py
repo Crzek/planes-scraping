@@ -6,6 +6,7 @@ import time
 import datetime
 
 from bs4 import BeautifulSoup
+from selenium.webdriver.common.by import By
 
 from src.app.utils.utils import clas_to_series
 from src.app.utils.wdriver import CustomChromeDriver
@@ -98,15 +99,30 @@ def logout(driver: CustomChromeDriver):
         driver, xpath="/html/body/div[2]/div[5]/div[2]/ul[3]/li[2]")
 
 
-def navigate_in_filter(driver, time_sl: int = 4, select_all: bool = False):
+def navigate_in_filter(driver: CustomChromeDriver, time_sl: int = 4, select_all: bool = False):
     time.sleep(time_sl)
-    if select_all:
+
+    # ver texto si tiene seleccionar todo o quitar todo
+    text_select_all = driver.find_element(
+        By.XPATH,
+        "/html/body/div[7]/div[3]/div/div[2]/div[5]/div[1]/div/label/span[2]").text
+    logger.info("--", text_select_all)
+    if text_select_all in ["Seleccionar todo", "Select all"]:
+        # if select_all:
         # Seleccionar todos los filtros
         get_element_click_newPage(
             driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/div[1]/div/label")
 
-    # time.sleep(2)
-    # desceleccionar Canceled
+    else:  # quitar todo o Unselect all
+        # 1r click deseleccionara todo
+        get_element_click_newPage(
+            driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/div[1]/div/label")
+        # seleccionara todo
+        get_element_click_newPage(
+            driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/div[1]/div/label")
+
+        # time.sleep(2)
+        # desceleccionar Canceled
     get_element_click_newPage(
         driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/div[2]/div[15]/label"
     )

@@ -14,28 +14,9 @@
     <div id="container-form">
         {% if not vuelos %}
         <!-- Vuelos  -->
-        <form id="vuelosForm" action="{{ url_for('authBP.vuelos')}}" method="POST"
-            class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            <div class="mb-4">
-                <label for="day" class="block text-gray-700 text-sm font-bold mb-2">Selecciona el día</label>
-                <select id="day" name="day"
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                    <option value="today">Hoy {{ today }}</option>
-                    <option value="tomorrow">Mañana {{ tomorrow }}</option>
-                </select>
-                <br />
-                <br />
-                <!-- checkbox para seleccionar todo -->
-                <label for="select_all">Seleciona todo</label>
-                <input id="select_all" name="select_all" value="all" type="checkbox">
-                <br />
-            </div>
-            <div class="flex items-center justify-between">
-                <button type="submit"
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Generar
-                    Excel</button>
-            </div>
-        </form>
+
+        {% include 'form_vuelos.html' %}
+
         {% endif %}
 
         {% if vuelos %}
@@ -74,28 +55,7 @@
             <br />
             <h2 class="text-xl font-bold mb-4">Los datos de los Vuelos ya Existen, quieres volver a Generar Excel de
                 vuelos?</h2>
-            <form id="remakeForm" action="{{ url_for('authBP.vuelos', remake='remake') }}" method="POST"
-                class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                <label for="day" class="block text-gray-700 text-sm font-bold mb-2">Selecciona el día</label>
-                <select id="day" name="day"
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                    <option value="today">Hoy {{ today }}</option>
-                    <option value="tomorrow">Mañana {{ tomorrow }}</option>
-                </select>
-
-                <br />
-                <br />
-                <!-- checkbox para seleccionar todo -->
-                <label for="select_all">Seleciona todo</label>
-                <input id="select_all" name="select_all" value="all" type="checkbox">
-                <br>
-                <br>
-                <div class="flex items-center justify-between">
-                    <button type="submit" name="submit_remake"
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Regenerar
-                        Vuelos</button>
-                </div>
-            </form>
+            {% include 'form_vuelos.html' %}
         </div>
         {% endif %}
         {% if errors %}
