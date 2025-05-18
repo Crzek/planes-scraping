@@ -26,3 +26,9 @@ dependencies/
 # ky
 # src/config/default.py
 
+logs/
+requirements2.txt
+static/
+temp.html
+.pdm-python
+

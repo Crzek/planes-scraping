@@ -11,7 +11,12 @@ from selenium.webdriver.common.by import By
 from src.app.utils.utils import clas_to_series
 from src.app.utils.wdriver import CustomChromeDriver
 
-from src.app.utils.page import login_page, get_element_click_newPage, close_popup_with_js
+from src.app.utils.page import (
+    login_page,
+    get_element_click_newPage,
+    # close_popup_with_js,
+    find_element
+)
 from src.app.utils.utils import save_Book_by_tag
 
 # logging que esta el modulo (__init__.py)
@@ -103,9 +108,9 @@ def navigate_in_filter(driver: CustomChromeDriver, time_sl: int = 4, select_all:
     time.sleep(time_sl)
 
     # ver texto si tiene seleccionar todo o quitar todo
-    text_select_all = driver.find_element(
-        By.XPATH,
-        "/html/body/div[7]/div[3]/div/div[2]/div[5]/div[1]/div/label/span[2]").text
+    text_select_all = find_element(
+        driver, "/html/body/div[7]/div[3]/div/div[2]/div[5]/div[1]/div/label/span[2]").text
+
     logger.info("--", text_select_all)
     if text_select_all in ["Seleccionar todo", "Select all"]:
         # if select_all:

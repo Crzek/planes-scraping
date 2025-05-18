@@ -58,10 +58,11 @@ def get_element_click_newPage(driver, css_selector: str = "li[itemid='calendar']
 
         element.click()
     except Exception as e:
-        print(f"Error al intentar hacer clic en el elemento: {e} \n-------\n {css_selector if css_selector else xpath}")
+        print(
+            f"Error al intentar hacer clic en el elemento: {e} \n-------\n {css_selector if css_selector else xpath}")
 
 
-def close_popup_with_js(driver, css_selector: str = None):
+def close_popup_with_js(driver: CustomChromeDriver, css_selector: str = None):
     try:
         # Espera a que el botón "Not now" (o "ui-close") sea clicable
         close_button = WebDriverWait(driver, 1).until(
@@ -71,3 +72,15 @@ def close_popup_with_js(driver, css_selector: str = None):
         close_button.click()
     except Exception as e:
         print(f"Error al intentar cerrar el popup: {e}")
+
+
+def find_element(driver: CustomChromeDriver, xpath: str = None):
+    try:
+
+        wait = WebDriverWait(driver, timeout=4)
+        element = wait.until(
+            EC.presence_of_element_located((By.XPATH, xpath))
+        )
+        return element
+    except Exception as e:
+        print("Error al encontra el elemento: ", xpath)
