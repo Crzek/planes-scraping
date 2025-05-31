@@ -115,6 +115,13 @@ def navigate_in_filter(driver: CustomChromeDriver, time_sl: int = 4, select_all:
         logger.info("texto que hay en filtro:: %s", text_select_all)
         return text_select_all
 
+    def get_html():
+        # ver elementos
+        el = find_element(
+            driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/html/body/div[7]/div[3]/div/div[2]")
+        html_str = el.get_attribute("outerHTML")
+        logger.info(f"ele: {html_str}")
+
     text_select_all = get_select_box_filter()
     if text_select_all.lower() in ["seleccionar todo", "select all"]:
         # if select_all:
@@ -129,11 +136,6 @@ def navigate_in_filter(driver: CustomChromeDriver, time_sl: int = 4, select_all:
         # seleccionara todo
         get_element_click_newPage(
             driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/div[1]/div/label")
-
-        # ver elementos
-        el = find_element(driver, xpath="/html/body/div[7]/div[3]/div/div[2]")
-        html_str = el.get_attribute("outerHTML")
-        logger.info(f"ele: {html_str}")
 
         # time.sleep(2)
         # desceleccionar Canceled
@@ -153,6 +155,7 @@ def navigate_in_filter(driver: CustomChromeDriver, time_sl: int = 4, select_all:
         driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/div[2]/div[5]/label"
     )
 
+    get_html()
     time.sleep(time_sl+2)
     # aceptar config
     get_element_click_newPage(
