@@ -112,7 +112,6 @@ def navigate_in_filter(driver: CustomChromeDriver, time_sl: int = 4, select_all:
         driver, "/html/body/div[7]/div[3]/div/div[2]/div[5]/div[1]/div/label/span[2]").text
 
     logger.info("texto que hay en filtro:: %s", text_select_all)
-    logger.info("--", text_select_all)
     if text_select_all in ["Seleccionar todo", "Select all"]:
         # if select_all:
         # Seleccionar todos los filtros
