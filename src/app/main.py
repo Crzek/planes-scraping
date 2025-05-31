@@ -132,7 +132,8 @@ def navigate_in_filter(driver: CustomChromeDriver, time_sl: int = 4, select_all:
 
         # ver elementos
         el = find_element(driver, xpath="/html/body/div[7]/div[3]/div/div[2]")
-        logger.info(f"ele: {el.text}")
+        html_str = el.get_attribute("html_str")
+        logger.info(f"ele: {html_str}")
 
         # time.sleep(2)
         # desceleccionar Canceled
