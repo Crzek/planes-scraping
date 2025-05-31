@@ -139,6 +139,8 @@ def navigate_in_filter(driver: CustomChromeDriver, time_sl: int = 4, select_all:
 
         # time.sleep(2)
         # desceleccionar Canceled
+
+    time.sleep(1)
     get_element_click_newPage(
         driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/div[2]/div[15]/label"
     )
@@ -156,10 +158,11 @@ def navigate_in_filter(driver: CustomChromeDriver, time_sl: int = 4, select_all:
     )
 
     get_html()
-    time.sleep(time_sl+2)
+    time.sleep(1)
     # aceptar config
     get_element_click_newPage(
         driver, xpath="/html/body/div[7]/div[3]/div/div[3]/div[1]/button")
+    time.sleep(5)  # permitir que se ajuste los cambios
 
 
 def show_filtro(driver, time_sl: int = 4, select_all: bool = False):
