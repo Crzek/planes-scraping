@@ -107,12 +107,16 @@ def logout(driver: CustomChromeDriver):
 def navigate_in_filter(driver: CustomChromeDriver, time_sl: int = 4, select_all: bool = False):
     time.sleep(time_sl)
 
-    # ver texto si tiene seleccionar todo o quitar todo
-    text_select_all = find_element(
-        driver, "/html/body/div[7]/div[3]/div/div[2]/div[5]/div[1]/div/label/span[2]").text
+    def get_select_box_filter():
+        # ver texto si tiene seleccionar todo o quitar todo
+        text_select_all = find_element(
+            driver, "/html/body/div[7]/div[3]/div/div[2]/div[5]/div[1]/div/label/span[2]").text
 
-    logger.info("texto que hay en filtro:: %s", text_select_all)
-    if text_select_all in ["Seleccionar todo", "Select all"]:
+        logger.info("texto que hay en filtro:: %s", text_select_all)
+        return text_select_all
+
+    text_select_all = get_select_box_filter()
+    if text_select_all.lower() in ["seleccionar todo", "select all"]:
         # if select_all:
         # Seleccionar todos los filtros
         get_element_click_newPage(
@@ -125,6 +129,10 @@ def navigate_in_filter(driver: CustomChromeDriver, time_sl: int = 4, select_all:
         # seleccionara todo
         get_element_click_newPage(
             driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/div[1]/div/label")
+
+        # ver elementos
+        el = find_element(driver, xpath="/html/body/div[7]/div[3]/div/div[2]")
+        logger.info(f"ele: {el.text}")
 
         # time.sleep(2)
         # desceleccionar Canceled
