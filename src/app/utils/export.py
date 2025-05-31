@@ -18,11 +18,12 @@ def generate_html_table(
     """
     try:
         html_content = df.to_html()
-        # Agregar estilos básicos al HTML
+        # Agregar estilos básicos al HTML Vuelos
         styled_html = (
             f"<style>table {{border-collapse: collapse; width: 100%; text-align: center;}}"
             f"th, td {{border: 1px solid black; padding: 5px;}}</style>"
             f"<h3>{date}</h3>"
+            f"<a href='/'>home</a>"
             f"{html_content}")
         save_file(html_content=styled_html, output_path=output_path)
         return styled_html
@@ -53,6 +54,7 @@ def export_to_pdf(
                 f"<style>table {{border-collapse: collapse; width: 100%; text-align: center;}}"
                 f"th, td {{border: 1px solid black; padding: 5px;}}</style>"
                 f"<h3>{date}</h3>"
+                f"<a href='/'>home</a>"
                 f"{html_content}")
             f.write(content)
 
