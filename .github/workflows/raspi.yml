@@ -42,8 +42,8 @@ jobs:
           host: ${{ env.RASPBERRY_IP }}
           username: ${{ secrets.USER_RASPI }}
           password: ${{ secrets.PASSWORD }}
-          key: ${{ secrets.GITHUB_SSH_PRIVATE_KEY }}
-          passphrase: ${{ secrets.PASSPHRASE }}
+          # key: ${{ secrets.SSH_GITHUB_PRIVATE_KEY }}
+          # passphrase: ${{ secrets.PASSPHRASE }}
           command_timeout: 5m
           # debug: true
           script: |
