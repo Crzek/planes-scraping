@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v3
 
       # 2. Resolver la IP de la Raspberry Pi desde tu dominio
-      - name: Fetch Raspberry Pi IP
+      - name: Fetch Raspberry Pi IP and save in env
         id: fetch_ip
         run: |
           RASPBERRY_IP=$(dig +short "${{ vars.DOMAIN }}" | tail -n1)
@@ -35,25 +35,9 @@ jobs:
           echo "Raspberry Pi IP: $RASPBERRY_IP"
           echo "RASPBERRY_IP=$RASPBERRY_IP" >> $GITHUB_ENV
 
-      # 3. Configurar SSH con la IP resuelta
-      # https://github.com/marketplace/actions/ssh-remote-commands
-      # Esto no hace falt pero podemos hacerlo, para guardar key en el servidor
-      # - name: Set up SSH
-      #   run: |
-      #     mkdir -p ~/.ssh
-      #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-      #     chmod 600 ~/.ssh/id_rsa
-      #     ssh-keyscan -H ${{ env.RASPBERRY_IP }} >> ~/.ssh/known_hosts
-
-      # 4. Conectar y ejecutar comandos remotos usando SSH
-      # nos conectamos al servidor en este caso Arch ARM64
-      #
-      # passphase : contraseña de la llave privada rsa
-      # key: llave privada rsa
-      # username: usuario del servidor
-      # host: ip del servidor
+      # execute comands in Server
       - name: executing remote ssh commands
-        uses: appleboy/ssh-action@v1.2.0
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ env.RASPBERRY_IP }}
           username: ${{ secrets.USER_RASPI }}
@@ -62,8 +46,9 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           command_timeout: 5m
           # debug: true
+          # docker compose -f docker/docker-compose-arm.pro.yml up --build -d
           script: |
             cd "${{ secrets.PATH_PROY }}"
+            git fetch --all
             git pull origin main
             docker compose -f docker/docker-compose-arm.pro.yml down -v
-            docker compose -f docker/docker-compose-arm.pro.yml up --build -d
