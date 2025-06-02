@@ -46,9 +46,9 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           command_timeout: 5m
           # debug: true
-          # docker compose -f docker/docker-compose-arm.pro.yml up --build -d
           script: |
             cd "${{ secrets.PATH_PROY }}"
             git fetch --all
             git pull origin main
             docker compose -f docker/docker-compose-arm.pro.yml down -v
+            docker compose -f docker/docker-compose-arm.pro.yml up --build -d
