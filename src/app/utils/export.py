@@ -25,6 +25,7 @@ def generate_html_table(
             f"<h3>{date}</h3>"
             f"<a href='/'>home</a>"
             f"<br/>"
+            f"<br/>"
             f"{html_content}")
         save_file(html_content=styled_html, output_path=output_path)
         return styled_html
