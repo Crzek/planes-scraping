@@ -54,6 +54,8 @@ def navigate_to_programming(
         get_element_click_newPage(driver, "span.ui-after")
         logger.info("siguiente dia")
 
+    time.sleep(10)  # esperar que cargue la pagina
+
 
 def config_hour_navigate(driver: CustomChromeDriver):
     """
