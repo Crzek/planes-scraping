@@ -254,7 +254,8 @@ def main(
         title_day = soup.find("span", class_="date").get_text()
 
         # obtener solo vuelos
-        booking = soup.select(".BookingContainer_wrapper__VpZwN")
+        booking = soup.select(
+            ".BookingContainer_wrapper__3QYGN.react-draggable")
         logger.info("title_day: %s", title_day)
         logger.info("Booking: %s", len(booking))
 
