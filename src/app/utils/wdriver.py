@@ -7,9 +7,6 @@ from globals import PATH_BROWSER, URL, PATH_DRIVER, ENV_FILE
 
 # Configuración básica del logger
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s - %(levelname)s - %(message)s')
-
 """
     Mirar archivo test/webdriver.py
     Es donde se encutra el código original que funciona en contenedor

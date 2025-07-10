@@ -4,6 +4,7 @@
 # In[33]
 import time
 import datetime
+import logging
 
 from bs4 import BeautifulSoup
 from selenium.webdriver.common.by import By
@@ -20,7 +21,13 @@ from src.app.utils.page import (
 from src.app.utils.utils import save_Book_by_tag
 
 # logging que esta el modulo (__init__.py)
-from . import logger
+# from . import logger
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s')
+
+
+logger = logging.getLogger(__name__)
 
 
 def navigate_to_programming(
@@ -183,11 +190,17 @@ def tag_find_by_attr(list_tag: list, attr_tag: str):
     input: list_tag, attr, value
     return : attributes values
     """
-    list_vales = []
-    for tag in list_tag:
-        value = tag.attrs[attr_tag]
-        list_vales.append(value)
-    return list_vales
+    try:
+        list_vales = []
+        for tag in list_tag:
+            value = tag.attrs[attr_tag]
+            list_vales.append(value)
+        return list_vales
+
+    except KeyError as e:
+        logger.error(
+            f"KeyError: {e} - No se encontró el atributo '{attr_tag}' en uno de los tags, para buscar el Vuelo")
+        return []
 
 
 def stract_info_from_tag(list_info: list[str]):
@@ -255,7 +268,7 @@ def main(
 
         # obtener solo vuelos
         booking = soup.select(
-            ".BookingContainer_wrapper__3QYGN.react-draggable")
+            ".BookingContainer_wrapper__VpZwN.react-draggable")
         logger.info("title_day: %s", title_day)
         logger.info("Booking: %s", len(booking))
 
@@ -270,7 +283,9 @@ def main(
             logger.info("Eliminar 0:  0;-0;; @")
             return title_day, html_table
         else:
-            logger.warning("No hay booking")
+            logger.warning(
+                "No hay booking: muy Poisible que haya cambiado la WEB")
+            # return (title_day, "No hay booking")
 
     # except Exception as e:
     #     print(f"Error en main(): {e}")
