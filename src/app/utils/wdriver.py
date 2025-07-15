@@ -25,19 +25,23 @@ class CustomChromeDriver(webdriver.Chrome):
     ):
         self.options = webdriver.ChromeOptions()
         self.options.binary_location = path_browser
+        
+        architecture_os = platform.machine()  # 'x86_64', 'arm64':
+        
+        # logs info
         logger.info("--- path_browser %s", path_browser)
         logger.info("--- path_driver %s", path_driver)
         logger.info("debug hidden-windows: %s", hidden_windows)
         logger.info("debug platform: %s", platform.machine())
 
-        if hidden_windows:
+        # si se oculta el navegador o es arm64
+        if hidden_windows or architecture_os == "arm64":
             self.options.add_argument('--no-sandbox')
             self.options.add_argument('--disable-dev-shm-usage')
             self.options.add_argument('--headless')
 
         try:
             # system = platform.system()  # 'Linux', 'Windows'
-            architecture_os = platform.machine()  # 'x86_64', 'arm64':
             logger.info("system Machine: %s", architecture_os)
             # chromium  ->_definir chromediiver, normalmente ("/usr/bin/chromedriver"
             if architecture_os == "aarch64":  # arm64
