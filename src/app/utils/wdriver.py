@@ -26,7 +26,7 @@ class CustomChromeDriver(webdriver.Chrome):
         self.options = webdriver.ChromeOptions()
         self.options.binary_location = path_browser
         
-        architecture_os = platform.machine()  # 'x86_64', 'arm64':
+        architecture_os = platform.machine()  # 'x86_64', 'arm64' (aarch64):
         
         # logs info
         logger.info("--- path_browser %s", path_browser)
@@ -35,7 +35,7 @@ class CustomChromeDriver(webdriver.Chrome):
         logger.info("debug platform: %s", platform.machine())
 
         # si se oculta el navegador o es arm64
-        if hidden_windows or architecture_os == "arm64":
+        if hidden_windows or architecture_os == "aarch64":
             logger.info("Modo Sin Ventana Activado")
             self.options.add_argument('--no-sandbox')
             self.options.add_argument('--disable-dev-shm-usage')
