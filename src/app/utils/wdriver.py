@@ -36,6 +36,7 @@ class CustomChromeDriver(webdriver.Chrome):
 
         # si se oculta el navegador o es arm64
         if hidden_windows or architecture_os == "arm64":
+            logger.info("Modo Sin Ventana Activado")
             self.options.add_argument('--no-sandbox')
             self.options.add_argument('--disable-dev-shm-usage')
             self.options.add_argument('--headless')
