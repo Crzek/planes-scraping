@@ -268,7 +268,7 @@ def main(
 
         # obtener solo vuelos
         booking = soup.select(
-            ".BookingContainer_wrapper__3QYGN.react-draggable")
+            ".BookingContainer_bookingContainer__3VzD9")
         logger.info("title_day: %s", title_day)
         logger.info("Booking: %s", len(booking))
 
