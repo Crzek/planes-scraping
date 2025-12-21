@@ -5,14 +5,31 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug Flask src.app.main",
+            "name": "Python Debugger: Flask",
             "type": "debugpy",
             "request": "launch",
-            "module": "src.app.main",
+            "module": "flask",
+            "env": {
+                "FLASK_APP": "entrypoint.py",
+                "FLASK_DEBUG": "1"
+            },
+            "args": [
+                "run",
+                "--debugger",
+                "--reload"
+            ],
+            "jinja": true,
+            "autoStartBrowser": false
+        },
+        {
+            "name": "Debug Flask entrypoint:app",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "entrypoint.py",
             "cwd": "${workspaceFolder}",
             "envFile": ".env",
             "env": {
-                "FLASK_APP": "src.app.main",
+                "FLASK_APP": "entrypoint:app",
                 "FLASK_ENV": "development"
             },
             "args": [],

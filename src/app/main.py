@@ -118,11 +118,15 @@ def navigate_in_filter(driver: CustomChromeDriver, time_sl: int = 4, select_all:
 
     def get_select_box_filter():
         # ver texto si tiene seleccionar todo o quitar todo
-        text_select_all = find_element(
-            driver, "/html/body/div[7]/div[3]/div/div[2]/div[5]/div[1]/div/label/span[2]").text
+        try:
+            text_select_all = find_element(
+                driver, '/html/body/div[4]/div[3]/div/div[2]/div[5]/div[1]/div/label/span[2]').text
 
-        logger.info("texto que hay en filtro:: %s", text_select_all)
-        return text_select_all
+            logger.info("texto que hay en filtro:: %s", text_select_all)
+            return text_select_all
+        except Exception as e:
+            logger.error(f"Error al obtener el texto del filtro: {e}")
+            return "unselected all"
 
     def get_html():
         # ver elementos
@@ -132,52 +136,55 @@ def navigate_in_filter(driver: CustomChromeDriver, time_sl: int = 4, select_all:
         logger.info(f"ele: {html_str}")
 
     text_select_all = get_select_box_filter()
+    xpath_select_all = '/html/body/div[4]/div[3]/div/div[2]/div[5]/div[1]/div/label/span[2]'
     if text_select_all.lower() in ["seleccionar todo", "select all"]:
         # if select_all:
         # Seleccionar todos los filtros
         get_element_click_newPage(
-            driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/div[1]/div/label")
+            driver, xpath=xpath_select_all)
 
     else:  # quitar todo o Unselect all
         # 1r click deseleccionara todo
         get_element_click_newPage(
-            driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/div[1]/div/label")
+            driver, xpath=xpath_select_all)
         # seleccionara todo
         get_element_click_newPage(
-            driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/div[1]/div/label")
+            driver, xpath=xpath_select_all)
 
         # time.sleep(2)
         # desceleccionar Canceled
 
     time.sleep(1)
+    # canceled
     get_element_click_newPage(
-        driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/div[2]/div[15]/label"
+        driver, xpath='/html/body/div[4]/div[3]/div/div[2]/div[5]/div[2]/div[15]/label/span[2]'
     )
     # desceleccionar Maintenance
     get_element_click_newPage(
-        driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/div[2]/div[16]/label"
+        driver, xpath='/html/body/div[4]/div[3]/div/div[2]/div[5]/div[2]/div[16]/label/span[2]'
     )
     # desceleccionar not avialable
     get_element_click_newPage(
-        driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/div[2]/div[17]/label"
+        driver, xpath='/html/body/div[4]/div[3]/div/div[2]/div[5]/div[2]/div[17]/label/span[2]'
     )
     # desceleccionar type rating
     get_element_click_newPage(
-        driver, xpath="/html/body/div[7]/div[3]/div/div[2]/div[5]/div[2]/div[5]/label"
+        driver, xpath='/html/body/div[4]/div[3]/div/div[2]/div[5]/div[2]/div[5]/label/span[2]'
     )
 
-    get_html()
+    # get_html()
     time.sleep(1)
     # aceptar config
     get_element_click_newPage(
-        driver, xpath="/html/body/div[7]/div[3]/div/div[3]/div[1]/button")
+        driver, xpath='/html/body/div[4]/div[3]/div/div[3]/div[1]/button')
     time.sleep(5)  # permitir que se ajuste los cambios
 
 
 def show_filtro(driver, time_sl: int = 4, select_all: bool = False):
     # ir a filtro
     time.sleep(time_sl-2)
-    get_element_click_newPage(driver, "i.ui-filters")
+    get_element_click_newPage(
+        driver, xpath='//*[@id="calendar"]/div/header/div/div[2]/span[2]/div/button')
     logger.info("click filtro")
 
     navigate_in_filter(driver, time_sl, select_all)
@@ -264,11 +271,12 @@ def main(
         delete_parts(soup)
 
         # titulo de la pagina (dia, mes, año)
-        title_day = soup.find("span", class_="date").get_text()
+        title_day = soup.find(
+            "div", class_="SelectDate_strDateLarge__3j7Ty").get_text()
 
         # obtener solo vuelos
         booking = soup.select(
-            ".BookingContainer_wrapper__3QYGN.react-draggable")
+            "div.BookingContainer_wrapper__VpZwN.react-draggable")
         logger.info("title_day: %s", title_day)
         logger.info("Booking: %s", len(booking))
 
