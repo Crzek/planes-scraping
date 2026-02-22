@@ -5,8 +5,8 @@ __pycache__/
 
 # varibles d'environnement
 .env
-.env.chrome.env
-chrome.env
+.env.chrome
+.env.chromium
 dev-venv
 
 # archives de Jupiter lab
@@ -32,3 +32,4 @@ static/
 temp.html
 .pdm-python
 
+midb.db

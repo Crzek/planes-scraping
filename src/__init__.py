@@ -1,14 +1,16 @@
 # src/__init__.py
 import logging
 from flask import Flask
-from extencions import login_manager, load_user, db
+from extencions import login_manager, load_user, db, load_env
 from .error import register_error_handlers
 import os
+from .config.default import DevelopmentConfig
 
-def create_app(config_filename):
+def create_app():
     print("*********Incico APP *********")
+    load_env()
     app = Flask(__name__)
-    app.config.from_pyfile(config_filename)
+    app.config.from_object(DevelopmentConfig)
     
     # crear directorio de logs
     os.makedirs("logs", exist_ok=True)

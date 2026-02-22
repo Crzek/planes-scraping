@@ -77,7 +77,7 @@ flask run --host=0.0.0.0
 
 # gunicorn
 # -w -> workers
-gunicorn -w 2 -b '0.0.0.0:5000' 'entrypoint:app'
+gunicorn -w 2 -b '0.0.0.0:5000' 'main:app'
 ```
 
 

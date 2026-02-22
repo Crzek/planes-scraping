@@ -272,11 +272,11 @@ def main(
 
         # titulo de la pagina (dia, mes, año)
         title_day = soup.find(
-            "div", class_="SelectDate_strDateLarge__3j7Ty").get_text()
+            "div", class_="SelectDate_strDateShort__2RqfZ").get_text()
 
         # obtener solo vuelos
         booking = soup.select(
-            "div.BookingContainer_wrapper__VpZwN.react-draggable")
+            "div.BookingContainer_wrapper__Z3uB3")
         logger.info("title_day: %s", title_day)
         logger.info("Booking: %s", len(booking))
 

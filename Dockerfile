@@ -1,0 +1,48 @@
+# Stage 1: Builder
+# --------------------
+FROM python:3.12-slim-bullseye AS builder
+
+# PDM (solo se usa para exportar las dependencias)
+RUN pip install --no-cache-dir uv
+WORKDIR /app
+
+# Copia definición del proyecto
+COPY pyproject.toml ./
+
+# Copia lockfile si existe (para reproducibilidad)
+COPY uv.lock ./
+
+# Exporta dependencias de producción a requirements.txt
+RUN uv pip install --system -r pyproject.toml
+RUN uv pip freeze > requirements.txt
+
+
+# Stage 2: Final Image
+# --------------------
+# FROM python:3.11.9-bullseye
+FROM python:3.12-slim-bullseye
+#3.12.6
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends wget unzip && \
+    apt-get install wkhtmltopdf -y
+
+# Configurar la zona horaria (ajusta según tu región)
+ENV TZ=Europe/Madrid
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# install chrome y chromedriver
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+    apt-get install -y --no-install-recommends ./google-chrome-stable_current_amd64.deb && \
+    rm google-chrome-stable_current_amd64.deb && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copiar requerimientos generados en la etapa anterior
+COPY --from=builder /app/requirements.txt .
+
+RUN pip install --trusted-host pypi.python.org -r requirements.txt
+
+CMD [ "/bin/sh" ]

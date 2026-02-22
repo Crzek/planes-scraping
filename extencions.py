@@ -1,8 +1,7 @@
-import os
 import logging
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
-
+from dotenv import load_dotenv
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -19,15 +18,5 @@ def load_user(user_id):  # user_id es un string 3
     return user
 
 
-def get_file() -> str:
-    name = os.getenv("CONFIG_ENV")
-    logger.info(f"***getenv** {name}--len:", len(name), type(name))
-    if (name == "development"):
-        f = "config/dev.py"
-    elif (name == "production-amd"):  # (name == "production")
-        f = "config/prod.py"
-    else:
-        f = "config/dev.py"
-
-    print("***file_conf***", f)
-    return f
+def load_env() -> None:
+    load_dotenv(".env")
