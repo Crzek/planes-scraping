@@ -6,8 +6,8 @@ services:
     image: vuelos-private-radar:1.1-pro # Name of the image
     container_name: pro-vuelos-private-radar-py-amd64
     restart: always
-    ports:
-      - "5000:5000"
+    # ports:
+    #   - "5000:5000"
     environment:
       - PYTHONUNBUFFERED=1 # para mostrar los logs en tiempo real
       - ENV_FILE=.env.chrome
@@ -20,4 +20,21 @@ services:
     # instance the flask: app = Flask(__name__) // app = create_app()
     # gunicorn normally is use port 8000
     # command: ["gunicorn", "-w", "3", "-b", "0.0.0.0:5000","--timeout","120","--reload",  "entrypoint:app"]
-    command: flask run --host=0.0.0.0
+    command: flask run --host=0.0.0.0 --port=5000 
+
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - '-f'
+        - s
+        - 'http://localhost:5000/'
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  default:
+    external: true
+    name: coolify 
