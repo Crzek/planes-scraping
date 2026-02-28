@@ -37,4 +37,4 @@ services:
 networks:
   default:
     external: true
-    name: coolify 
+    name: dokploy-network
