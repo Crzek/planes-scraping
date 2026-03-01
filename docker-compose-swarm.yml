@@ -1,0 +1,38 @@
+services:
+  vuelos-app:
+    # En swarm, no se usa build, tienes que usar el image
+    # Hacer build antes de ejecutar el compose
+    # build:
+    #   context: . # Path: docker/
+    #   dockerfile: Dockerfile
+    image: vuelos-private-radar:1.1-pro # Name of the image
+    # En swarm, el container_name es el nombre del servicio
+    # container_name: pro-vuelos-private-radar-py-amd64
+    restart: always
+    # ports:
+    #   - "5000:5000"
+      # production env
+    command: [
+        "gunicorn",
+        "-w", "${WORKERS:-2}",
+        "-b", "0.0.0.0:${PORT:-5000}",
+        "--timeout","${TIMEOUT:-120}",
+        "main:app"
+        ]
+    # command: flask --app main run --host=0.0.0.0 --port=5000 
+
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - '-f'
+        - 'http://localhost:${PORT:-5000}/status/health'
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+# networks:
+#   default:
+#     external: true
+#     name: dokploy-network
