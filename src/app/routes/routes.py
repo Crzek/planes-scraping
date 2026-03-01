@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for
+from flask import jsonify, render_template, redirect, url_for
 
 from src.app import scrapping_bp
 
@@ -8,6 +8,13 @@ def index():
 
     # boton para ejecutar la funcion de aviones
     return render_template('index.html')
+
+
+@scrapping_bp.route('/status/health')
+@scrapping_bp.route('/check/health')
+def check_health():
+    """Health check para monitoreo y load balancers. Devuelve JSON estándar."""
+    return jsonify({"status": "ok", "message": "OK"}), 200
 
 
 @scrapping_bp.route('/aviones/<string:day>', methods=['POST'])
