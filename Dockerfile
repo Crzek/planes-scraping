@@ -42,6 +42,7 @@ WORKDIR /app
 
 # Copiar requerimientos generados en la etapa anterior
 COPY --from=builder /app/requirements.txt .
+COPY . /app
 
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
