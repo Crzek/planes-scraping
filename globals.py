@@ -5,14 +5,24 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-ENV_FILE = os.getenv("ENV_FILE",)
-# Asegúrate de que no se cargue el archivo .env por defecto
-env_values = dotenv_values(ENV_FILE, verbose=True)
+ENV_FILE = os.getenv("ENV_FILE") or None
+logger.info("--- ENV_FILE: %s", ENV_FILE)
 
-if env_values:
-    logger.info("--- ENV_FILE: %s, type: %s", ENV_FILE, type(ENV_FILE))
-    logger.info("--- Cargando: %s", ENV_FILE)
-    logger.info(".env Cargadas")
+if ENV_FILE:
+    env_values = dotenv_values(ENV_FILE, verbose=True)
+else:
+    env_values = {}
+
+# Si no hay archivo o no se cargó nada, usar variables del sistema
+if not env_values:
+    env_values = dict(os.environ)
+    logger.info("--- Usando variables de entorno del sistema")
+else:
+    # Cargar también en el entorno del sistema (os.environ)
+    for key, value in env_values.items():
+        if value is not None and key not in os.environ:
+            os.environ[key] = value
+    logger.info("--- Cargando desde archivo: %s", ENV_FILE)
 
 PATH_STATIC = "static/"
 PATH_STATIC_DATA = PATH_STATIC + "data/"
