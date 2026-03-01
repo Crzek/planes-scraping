@@ -6,15 +6,16 @@ from .error import register_error_handlers
 import os
 from .config.default import DevelopmentConfig
 
+
 def create_app():
     print("*********Incico APP *********")
     load_env()
     app = Flask(__name__)
     app.config.from_object(DevelopmentConfig)
-    
+
     # crear directorio de logs
     os.makedirs("logs", exist_ok=True)
-    
+
     # Configurar logging (antes que cualquier otra cosa lo use)
     logging.basicConfig(
         level=logging.INFO,
@@ -45,11 +46,13 @@ def create_app():
         db.create_all()
 
         # my blueprints
-        # from app import scrapping_bp
         from .auth import auth_bp
+        from .app import scrapping_bp
+        from .health import health_bp
 
-        # app.register_blueprint(scrapping_bp)
+        app.register_blueprint(health_bp)
         app.register_blueprint(auth_bp)
+        app.register_blueprint(scrapping_bp)
 
         logger.info("---- ALL blueprint resgistrados")
 
