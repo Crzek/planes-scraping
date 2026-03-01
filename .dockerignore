@@ -24,3 +24,6 @@ app/main_prueba.py
 app/data/*.xlsx
 app/data/*.csv
 app/data/*.html
+
+#cualquier fichero oculto
+.*
