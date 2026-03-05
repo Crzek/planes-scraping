@@ -14,18 +14,12 @@ services:
     env_file:
       - .env.chrome
       # production env
-    # volumes:
-    #   - .:/app
-    # file: entrypoint.py
-    # instance the flask: app = Flask(__name__) // app = create_app()
-    # gunicorn normally is use port 8000
-    command: [
-        "gunicorn",
-        "-w", "${WORKERS:-2}",
-        "-b", "0.0.0.0:${PORT:-5000}",
-        "--timeout","${TIMEOUT:-120}",
-        "main:app"
-        ]
+      # volumes:
+      #   - .:/app
+      # file: entrypoint.py
+      # instance the flask: app = Flask(__name__) // app = create_app()
+      # gunicorn normally is use port 8000
+    command: [ "gunicorn", "-w", "${WORKERS:-2}", "-b", "0.0.0.0:${PORT:-5000}", "--timeout", "${TIMEOUT:-120}", "main:app" ]
     # command: flask --app main run --host=0.0.0.0 --port=5000 
 
     healthcheck:

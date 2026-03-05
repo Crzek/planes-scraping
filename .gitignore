@@ -3,10 +3,6 @@ venv/
 __pycache__/
 .ipynb_checkpoints/
 
-# varibles d'environnement
-.env
-.env.chrome
-.env.chromium
 dev-venv
 
 # archives de Jupiter lab
@@ -33,3 +29,7 @@ temp.html
 .pdm-python
 
 midb.db
+# varibles d'environnement
+.env
+.env.chrome
+.env.chromium

@@ -51,10 +51,12 @@ def get_element_click_newPage(driver, css_selector: str = "li[itemid='calendar']
             element = WebDriverWait(driver, 14).until(
                 EC.element_to_be_clickable((By.XPATH, xpath))
             )
-        else:
+        elif css_selector is not None:
             element = WebDriverWait(driver, 14).until(
                 EC.element_to_be_clickable((By.CSS_SELECTOR, css_selector))
             )
+        else:
+            raise ValueError("Debes proporcionar css_selector o xpath")
 
         element.click()
     except Exception as e:

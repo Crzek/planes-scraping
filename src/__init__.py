@@ -13,16 +13,17 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(DevelopmentConfig)
 
-    # crear directorio de logs
-    os.makedirs("logs", exist_ok=True)
+    # # crear directorio de logs
+    # os.makedirs("logs", exist_ok=True)
 
     # Configurar logging (antes que cualquier otra cosa lo use)
     logging.basicConfig(
         level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        format="%(asctime)s [%(levelname)s] %(name)s - %(filename)s:%(lineno)d: %(message)s",
         handlers=[
             logging.StreamHandler(),
-            logging.FileHandler("logs/app.log")]
+            # logging.FileHandler("logs/app.log")
+        ]
     )
     logger = logging.getLogger(__name__)
     logger.info("***** Inicio de la app *****")

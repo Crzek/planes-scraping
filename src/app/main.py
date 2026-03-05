@@ -58,10 +58,10 @@ def navigate_to_programming(
     if not today:
         # Sigiente dia
         # <span class="datebtn ui-after"></span>
-        get_element_click_newPage(driver, "span.ui-after")
+        get_element_click_newPage(driver, xpath='//*[@id="calendar"]/div/header/div/div[1]/div[1]/span[2]/div/button')
         logger.info("siguiente dia")
 
-    time.sleep(15)  # esperar que cargue la pagina
+    time.sleep(10)  # esperar que cargue la pagina
 
 
 def config_hour_navigate(driver: CustomChromeDriver):
@@ -275,12 +275,12 @@ def main(
             "div", class_="SelectDate_strDateShort__2RqfZ").get_text()
 
         # obtener solo vuelos
-        booking = soup.select(
+        booking: list = soup.select(
             "div.BookingContainer_wrapper__Z3uB3")
         logger.info("title_day: %s", title_day)
         logger.info("Booking: %s", len(booking))
 
-        if booking:
+        if len(booking) > 0:
             bookings_in_string: list = tag_find_by_attr(booking, "title")
 
             # Se Encarga de extraer la informacion de la reserva

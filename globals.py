@@ -22,7 +22,7 @@ else:
     for key, value in env_values.items():
         if value is not None and key not in os.environ:
             os.environ[key] = value
-    logger.info("--- Cargando desde archivo: %s", ENV_FILE)
+    logger.info("--- ENV Cargando desde archivo: %s", ENV_FILE)
 
 PATH_STATIC = "static/"
 PATH_STATIC_DATA = PATH_STATIC + "data/"
