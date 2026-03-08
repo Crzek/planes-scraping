@@ -23,7 +23,7 @@ else:
         if value is not None and key not in os.environ:
             os.environ[key] = value
     logger.info("--- ENV Cargando desde archivo: %s", ENV_FILE)
-    
+
 PROD = env_values.get("DEBUG", "False").lower() == "false"
 
 PATH_STATIC = "static/"
@@ -42,7 +42,7 @@ URL = env_values.get("base_url")
 
 
 PATH_BROWSER = env_values.get("PATH_BROWSER", None)
-PATH_DRIVER = env_values.get("PATH_CHROMEDRIVER", None)
+PATH_DRIVER = env_values.get("PATH_DRIVER", None)
 logger.info("--- PATH_BROWSER: %s", PATH_BROWSER)
 logger.info("--- PATH_DRIVER: %s", PATH_DRIVER)
 
