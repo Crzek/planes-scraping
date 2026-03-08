@@ -8,8 +8,8 @@ services:
     restart: always
     environment:
       - ENV_FILE=.env.chrome
-    env_file:
-      - .env.chrome
+    # env_file:
+    #   - .env.chrome
       # production env
       # volumes:
       #   - .:/app
