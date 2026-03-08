@@ -6,8 +6,8 @@ services:
     image: vuelos-private-radar:1.1-pro # Name of the image
     container_name: pro-vuelos-private-radar-py-amd64
     restart: always
-    environment:
-      - ENV_FILE=.env.chrome
+    # environment:
+    #   - ENV_FILE=.env.chrome
     # env_file:
     #   - .env.chrome
       # production env
