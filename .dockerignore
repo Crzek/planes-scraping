@@ -26,4 +26,6 @@ app/data/*.csv
 app/data/*.html
 
 #cualquier fichero oculto
-.*
+.env
+.env.chrome
+.env.chromium
