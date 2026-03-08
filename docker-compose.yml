@@ -9,8 +9,8 @@ services:
     env_file:
       - .env.example
       # production env
-      # volumes:
-      #   - .:/app
+    volumes:
+      - vuelos_data:/app/data
       # file: entrypoint.py
       # instance the flask: app = Flask(__name__) // app = create_app()
       # gunicorn normally is use port 8000
@@ -27,6 +27,10 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+
+volumes:
+  vuelos_data:
+    name: vuelos_data
 
 # networks:
 #   default:
