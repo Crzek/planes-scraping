@@ -4,14 +4,15 @@ from flask import Flask
 from extencions import login_manager, load_user, db, load_env
 from .error import register_error_handlers
 import os
-from .config.default import DevelopmentConfig
+from .config.default import get_config_by_name
 
 
 def create_app():
     print("*********Incico APP *********")
     load_env()
     app = Flask(__name__)
-    app.config.from_object(DevelopmentConfig)
+    config_name = os.getenv("FLASK_ENV") or os.getenv("CONFIG_ENV")
+    app.config.from_object(get_config_by_name(config_name))
 
     # # crear directorio de logs
     # os.makedirs("logs", exist_ok=True)
@@ -42,7 +43,7 @@ def create_app():
 
     with app.app_context():
         # importamos modelos primero
-        from src.auth.models.users import User
+        from src.auth.models.users import User  # noqa: F401 — registra el modelo para db.create_all()
         # otros modelos si ubirann
         db.create_all()
 
