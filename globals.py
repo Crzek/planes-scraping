@@ -23,6 +23,8 @@ else:
         if value is not None and key not in os.environ:
             os.environ[key] = value
     logger.info("--- ENV Cargando desde archivo: %s", ENV_FILE)
+    
+PROD = env_values.get("DEBUG", "False").lower() == "false"
 
 PATH_STATIC = "static/"
 PATH_STATIC_DATA = PATH_STATIC + "data/"

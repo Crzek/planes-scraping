@@ -1,5 +1,5 @@
 # src/auth/routes.py
-from globals import PATH_STATIC, PATH_STATIC_DATA
+from globals import PATH_STATIC, PATH_STATIC_DATA, PROD
 
 import os
 from flask import render_template, request, redirect, url_for, send_file, send_from_directory
@@ -186,8 +186,13 @@ def vuelos(remake: str = None):
 
                 # en arm heddin True
                 # AMD hideen False
+                is_hidden_browser = PROD
                 title_day, html_table = main(
-                    hoy, hidden=False, date=date, select_all=select_all)
+                    today=hoy,
+                    hidden=is_hidden_browser,
+                    date=date,
+                    select_all=select_all
+                )
                 logger.info("title_day -- %s", title_day)
                 main_styles(hoy, date=date)
 
