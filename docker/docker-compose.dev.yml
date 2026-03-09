@@ -7,11 +7,11 @@ services:
     container_name: dev-vuelos-private-radar-py-amd64
     ports:
       - "5000:5000"
-    environment:
-      - PYTHONUNBUFFERED=1 # para mostrar los logs en tiempo real
-      - ENV_FILE=chrome.env
+    # environment:
+      # - PYTHONUNBUFFERED=1 # para mostrar los logs en tiempo real
+      # - ENV_FILE=chrome.env
     env_file:
-      - ../chrome.env 
+      - ../.env.chrome
     volumes:
       - ../:/app
-    command: bash
+    command: [ "gunicorn", "-w", "${WORKERS:-2}", "-b", "0.0.0.0:${PORT:-5000}", "--timeout", "${TIMEOUT:-120}", "--capture-output", "--enable-stdio-inheritance", "main:app" ]
