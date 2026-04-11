@@ -46,24 +46,3 @@ COPY --from=builder /app/requirements.txt .
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
 CMD [ "/bin/sh" ]
-
-# multiStage build 
-# FROM python:3.11.9-slim-bullseye
-
-# # Configuración de trabajo
-# WORKDIR /app
-
-# # Copiar aplicación y dependencias desde la etapa anterior
-# COPY . /app/
-# COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
-# COPY --from=builder /usr/local/bin /usr/local/bin
-
-# # Copiar Google Chrome y ChromeDriver desde la etapa anterior
-# COPY --from=builder /usr/bin/google-chrome /usr/bin/google-chrome
-# COPY --from=builder /usr/bin/chromedriver /usr/bin/chromedriver
-
-# # Configuración del PATH (asegúrate de que Chrome y ChromeDriver estén accesibles)
-# ENV PATH="/usr/bin/google-chrome:/usr/bin:${PATH}"
-
-# # Comando de inicio
-# CMD ["gunicorn", "-w", "1", "-b", "0.0.0.0:5000", "entrypoint:app"]

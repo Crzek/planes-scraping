@@ -31,6 +31,8 @@ RUN apt-get update && \
 ENV TZ=Europe/Madrid
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+RUN apt install curl -y
+
 # install chrome y chromedriver
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
     apt-get install -y --no-install-recommends ./google-chrome-stable_current_amd64.deb && \
@@ -38,11 +40,19 @@ RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.d
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Instalar ChromeDriver
+RUN CHROME_VERSION=$(google-chrome --version | sed -E "s/.* ([0-9]+)(\.[0-9]+){3}.*/\1/") && \
+    CHROMEDRIVER_VERSION=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_${CHROME_VERSION}") && \
+    wget -q "https://storage.googleapis.com/chrome-for-testing-public/${CHROMEDRIVER_VERSION}/linux64/chromedriver-linux64.zip" -O /tmp/chromedriver.zip && \
+    unzip -q /tmp/chromedriver.zip -d /tmp && \
+    mv /tmp/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver && \
+    chmod +x /usr/local/bin/chromedriver && \
+    rm -rf /tmp/chromedriver.zip /tmp/chromedriver-linux64
+
 WORKDIR /app
 
 # Copiar requerimientos generados en la etapa anterior
 COPY --from=builder /app/requirements.txt .
-
 COPY . /app
 
 RUN pip install --trusted-host pypi.python.org -r requirements.txt

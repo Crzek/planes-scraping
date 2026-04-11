@@ -6,6 +6,8 @@ services:
     image: vuelos-private-radar:1.1-pro # Name of the image
     container_name: pro-vuelos-private-radar-py-amd64
     restart: always
+    ports:
+      - "5000:5000"
     environment:
       - PYTHONUNBUFFERED=1 # para mostrar los logs en tiempo real
     env_file:
