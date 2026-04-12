@@ -1,10 +1,10 @@
 # src/auth/routes.py
-from globals import PATH_STATIC, PATH_STATIC_DATA, PROD
-
+import asyncio
 import os
 from flask import render_template, request, redirect, url_for, send_file, send_from_directory
 import datetime
 # blueprint
+from globals import PATH_STATIC, PATH_STATIC_DATA, PROD
 from . import auth_bp
 import logging
 
@@ -18,6 +18,16 @@ from flask_login import (
 )
 
 logger = logging.getLogger(__name__)
+
+
+@auth_bp.route("/status/health")
+def health():
+    """
+    Health check endpoint
+
+    return : OK
+    """
+    return "OK", 200
 
 
 @auth_bp.route("/")
@@ -182,17 +192,18 @@ def vuelos(remake: str = None):
             logger.info("pdf_output ---- %s", pdf_output)
             if not os.path.exists(filepath) or (remake == "remake"):
                 from src.app.utils.styles import main_styles
-                from src.app.main import main
+                # from src.app.main import main
+                from src.app.automation.main_scraper import main_scraper
 
                 # en arm heddin True
                 # AMD hideen False
                 is_hidden_browser = PROD
-                title_day, html_table = main(
+                title_day, html_table = asyncio.run(main_scraper(
                     today=hoy,
                     hidden=is_hidden_browser,
                     date=date,
                     select_all=select_all
-                )
+                ))
                 logger.info("title_day -- %s", title_day)
                 main_styles(hoy, date=date)
 
