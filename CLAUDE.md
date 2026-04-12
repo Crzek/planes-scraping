@@ -31,9 +31,10 @@ The `ENV_FILE` env var can point to a specific env file (e.g. `.env.chrome`, `.e
 export ENV_FILE=.env.chrome
 flask run --debug --reload
 
-# Via pdm scripts
-pdm run serve       # flask run --reload
-pdm run migrate     # flask db migrate
+# Via uv run
+uv run flask run --reload
+uv run flask db migrate
+uv run flask db upgrade
 
 # Production (gunicorn)
 gunicorn -w 2 -b '0.0.0.0:5000' --timeout 120 'main:app'

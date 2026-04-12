@@ -26,7 +26,7 @@ logs/
 requirements2.txt
 static/
 temp.html
-.pdm-python
+.python-version
 
 midb.db
 # varibles d'environnement

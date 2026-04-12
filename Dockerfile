@@ -1,7 +1,7 @@
 FROM python:3.12-slim-bullseye
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends wkhtmltopdf && \
+    apt-get install -y --no-install-recommends wkhtmltopdf sqlite3 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
     
@@ -25,4 +25,6 @@ RUN playwright install --with-deps chromium
 
 COPY . /app
 
-CMD [ "/bin/sh" ]
+RUN chmod +x /app/entrypoint.sh
+
+CMD ["/app/entrypoint.sh"]
