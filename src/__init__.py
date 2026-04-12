@@ -2,6 +2,7 @@
 import logging
 from flask import Flask
 from extencions import login_manager, load_user, db, load_env
+from flask_migrate import Migrate
 from .error import register_error_handlers
 import os
 from .config.default import get_config_by_name
@@ -40,12 +41,11 @@ def create_app():
 
     # DDBB
     db.init_app(app)
+    Migrate(app, db)
 
     with app.app_context():
-        # importamos modelos primero
-        from src.auth.models.users import User  # noqa: F401 — registra el modelo para db.create_all()
-        # otros modelos si ubirann
-        db.create_all()
+        # importamos modelos primero para que Alembic los detecte
+        from src.auth.models.users import User  # noqa: F401
 
         # my blueprints
         from .auth import auth_bp
