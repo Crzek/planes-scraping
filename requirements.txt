@@ -6,6 +6,7 @@ click==8.1.7
 et-xmlfile==1.1.0
 flask==3.0.3
 flask-login==0.6.3
+flask-migrate==4.1.0
 flask-sqlalchemy==3.1.1
 greenlet==3.1.1
 gunicorn==23.0.0
