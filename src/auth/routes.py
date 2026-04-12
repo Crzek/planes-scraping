@@ -20,16 +20,6 @@ from flask_login import (
 logger = logging.getLogger(__name__)
 
 
-@auth_bp.route("/status/health")
-def health():
-    """
-    Health check endpoint
-
-    return : OK
-    """
-    return "OK", 200
-
-
 @auth_bp.route("/")
 def auth():
     """

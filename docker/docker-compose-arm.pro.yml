@@ -21,7 +21,9 @@ services:
     # instance the flask: app = Flask(__name__) // app = create_app()
     # gunicorn normally is use port 8000
     # command: sleep infinity
-    command: gunicorn -w 2 -b 0.0.0.0:5000 --timeout 120 --reload --capture-output entrypoint:app
+    command: >
+      sh -c "flask db upgrade &&
+             gunicorn -w 2 -b 0.0.0.0:5000 --timeout 120 --reload --capture-output entrypoint:app"
 
 # definimos la red global para que los contenedores puedan comunicarse entre ellos
 # desde otro archivo de docker-compose se puede hacer referencia a esta red

@@ -56,11 +56,6 @@ readme = "README.md"
 license = {text = "MIT"}
 
 
-[tool.pdm]
-distribution = false
-
-[tool.pdm.scripts]
-serve = "flask run --reload"
-migrate = "flask db migrate"
-upgrade = "flask db upgrade"
+[tool.uv]
+package = false
 
