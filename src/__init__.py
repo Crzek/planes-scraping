@@ -1,5 +1,6 @@
 # src/__init__.py
 import logging
+import os
 from flask import Flask
 from flask_migrate import Migrate
 from extencions import login_manager, load_user, db, load_env
@@ -8,10 +9,23 @@ from src.core.settings import Settings, print_settings
 from sqlalchemy.engine import make_url
 
 
+def create_static_directories():
+    """Crea los directorios necesarios para archivos estáticos"""
+    directories = [
+        "static/data",
+        "static/html",
+        "static/pdf"
+    ]
+    for directory in directories:
+        os.makedirs(directory, exist_ok=True)
+        logging.info(f"Directorio creado/verificado: {directory}")
+
+
 def create_app():
     print("*********Incico APP *********")
     print_settings()
     load_env()
+    create_static_directories()
     settings_obj = Settings()
     app = Flask(__name__)
     app.config.from_mapping(
