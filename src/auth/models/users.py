@@ -31,7 +31,7 @@ class User(UserMixin, db.Model):
         else:
             return User.query.filter_by(email=user_email).first()
 
-            # si usamos una DB como SQLite, postgres, mySQL
+            # si usamos una DB como postgres, mySQL
 
     # si usamos un diccionario como DB
     @staticmethod

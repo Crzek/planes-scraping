@@ -67,7 +67,8 @@ def print_doc(ws, title: str, print_area: str = 'A1:P25'):
 
 
 def main_styles(today: bool = False, date: datetime.date = None):
-    from globals import PATH_STATIC_DATA
+    from src.core.settings import settings
+    PATH_STATIC_DATA = settings.PATH_STATIC_DATA
 
     # data_url = 'src/app/data/'
     # file = data_url + \

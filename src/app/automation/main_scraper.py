@@ -4,11 +4,13 @@ import logging
 from playwright.async_api import Locator, Page, async_playwright, expect
 from src.app.automation.secure import secure_click, secure_fill
 from src.app.utils.utils import clas_to_series, save_Book_by_tag
-from src.core.settings import settings
+from src.core.settings import Settings
 
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s')
+
+settings = Settings()
 
 logger = logging.getLogger(__name__)
 

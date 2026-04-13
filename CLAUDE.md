@@ -4,11 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this project does
 
-Web scraper for Sabadell Airport flight schedules. It uses Selenium to log into `https://acbs.private-radar.com/`, navigate the schedule UI, extract booking data via BeautifulSoup, and serves the results through a Flask web app. Data is stored locally (SQLite by default) and exported to Excel.
+Web scraper for Sabadell Airport flight schedules. It uses Selenium to log into `https://acbs.private-radar.com/`, navigate the schedule UI, extract booking data via BeautifulSoup, and serves the results through a Flask web app. Data is stored in PostgreSQL and exported to Excel.
 
 ## Required setup
 
-Before running, create `src/config/default.py` (already present, generated from `src/config/default.py` template) and a `.env` file based on `.env.example`:
+Before running, create a `.env` file based on `.env.example`:
 
 ```env
 FLASK_APP=main:app
@@ -16,7 +16,11 @@ FLASK_ENV=development      # or production
 SECRET_KEY=your-secret
 PATH_BROWSER=/usr/bin/google-chrome   # or chromium path
 PATH_DRIVER=/usr/local/bin/chromedriver   # ARM64 only
-SQLALCHEMY_DATABASE_URI=sqlite:///midb.db
+DATABASE_USER=user
+DATABASE_PASS=pass
+DATABASE_HOST=host
+DATABASE_PORT=5432
+DATABASE_NAME=planes
 user=<private-radar-username>
 password=<private-radar-password>
 base_url=https://acbs.private-radar.com/

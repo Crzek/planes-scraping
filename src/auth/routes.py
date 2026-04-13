@@ -1,21 +1,22 @@
 # src/auth/routes.py
 import asyncio
-import os
-from flask import render_template, request, redirect, url_for, send_file, send_from_directory
-import datetime
-# blueprint
-from globals import PATH_STATIC, PATH_STATIC_DATA, PROD
-from . import auth_bp
 import logging
-
-# nuetras routes
-from .models.users import User
+import os
+import datetime
+from flask import render_template, request, redirect, url_for, send_file, send_from_directory
 from flask_login import (
     login_user,  # para logear
     logout_user,  # para deslogear
     login_required,  # para proteger rutas
     current_user  # para saber el usuario actual
 )
+from src.core.settings import settings
+from . import auth_bp
+from .models.users import User
+
+PATH_STATIC = settings.PATH_STATIC
+PATH_STATIC_DATA = settings.PATH_STATIC_DATA
+PROD = settings.PROD
 
 logger = logging.getLogger(__name__)
 
@@ -271,7 +272,6 @@ def localTime():
     input : email  para dar la Bienvenida
     return :
     """
-    from globals import TODAY, TOMORROW
     # import pytz
     # from datetime import datetime
 
@@ -280,8 +280,8 @@ def localTime():
     tomorrow = datetime.date.today() + datetime.timedelta(days=1)
     body = f"""
         <h1>Hora local</h1>
-        <p>Hoy de varible global: {TODAY}</p>
-        <p>Mañana de varible global: {TOMORROW}</p>
+        <p>Hoy de varible global: {today}</p>
+        <p>Mañana de varible global: {tomorrow}</p>
         <br/>
         <p>Hoy de datetime: {today}</p>
         <p>Mañana de datetime: {tomorrow}</p>
