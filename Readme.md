@@ -3,11 +3,7 @@
 Muestra las salida de los vuelos del Aeropuerto de Sabadell
 
 # Create files 
-Crea este archivo primero
-src/config/default.py
-```python
-SECRET_KEY = "key"
-```
+Crea el archivo `.env` basado en `.env.example`.
 
 # Installation Local
 

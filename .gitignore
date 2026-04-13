@@ -28,8 +28,10 @@ static/
 temp.html
 .python-version
 
-midb.db
 # varibles d'environnement
 .env
 .env.chrome
 .env.chromium
+
+# sqlite databases
+*.db

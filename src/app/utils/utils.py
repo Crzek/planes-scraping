@@ -1,12 +1,14 @@
+import datetime
+import pandas as pd
 from src.app.models.aircraft import AirCraft
 from src.app.models.book import Book
-
-import pandas as pd
-import datetime
-
-from globals import START_DEL, END_DEL, CARACTER_NOT_FLIGHT
 from src.app.utils.export import generate_html_table
+from src.core.settings import settings
 from .. import logger
+
+START_DEL = settings.START_DEL
+END_DEL = settings.END_DEL
+CARACTER_NOT_FLIGHT = settings.CARACTER_NOT_FLIGHT
 
 # from src.app.test.export import excel_to_pdf
 
@@ -61,7 +63,8 @@ def save_Book_by_tag(cadena: str):
 
 
 def clas_to_series(today: bool = False, date: datetime.date = None):
-    from globals import PATH_STATIC_DATA, PATH_STATIC
+    PATH_STATIC_DATA = settings.PATH_STATIC_DATA
+    PATH_STATIC = settings.PATH_STATIC
 
     # Crear una serie de Pandas de ejemplo
     data = get_all_reservas(AirCraft.all_reservas)

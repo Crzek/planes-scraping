@@ -3,7 +3,12 @@ import platform
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.service import Service
-from globals import PATH_BROWSER, URL, PATH_DRIVER, ENV_FILE
+from src.core.settings import settings
+
+PATH_BROWSER = settings.PATH_BROWSER
+URL = settings.base_url
+PATH_DRIVER = settings.PATH_DRIVER
+ENV_FILE = settings.ENV_FILE
 
 # Configuración básica del logger
 logger = logging.getLogger(__name__)

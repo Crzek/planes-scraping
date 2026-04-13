@@ -10,6 +10,6 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(BASE_DIR)
 
 # DB
-DATABASE_URL = 'sqlite:///mydatabase.db'
+DATABASE_URL = 'postgresql://user:pass@host:5432/database'
 DEBUG = True
 SECRET_KEY = 'mysecretkey'

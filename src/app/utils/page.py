@@ -5,7 +5,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 
 from .wdriver import CustomChromeDriver
-from globals import PAS, USER
+from src.core.settings import settings
+
+PAS = settings.password.get_secret_value()
+USER = settings.user
 
 """
 se encarga de la navegacion en la pagina
