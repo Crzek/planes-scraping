@@ -12,7 +12,7 @@ class User(UserMixin, db.Model):
 
     id: int = db.Column(db.Integer, primary_key=True)
     email: str = db.Column(db.String(128))
-    password: str = db.Column(db.String(128))
+    password: str = db.Column(db.String(512))
     firstname: str = db.Column(db.String(250))
     lastname: str = db.Column(db.String(250))
 
