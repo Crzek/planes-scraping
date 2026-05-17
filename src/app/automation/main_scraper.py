@@ -142,7 +142,7 @@ async def navigation_planes(page: Page, today: bool = False, select_all: bool = 
         logger.info("navegando al siguiente dia")
         await navigate_next_day(page)
 
-    await page.wait_for_timeout(10000)
+    await page.wait_for_timeout(20000)
     logger.info('screem filtro y dia')
     await page.screenshot(path="./filtros_configurados.png")
     await delete_parts(page)
