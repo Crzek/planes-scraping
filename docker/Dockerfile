@@ -9,6 +9,8 @@ WORKDIR /app
 RUN pip install --no-cache-dir dependences/Twisted-16.6.0-cp311-cp311-win_amd64.whl && \
     pip install --no-cache-dir -r /app/dependences/requirements.txt
 
+RUN playwright install
+
 # Segunda etapa
 FROM python:3.9.19-slim-bullseye
 

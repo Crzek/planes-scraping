@@ -12,7 +12,7 @@ services:
       - PYTHONUNBUFFERED=1 # para mostrar los logs en tiempo real
       - ENV_FILE=.env.chrome
     env_file:
-      - ../.env.chrome
+      - ../.env
       # production env
     volumes:
       - ../:/app
