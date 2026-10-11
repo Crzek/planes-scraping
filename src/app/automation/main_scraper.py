@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 async def login(page: Page):
     await secure_fill(page, '#email', settings.user)
-    await secure_fill(page, '#component-outlined', settings.password.get_secret_value())
+    await secure_fill(page, '#password', settings.password.get_secret_value())
     await page.wait_for_timeout(2000)
     await secure_click(page, '#signInButton')
     await page.wait_for_load_state('networkidle')
@@ -46,7 +46,7 @@ async def config_vista_calendario(page: Page, select_all: bool = False):
     """
     # abrir filtro
     await page.wait_for_timeout(2000)
-    await secure_click(page, '#calendar span[title="Filtros"] button')
+    await secure_click(page, '#calendar span[title="Tipos de reserva"] button')
     logger.info("click filtro")
 
     await _navigate_in_filter(page, select_all=select_all)
@@ -55,7 +55,8 @@ async def config_vista_calendario(page: Page, select_all: bool = False):
 async def _navigate_in_filter(page: Page, select_all: bool = False):
     await page.wait_for_timeout(4000)
 
-    xpath_select_all = '/html/body/div[4]/div[3]/div/div[2]/div[5]/div[1]/div/label/span[2]'
+    # xpath_select_all = '/html/body/div[4]/div[3]/div/div[2]/div[1]/div[1]/label/span[1]/span[1]/input'
+    xpath_select_all = '/html/body/div[4]/div[3]/div/div[2]/div[1]/div[1]/label/span[2]'
     select_all_locator = page.locator(f'xpath={xpath_select_all}')
 
     # ver texto si tiene seleccionar todo o quitar todo
@@ -77,17 +78,17 @@ async def _navigate_in_filter(page: Page, select_all: bool = False):
     await page.wait_for_timeout(1000)
 
     # desceleccionar Canceled
-    await secure_click(page, 'xpath=/html/body/div[4]/div[3]/div/div[2]/div[5]/div[2]/div[15]/label/span[2]')
+    await secure_click(page, 'xpath=/html/body/div[4]/div[3]/div/div[2]/div[1]/div[2]/div[15]/label/span[1]/span[1]/input')
     # desceleccionar Maintenance
-    await secure_click(page, 'xpath=/html/body/div[4]/div[3]/div/div[2]/div[5]/div[2]/div[16]/label/span[2]')
+    await secure_click(page, 'xpath=/html/body/div[4]/div[3]/div/div[2]/div[1]/div[2]/div[16]/label/span[1]/span[1]/input')
     # desceleccionar not avialable
-    await secure_click(page, 'xpath=/html/body/div[4]/div[3]/div/div[2]/div[5]/div[2]/div[17]/label/span[2]')
+    await secure_click(page, 'xpath=/html/body/div[4]/div[3]/div/div[2]/div[1]/div[2]/div[17]/label/span[1]/span[1]/input')
     # desceleccionar type rating
-    await secure_click(page, 'xpath=/html/body/div[4]/div[3]/div/div[2]/div[5]/div[2]/div[5]/label/span[2]')
+    await secure_click(page, 'xpath=/html/body/div[4]/div[3]/div/div[2]/div[1]/div[2]/div[5]/label/span[1]/span[1]/input')
 
     await page.wait_for_timeout(1000)
     # aceptar config
-    await secure_click(page, 'xpath=/html/body/div[4]/div[3]/div/div[3]/div[1]/button')
+    await secure_click(page, '#draggable-dialog-title button[aria-label="Aplicar"]')
     await page.wait_for_timeout(5000)
     logger.info("filtros configurados")
 
