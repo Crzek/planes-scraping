@@ -5,16 +5,20 @@ services:
       dockerfile: Dockerfile
     image: planes-scraping:1.0-pw-prod # Name of the image
     container_name: prod-planes-pw
+    restart: unless-stopped
+    # entrypoint.sh: aplica migraciones (flask db upgrade) y arranca gunicorn
+    entrypoint: ["/app/entrypoint.sh"]
     ports:
       - "5000:5000"
     environment:
       - PYTHONUNBUFFERED=1 # para mostrar los logs en tiempo real
+      - FLASK_APP=main:app # necesario para `flask db upgrade`
     env_file:
       - .env
     # file: entrypoint.py
     # instance the flask: app = Flask(__name__) // app = create_app()
     # gunicorn normally is use port 8000
-    # command: flask --app main run --host=0.0.0.0 --port=5000 
+    # command: flask --app main run --host=0.0.0.0 --port=5000
 
     healthcheck:
       test:
