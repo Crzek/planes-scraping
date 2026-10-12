@@ -1,5 +1,7 @@
 from datetime import datetime
 import logging
+import os
+import sys
 
 from playwright.async_api import Locator, Page, async_playwright, expect
 from src.app.automation.secure import secure_click, secure_fill
@@ -189,6 +191,9 @@ async def main_scraper(
     date: datetime.date = None,
     select_all: bool = False
 ):
+    # en linux sin X server (docker, servidor) no se puede abrir ventana
+    if sys.platform.startswith("linux") and not os.environ.get("DISPLAY"):
+        hidden = True
     logger.info("iniciando scraper headless: %s", hidden)
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=hidden)
