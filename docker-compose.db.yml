@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: planes-db-local
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DATABASE_USER:-postgres}
+      POSTGRES_PASSWORD: ${DATABASE_PASS:-postgres}
+      POSTGRES_DB: ${DATABASE_NAME:-db_planes}
+    ports:
+      - "${DATABASE_PORT_LOCAL:-5432}:5432"
+    volumes:
+      - planes_db_data:/var/lib/postgresql/data
+
+volumes:
+  planes_db_data:

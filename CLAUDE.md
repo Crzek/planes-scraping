@@ -26,31 +26,63 @@ password=<private-radar-password>
 base_url=https://acbs.private-radar.com/
 ```
 
-The `ENV_FILE` env var can point to a specific env file (e.g. `.env.chrome`, `.env.chromium`). If unset, system environment variables are used.
+## Running locally (desarrollo en PC)
 
-## Running the app
+Requiere tener Docker instalado. Pasos en orden:
+
+**1. Levantar la base de datos PostgreSQL local:**
+```shell
+docker compose -f docker-compose.db.yml up -d
+```
+
+**2. Verificar que el contenedor está corriendo:**
+```shell
+docker ps | grep planes-db-local
+```
+
+**3. Asegurarse de que `.env` apunta a localhost** (bloque "postgres local" activo, bloque "producción" comentado):
+```env
+DATABASE_HOST="localhost"
+DATABASE_PORT="5432"
+```
+
+**4. Aplicar migraciones (solo la primera vez o tras nuevas migraciones):**
+```shell
+flask db upgrade
+# o con uv:
+uv run flask db upgrade
+```
+
+**5. Arrancar Flask:**
+```shell
+flask run --debug --reload
+# o con uv:
+uv run flask run --debug --reload
+```
+
+**Parar la base de datos cuando termines:**
+```shell
+docker compose -f docker-compose.db.yml down
+# para borrar también los datos del volumen:
+docker compose -f docker-compose.db.yml down -v
+```
+
+**Pasar a producción (servidor remoto):** En `.env`, comenta el bloque "postgres local" y descomenta el bloque "postgres docker externo".
+
+## Running the app (otros modos)
 
 ```shell
-# Local development
-export ENV_FILE=.env.chrome
-flask run --debug --reload
-
-# Via uv run
-uv run flask run --reload
-uv run flask db migrate
-uv run flask db upgrade
+# Run scraper directly (without web server)
+python main.py
 
 # Production (gunicorn)
 gunicorn -w 2 -b '0.0.0.0:5000' --timeout 120 'main:app'
-
-# Run scraper directly (without web server)
-python main.py
 ```
 
-## Docker
+## Docker (contenedor completo de la app)
 
 ```shell
-# Production AMD64 (uses root docker-compose.yml or docker/docker-compose.pro.yml)
+# Production AMD64
 docker compose up --build
 docker compose -f docker/docker-compose.pro.yml up --build
 
