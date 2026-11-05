@@ -29,3 +29,5 @@ app/data/*.html
 .env
 .env.chrome
 .env.chromium
+# CA intermedia de private-radar: en Docker se descarga en el build
+certs/
