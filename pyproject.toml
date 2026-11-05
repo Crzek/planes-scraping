@@ -52,6 +52,7 @@ dependencies = [
     "Werkzeug==3.0.4",
     "wsproto==1.2.0",
     "psycopg2-binary>=2.9.11",
+    "requests>=2.33.1",
 ]
 requires-python = "==3.12.*"
 readme = "README.md"
@@ -61,3 +62,11 @@ license = {text = "MIT"}
 [tool.uv]
 package = false
 
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["test"]

@@ -56,6 +56,15 @@ class Settings(BaseSettings):
     password: SecretStr = "pass"
     base_url: str = "https://acbs.private-radar.com/"
 
+    # API de private-radar (flujo API primero, Playwright como fallback)
+    USE_API_FIRST: bool = False
+    API_LOGIN_URL: str = "https://api4.private-radar.com/auth/user/login"
+    API_BOOKINGS_URL: str = (
+        "https://acbs.private-radar.com/prwsw/bookings/getByFilterNew")
+    API_TIMEOUT: float = 15.0
+    # api4 no envia el certificado intermedio: se anade a las CAs de certifi
+    API_EXTRA_CA_FILE: str = "certs/sectigo-dv-r36.pem"
+
     # paths estáticos
     PATH_STATIC: str = "static/"
     PATH_STATIC_DATA: str = "static/data/"

@@ -82,6 +82,31 @@ gunicorn -w 2 -b '0.0.0.0:5000' 'main:app'
 python main.py
 ```
 
+## Fuente de datos: API primero, Playwright de respaldo
+
+Los vuelos se pueden obtener directamente de la API de private-radar (login +
+`getByFilterNew`) en lugar de navegar la web con Playwright.
+
+- Se controla con `USE_API_FIRST` en `.env` (por defecto `false`: solo Playwright).
+- Con `USE_API_FIRST=true` se intenta la API y, si falla (login rechazado,
+  error de red o HTTP, timeout, respuesta con esquema inesperado o sin
+  reservas utilizables), se ejecuta Playwright automaticamente.
+- El log indica la fuente usada: `fuente de vuelos: api` o
+  `fuente de vuelos: playwright` (y el motivo del fallback), sin credenciales.
+- Otras variables opcionales: `API_LOGIN_URL`, `API_BOOKINGS_URL`,
+  `API_TIMEOUT`, `API_EXTRA_CA_FILE` (ver `.env.example`).
+- `api4.private-radar.com` no envia el certificado intermedio, por eso se
+  versiona `certs/sectigo-dv-r36.pem` y se anade a las CAs de `certifi`. La
+  verificacion TLS siempre esta activa.
+
+```shell
+# activar la API primero y generar vuelos desde la web
+USE_API_FIRST=true uv run flask run --debug
+
+# tests (no usan red ni credenciales)
+uv run pytest
+```
+
 ## Notes
 1.  Ver donde esta intalado chrome y chrome driver:
 ```shell

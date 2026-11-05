@@ -1,0 +1,1954 @@
+{
+ "aircraftsWithBookings": [
+  {
+   "id": 152,
+   "registration": "EC-ERV",
+   "bookings": [
+    {
+     "id_aircraft": 152,
+     "registration": "EC-ERV",
+     "flight_type": "trip",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4927451,
+     "timestamp_begin": 1793973600000,
+     "timestamp_end": 1793983500000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 2,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1054,
+       "idBooking": 4927451,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre54",
+       "lastname": "Apellido54",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": "Aircraft maintenance"
+    }
+   ]
+  },
+  {
+   "id": 150,
+   "registration": "EC-EXL",
+   "bookings": [
+    {
+     "id_aircraft": 150,
+     "registration": "EC-EXL",
+     "flight_type": "solo",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4932158,
+     "timestamp_begin": 1793955600000,
+     "timestamp_end": 1793962800000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 2,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1055,
+       "idBooking": 4932158,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre55",
+       "lastname": "Apellido55",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": "Aircraft maintenance"
+    },
+    {
+     "id_aircraft": 150,
+     "registration": "EC-EXL",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4931583,
+     "timestamp_begin": 1793962800000,
+     "timestamp_end": 1793968200000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 2,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1007,
+       "idBooking": 4931583,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre7",
+       "lastname": "Apellido7",
+       "codename": ""
+      },
+      {
+       "id_user": 1006,
+       "idBooking": 4931583,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre6",
+       "lastname": "Apellido6",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": "Aircraft maintenance"
+    },
+    {
+     "id_aircraft": 150,
+     "registration": "EC-EXL",
+     "flight_type": "solo",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4939346,
+     "timestamp_begin": 1793968200000,
+     "timestamp_end": 1793973600000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 2,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1056,
+       "idBooking": 4939346,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre56",
+       "lastname": "Apellido56",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": "Aircraft maintenance"
+    },
+    {
+     "id_aircraft": 150,
+     "registration": "EC-EXL",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4931591,
+     "timestamp_begin": 1793973600000,
+     "timestamp_end": 1793979000000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 2,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1001,
+       "idBooking": 4931591,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre1",
+       "lastname": "Apellido1",
+       "codename": ""
+      },
+      {
+       "id_user": 1006,
+       "idBooking": 4931591,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre6",
+       "lastname": "Apellido6",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": "Aircraft maintenance"
+    },
+    {
+     "id_aircraft": 150,
+     "registration": "EC-EXL",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4963096,
+     "timestamp_begin": 1793979000000,
+     "timestamp_end": 1793983320000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 2,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1006,
+       "idBooking": 4963096,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre6",
+       "lastname": "Apellido6",
+       "codename": ""
+      },
+      {
+       "id_user": 1057,
+       "idBooking": 4963096,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre57",
+       "lastname": "Apellido57",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": "Aircraft maintenance"
+    }
+   ]
+  },
+  {
+   "id": 391,
+   "registration": "EC-FED",
+   "bookings": [
+    {
+     "id_aircraft": 391,
+     "registration": "EC-FED",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4931581,
+     "timestamp_begin": 1793952000000,
+     "timestamp_end": 1793957400000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1058,
+       "idBooking": 4931581,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre58",
+       "lastname": "Apellido58",
+       "codename": ""
+      },
+      {
+       "id_user": 1031,
+       "idBooking": 4931581,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre31",
+       "lastname": "Apellido31",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    },
+    {
+     "id_aircraft": 391,
+     "registration": "EC-FED",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4953103,
+     "timestamp_begin": 1793957400000,
+     "timestamp_end": 1793962800000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1059,
+       "idBooking": 4953103,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre59",
+       "lastname": "Apellido59",
+       "codename": ""
+      },
+      {
+       "id_user": 1009,
+       "idBooking": 4953103,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre9",
+       "lastname": "Apellido9",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    },
+    {
+     "id_aircraft": 391,
+     "registration": "EC-FED",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4931586,
+     "timestamp_begin": 1793962800000,
+     "timestamp_end": 1793968200000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1060,
+       "idBooking": 4931586,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre60",
+       "lastname": "Apellido60",
+       "codename": ""
+      },
+      {
+       "id_user": 1009,
+       "idBooking": 4931586,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre9",
+       "lastname": "Apellido9",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    },
+    {
+     "id_aircraft": 391,
+     "registration": "EC-FED",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4953106,
+     "timestamp_begin": 1793968200000,
+     "timestamp_end": 1793973600000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1061,
+       "idBooking": 4953106,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre61",
+       "lastname": "Apellido61",
+       "codename": ""
+      },
+      {
+       "id_user": 1021,
+       "idBooking": 4953106,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre21",
+       "lastname": "Apellido21",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    },
+    {
+     "id_aircraft": 391,
+     "registration": "EC-FED",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4931592,
+     "timestamp_begin": 1793973600000,
+     "timestamp_end": 1793979000000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1062,
+       "idBooking": 4931592,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre62",
+       "lastname": "Apellido62",
+       "codename": ""
+      },
+      {
+       "id_user": 1009,
+       "idBooking": 4931592,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre9",
+       "lastname": "Apellido9",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    },
+    {
+     "id_aircraft": 391,
+     "registration": "EC-FED",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4961249,
+     "timestamp_begin": 1793979000000,
+     "timestamp_end": 1793983200000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1018,
+       "idBooking": 4961249,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre18",
+       "lastname": "Apellido18",
+       "codename": ""
+      },
+      {
+       "id_user": 1063,
+       "idBooking": 4961249,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre63",
+       "lastname": "Apellido63",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    }
+   ]
+  },
+  {
+   "id": 486,
+   "registration": "EC-DNX",
+   "bookings": [
+    {
+     "id_aircraft": 486,
+     "registration": "EC-DNX",
+     "flight_type": "solo",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4947810,
+     "timestamp_begin": 1793952000000,
+     "timestamp_end": 1793968200000,
+     "prebrief_min": 0,
+     "postbrief_min": 0,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1064,
+       "idBooking": 4947810,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre64",
+       "lastname": "Apellido64",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    },
+    {
+     "id_aircraft": 486,
+     "registration": "EC-DNX",
+     "flight_type": "solo",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4927942,
+     "timestamp_begin": 1793968200000,
+     "timestamp_end": 1793973600000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1011,
+       "idBooking": 4927942,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre11",
+       "lastname": "Apellido11",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    },
+    {
+     "id_aircraft": 486,
+     "registration": "EC-DNX",
+     "flight_type": "solo",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4878390,
+     "timestamp_begin": 1793973600000,
+     "timestamp_end": 1793983320000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1065,
+       "idBooking": 4878390,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre65",
+       "lastname": "Apellido65",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    }
+   ]
+  },
+  {
+   "id": 148,
+   "registration": "EC-HMQ",
+   "bookings": [
+    {
+     "id_aircraft": 148,
+     "registration": "EC-HMQ",
+     "flight_type": "solo",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4964029,
+     "timestamp_begin": 1793952000000,
+     "timestamp_end": 1793957400000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 2,
+     "crew": [
+      {
+       "id_user": 1066,
+       "idBooking": 4964029,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre66",
+       "lastname": "Apellido66",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    },
+    {
+     "id_aircraft": 148,
+     "registration": "EC-HMQ",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4953102,
+     "timestamp_begin": 1793952000000,
+     "timestamp_end": 1793957400000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 2,
+     "line": 1,
+     "nlines": 2,
+     "crew": [
+      {
+       "id_user": 1067,
+       "idBooking": 4953102,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre67",
+       "lastname": "Apellido67",
+       "codename": ""
+      },
+      {
+       "id_user": 1006,
+       "idBooking": 4953102,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre6",
+       "lastname": "Apellido6",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": "Student unavailable"
+    },
+    {
+     "id_aircraft": 148,
+     "registration": "EC-HMQ",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4953105,
+     "timestamp_begin": 1793957400000,
+     "timestamp_end": 1793962800000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1068,
+       "idBooking": 4953105,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre68",
+       "lastname": "Apellido68",
+       "codename": ""
+      },
+      {
+       "id_user": 1002,
+       "idBooking": 4953105,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre2",
+       "lastname": "Apellido2",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    },
+    {
+     "id_aircraft": 148,
+     "registration": "EC-HMQ",
+     "flight_type": "solo",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4958396,
+     "timestamp_begin": 1793962800000,
+     "timestamp_end": 1793968200000,
+     "prebrief_min": 0,
+     "postbrief_min": 0,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1069,
+       "idBooking": 4958396,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre69",
+       "lastname": "Apellido69",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    },
+    {
+     "id_aircraft": 148,
+     "registration": "EC-HMQ",
+     "flight_type": "solo",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4931589,
+     "timestamp_begin": 1793968200000,
+     "timestamp_end": 1793977200000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1070,
+       "idBooking": 4931589,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre70",
+       "lastname": "Apellido70",
+       "codename": ""
+      },
+      {
+       "id_user": 1023,
+       "idBooking": 4931589,
+       "id_flight": 0,
+       "func": "SUPER",
+       "firstname": "Nombre23",
+       "lastname": "Apellido23",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    }
+   ]
+  },
+  {
+   "id": 156,
+   "registration": "EC-JSN",
+   "bookings": [
+    {
+     "id_aircraft": 156,
+     "registration": "EC-JSN",
+     "flight_type": "solo",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4951417,
+     "timestamp_begin": 1793952000000,
+     "timestamp_end": 1793962800000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 2,
+     "line": 0,
+     "nlines": 2,
+     "crew": [
+      {
+       "id_user": 1071,
+       "idBooking": 4951417,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre71",
+       "lastname": "Apellido71",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": "Student unavailable"
+    },
+    {
+     "id_aircraft": 156,
+     "registration": "EC-JSN",
+     "flight_type": "solo",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4969104,
+     "timestamp_begin": 1793957400000,
+     "timestamp_end": 1793962800000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 1,
+     "nlines": 2,
+     "crew": [
+      {
+       "id_user": 1072,
+       "idBooking": 4969104,
+       "id_flight": 0,
+       "func": "PIC2",
+       "firstname": "Nombre72",
+       "lastname": "Apellido72",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    },
+    {
+     "id_aircraft": 156,
+     "registration": "EC-JSN",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": true,
+     "repeat": false,
+     "id_reservation": 4962745,
+     "timestamp_begin": 1793962800000,
+     "timestamp_end": 1793975400000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1028,
+       "idBooking": 4962745,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre28",
+       "lastname": "Apellido28",
+       "codename": ""
+      },
+      {
+       "id_user": 1031,
+       "idBooking": 4962745,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre31",
+       "lastname": "Apellido31",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    },
+    {
+     "id_aircraft": 156,
+     "registration": "EC-JSN",
+     "flight_type": "solo",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4973357,
+     "timestamp_begin": 1793975400000,
+     "timestamp_end": 1793982600000,
+     "prebrief_min": 0,
+     "postbrief_min": 0,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 2,
+     "crew": [
+      {
+       "id_user": 1073,
+       "idBooking": 4973357,
+       "id_flight": 0,
+       "func": "PIC2",
+       "firstname": "Nombre73",
+       "lastname": "Apellido73",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    },
+    {
+     "id_aircraft": 156,
+     "registration": "EC-JSN",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4963983,
+     "timestamp_begin": 1793975400000,
+     "timestamp_end": 1793980800000,
+     "prebrief_min": 0,
+     "postbrief_min": 0,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 2,
+     "line": 1,
+     "nlines": 2,
+     "crew": [
+      {
+       "id_user": 1074,
+       "idBooking": 4963983,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre74",
+       "lastname": "Apellido74",
+       "codename": ""
+      },
+      {
+       "id_user": 1075,
+       "idBooking": 4963983,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre75",
+       "lastname": "Apellido75",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": "O"
+    }
+   ]
+  },
+  {
+   "id": 286,
+   "registration": "EC-JTJ",
+   "bookings": [
+    {
+     "id_aircraft": 286,
+     "registration": "EC-JTJ",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4954848,
+     "timestamp_begin": 1793952000000,
+     "timestamp_end": 1793957400000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 2,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1023,
+       "idBooking": 4954848,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre23",
+       "lastname": "Apellido23",
+       "codename": ""
+      },
+      {
+       "id_user": 1024,
+       "idBooking": 4954848,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre24",
+       "lastname": "Apellido24",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": "Weather"
+    },
+    {
+     "id_aircraft": 286,
+     "registration": "EC-JTJ",
+     "flight_type": "solo",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4947475,
+     "timestamp_begin": 1793957400000,
+     "timestamp_end": 1793966400000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1076,
+       "idBooking": 4947475,
+       "id_flight": 0,
+       "func": "PIC2",
+       "firstname": "Nombre76",
+       "lastname": "Apellido76",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    },
+    {
+     "id_aircraft": 286,
+     "registration": "EC-JTJ",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4931588,
+     "timestamp_begin": 1793966400000,
+     "timestamp_end": 1793971800000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1077,
+       "idBooking": 4931588,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre77",
+       "lastname": "Apellido77",
+       "codename": ""
+      },
+      {
+       "id_user": 1002,
+       "idBooking": 4931588,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre2",
+       "lastname": "Apellido2",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    },
+    {
+     "id_aircraft": 286,
+     "registration": "EC-JTJ",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": true,
+     "repeat": false,
+     "id_reservation": 4962742,
+     "timestamp_begin": 1793971800000,
+     "timestamp_end": 1793983320000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1078,
+       "idBooking": 4962742,
+       "id_flight": 0,
+       "func": "SPIC",
+       "firstname": "Nombre78",
+       "lastname": "Apellido78",
+       "codename": ""
+      },
+      {
+       "id_user": 1079,
+       "idBooking": 4962742,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre79",
+       "lastname": "Apellido79",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    }
+   ]
+  },
+  {
+   "id": 285,
+   "registration": "EC-JOB",
+   "bookings": [
+    {
+     "id_aircraft": 285,
+     "registration": "EC-JOB",
+     "flight_type": "trip",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4952185,
+     "timestamp_begin": 1793952000000,
+     "timestamp_end": 1793983320000,
+     "prebrief_min": 0,
+     "postbrief_min": 0,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1080,
+       "idBooking": 4952185,
+       "id_flight": 0,
+       "func": "PIC2",
+       "firstname": "Nombre80",
+       "lastname": "Apellido80",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    }
+   ]
+  },
+  {
+   "id": 833,
+   "registration": "EC-GV8",
+   "bookings": [
+    {
+     "id_aircraft": 833,
+     "registration": "EC-GV8",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4970717,
+     "timestamp_begin": 1793977200000,
+     "timestamp_end": 1793982600000,
+     "prebrief_min": 0,
+     "postbrief_min": 0,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1081,
+       "idBooking": 4970717,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre81",
+       "lastname": "Apellido81",
+       "codename": ""
+      },
+      {
+       "id_user": 1082,
+       "idBooking": 4970717,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre82",
+       "lastname": "Apellido82",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    }
+   ]
+  },
+  {
+   "id": 296,
+   "registration": "EC-FVK",
+   "bookings": [
+    {
+     "id_aircraft": 296,
+     "registration": "EC-FVK",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4960732,
+     "timestamp_begin": 1793953800000,
+     "timestamp_end": 1793956500000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1083,
+       "idBooking": 4960732,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre83",
+       "lastname": "Apellido83",
+       "codename": ""
+      },
+      {
+       "id_user": 1027,
+       "idBooking": 4960732,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre27",
+       "lastname": "Apellido27",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    },
+    {
+     "id_aircraft": 296,
+     "registration": "EC-FVK",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4936702,
+     "timestamp_begin": 1793959200000,
+     "timestamp_end": 1793961900000,
+     "prebrief_min": 30,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1026,
+       "idBooking": 4936702,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre26",
+       "lastname": "Apellido26",
+       "codename": ""
+      },
+      {
+       "id_user": 1027,
+       "idBooking": 4936702,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre27",
+       "lastname": "Apellido27",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    }
+   ]
+  },
+  {
+   "id": 459,
+   "registration": "EC-KYA",
+   "bookings": [
+    {
+     "id_aircraft": 459,
+     "registration": "EC-KYA",
+     "flight_type": "solo",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4965917,
+     "timestamp_begin": 1793962800000,
+     "timestamp_end": 1793977200000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1084,
+       "idBooking": 4965917,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre84",
+       "lastname": "Apellido84",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    }
+   ]
+  },
+  {
+   "id": 2251,
+   "registration": "ES-3A-096-7",
+   "bookings": [
+    {
+     "id_aircraft": 2251,
+     "registration": "ES-3A-096-7",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": true,
+     "repeat": false,
+     "id_reservation": 4953097,
+     "timestamp_begin": 1793952000000,
+     "timestamp_end": 1793962800000,
+     "prebrief_min": 0,
+     "postbrief_min": 0,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1085,
+       "idBooking": 4953097,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre85",
+       "lastname": "Apellido85",
+       "codename": ""
+      },
+      {
+       "id_user": 1029,
+       "idBooking": 4953097,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre29",
+       "lastname": "Apellido29",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    },
+    {
+     "id_aircraft": 2251,
+     "registration": "ES-3A-096-7",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": true,
+     "repeat": false,
+     "id_reservation": 4962746,
+     "timestamp_begin": 1793962800000,
+     "timestamp_end": 1793970000000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1086,
+       "idBooking": 4962746,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre86",
+       "lastname": "Apellido86",
+       "codename": ""
+      },
+      {
+       "id_user": 1029,
+       "idBooking": 4962746,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre29",
+       "lastname": "Apellido29",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    }
+   ]
+  },
+  {
+   "id": 3954,
+   "registration": "EC-OPV",
+   "bookings": [
+    {
+     "id_aircraft": 3954,
+     "registration": "EC-OPV",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": true,
+     "repeat": false,
+     "id_reservation": 4948713,
+     "timestamp_begin": 1793971800000,
+     "timestamp_end": 1793983320000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1035,
+       "idBooking": 4948713,
+       "id_flight": 0,
+       "func": "SPIC",
+       "firstname": "Nombre35",
+       "lastname": "Apellido35",
+       "codename": ""
+      },
+      {
+       "id_user": 1029,
+       "idBooking": 4948713,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre29",
+       "lastname": "Apellido29",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    }
+   ]
+  },
+  {
+   "id": 3543,
+   "registration": "EC-OAJ",
+   "bookings": [
+    {
+     "id_aircraft": 3543,
+     "registration": "EC-OAJ",
+     "flight_type": "solo",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4931587,
+     "timestamp_begin": 1793962800000,
+     "timestamp_end": 1793975400000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1087,
+       "idBooking": 4931587,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre87",
+       "lastname": "Apellido87",
+       "codename": ""
+      },
+      {
+       "id_user": 1006,
+       "idBooking": 4931587,
+       "id_flight": 0,
+       "func": "SUPER",
+       "firstname": "Nombre6",
+       "lastname": "Apellido6",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    }
+   ]
+  },
+  {
+   "id": 3623,
+   "registration": "EC-OKU",
+   "bookings": [
+    {
+     "id_aircraft": 3623,
+     "registration": "EC-OKU",
+     "flight_type": "solo",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4953101,
+     "timestamp_begin": 1793952000000,
+     "timestamp_end": 1793957400000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1088,
+       "idBooking": 4953101,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre88",
+       "lastname": "Apellido88",
+       "codename": ""
+      },
+      {
+       "id_user": 1021,
+       "idBooking": 4953101,
+       "id_flight": 0,
+       "func": "SUPER",
+       "firstname": "Nombre21",
+       "lastname": "Apellido21",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    },
+    {
+     "id_aircraft": 3623,
+     "registration": "EC-OKU",
+     "flight_type": "solo",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4931585,
+     "timestamp_begin": 1793962800000,
+     "timestamp_end": 1793973600000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1040,
+       "idBooking": 4931585,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre40",
+       "lastname": "Apellido40",
+       "codename": ""
+      },
+      {
+       "id_user": 1006,
+       "idBooking": 4931585,
+       "id_flight": 0,
+       "func": "SUPER",
+       "firstname": "Nombre6",
+       "lastname": "Apellido6",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    }
+   ]
+  },
+  {
+   "id": 3624,
+   "registration": "EC-OKV",
+   "bookings": [
+    {
+     "id_aircraft": 3624,
+     "registration": "EC-OKV",
+     "flight_type": "solo",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4953098,
+     "timestamp_begin": 1793952000000,
+     "timestamp_end": 1793962800000,
+     "prebrief_min": 20,
+     "postbrief_min": 0,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1039,
+       "idBooking": 4953098,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre39",
+       "lastname": "Apellido39",
+       "codename": ""
+      },
+      {
+       "id_user": 1031,
+       "idBooking": 4953098,
+       "id_flight": 0,
+       "func": "SUPER",
+       "firstname": "Nombre31",
+       "lastname": "Apellido31",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    },
+    {
+     "id_aircraft": 3624,
+     "registration": "EC-OKV",
+     "flight_type": "solo",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4957842,
+     "timestamp_begin": 1793962800000,
+     "timestamp_end": 1793975400000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1041,
+       "idBooking": 4957842,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre41",
+       "lastname": "Apellido41",
+       "codename": ""
+      },
+      {
+       "id_user": 1006,
+       "idBooking": 4957842,
+       "id_flight": 0,
+       "func": "SUPER",
+       "firstname": "Nombre6",
+       "lastname": "Apellido6",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    }
+   ]
+  },
+  {
+   "id": 3851,
+   "registration": "EC-OPZ",
+   "bookings": [
+    {
+     "id_aircraft": 3851,
+     "registration": "EC-OPZ",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": true,
+     "repeat": false,
+     "id_reservation": 4931582,
+     "timestamp_begin": 1793954400000,
+     "timestamp_end": 1793968200000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1089,
+       "idBooking": 4931582,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre89",
+       "lastname": "Apellido89",
+       "codename": ""
+      },
+      {
+       "id_user": 1023,
+       "idBooking": 4931582,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre23",
+       "lastname": "Apellido23",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    },
+    {
+     "id_aircraft": 3851,
+     "registration": "EC-OPZ",
+     "flight_type": "solo",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4974156,
+     "timestamp_begin": 1793968800000,
+     "timestamp_end": 1793981400000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1090,
+       "idBooking": 4974156,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre90",
+       "lastname": "Apellido90",
+       "codename": ""
+      },
+      {
+       "id_user": 1018,
+       "idBooking": 4974156,
+       "id_flight": 0,
+       "func": "SUPER",
+       "firstname": "Nombre18",
+       "lastname": "Apellido18",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    }
+   ]
+  },
+  {
+   "id": 256,
+   "registration": "EC-IJB",
+   "bookings": [
+    {
+     "id_aircraft": 256,
+     "registration": "EC-IJB",
+     "flight_type": "solo",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4950625,
+     "timestamp_begin": 1793955600000,
+     "timestamp_end": 1793968200000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1043,
+       "idBooking": 4950625,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre43",
+       "lastname": "Apellido43",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    },
+    {
+     "id_aircraft": 256,
+     "registration": "EC-IJB",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4931590,
+     "timestamp_begin": 1793968200000,
+     "timestamp_end": 1793977200000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1091,
+       "idBooking": 4931590,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre91",
+       "lastname": "Apellido91",
+       "codename": ""
+      },
+      {
+       "id_user": 1023,
+       "idBooking": 4931590,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre23",
+       "lastname": "Apellido23",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    },
+    {
+     "id_aircraft": 256,
+     "registration": "EC-IJB",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4931594,
+     "timestamp_begin": 1793977200000,
+     "timestamp_end": 1793982600000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1092,
+       "idBooking": 4931594,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre92",
+       "lastname": "Apellido92",
+       "codename": ""
+      },
+      {
+       "id_user": 1031,
+       "idBooking": 4931594,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre31",
+       "lastname": "Apellido31",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    }
+   ]
+  },
+  {
+   "id": 1045,
+   "registration": "EC-NIK",
+   "bookings": [
+    {
+     "id_aircraft": 1045,
+     "registration": "EC-NIK",
+     "flight_type": "instr",
+     "standby": false,
+     "maintenanceType": 0,
+     "ifr": false,
+     "repeat": false,
+     "id_reservation": 4968670,
+     "timestamp_begin": 1793962200000,
+     "timestamp_end": 1793970000000,
+     "prebrief_min": 20,
+     "postbrief_min": 20,
+     "type": "F",
+     "bookingType": 0,
+     "curStatus": 0,
+     "line": 0,
+     "nlines": 1,
+     "crew": [
+      {
+       "id_user": 1093,
+       "idBooking": 4968670,
+       "id_flight": 0,
+       "func": "DUAL",
+       "firstname": "Nombre93",
+       "lastname": "Apellido93",
+       "codename": ""
+      },
+      {
+       "id_user": 1048,
+       "idBooking": 4968670,
+       "id_flight": 0,
+       "func": "PIC",
+       "firstname": "Nombre48",
+       "lastname": "Apellido48",
+       "codename": ""
+      }
+     ],
+     "missions": [],
+     "cancel_reason": ""
+    }
+   ]
+  }
+ ],
+ "classroomsWithBookings": [],
+ "usersLightWithBookings": [],
+ "status": "success"
+}

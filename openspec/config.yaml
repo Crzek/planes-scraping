@@ -1,0 +1,46 @@
+schema: spec-driven
+
+context: |
+  Stack:
+    - Python 3.12 (uv), Flask 3.0, Flask-Login, Flask-SQLAlchemy, Flask-Migrate (Alembic)
+    - PostgreSQL (psycopg), pydantic-settings para config
+    - Scraping: Playwright async (src/app/automation/, rama activa) y Selenium + BeautifulSoup (src/app/main.py, legado)
+    - pandas + openpyxl para exportar a Excel; frontend con Jinja2 + HTML/CSS/JS
+    - Despliegue: gunicorn, Docker (AMD64/ARM64), GitHub Actions -> Raspberry Pi
+
+  Arquitectura:
+    - App factory en src/__init__.py (create_app); entrada main.py
+    - Blueprints: auth (/), scrapBP (/scrapy), health (/status/health)
+    - Capas: routes -> automation (scraper) -> utils (parseo/export) -> models (Book, Aircraft, User)
+    - Config por entorno en src/config/default.py (CONFIG_ENV) y src/core/settings.py (.env)
+
+  Convenciones:
+    - Código y comentarios mezclan español e inglés; sin linter/formatter configurado (N/A)
+    - Migraciones con "flask db migrate/upgrade"; nunca editar la BD a mano
+    - Credenciales solo vía .env (ver .env.example)
+
+  Comandos de test:
+    - N/A: no hay suite de tests (test/ contiene solo scripts de prueba manuales)
+    - Verificación manual: docker compose -f docker-compose.db.yml up -d && uv run flask db upgrade && uv run flask run --debug
+
+# Per-artifact rules (optional)
+# Add custom rules for specific artifacts.
+# Example:
+#   rules:
+#     proposal:
+#       - Keep proposals under 500 words
+#       - Always state what is out of scope
+#     tasks:
+#       - Break tasks into chunks of max 2 hours
+
+# Per-operation guidance (optional)
+# Add advisory guidance for how apply and archive work should be conducted.
+# This is separate from artifact rules above.
+# Example:
+#   operations:
+#     apply:
+#       guidance:
+#         - Keep test summaries concise
+#     archive:
+#       guidance:
+#         - Summarize the archive outcome before finishing

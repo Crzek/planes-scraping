@@ -184,17 +184,17 @@ def vuelos(remake: str = None):
             if not os.path.exists(filepath) or (remake == "remake"):
                 from src.app.utils.styles import main_styles
                 # from src.app.main import main
-                from src.app.automation.main_scraper import main_scraper
+                from src.app.flights import get_flights
 
                 # en arm heddin True
                 # AMD hideen False
                 is_hidden_browser = PROD
-                title_day, html_table = asyncio.run(main_scraper(
+                title_day, html_table = get_flights(
                     today=hoy,
                     hidden=is_hidden_browser,
                     date=date,
                     select_all=select_all
-                ))
+                )
                 logger.info("title_day -- %s", title_day)
                 main_styles(hoy, date=date)
 
