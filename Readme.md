@@ -156,8 +156,9 @@ Fuente de verdad: `openspec/changes/api-first-scraper-with-playwright-fallback/t
 **Caducidad (revisado 2026-11-06)**
 - Intermedio `Sectigo Public Server Authentication CA DV R36` (el que descargamos):
   caduca el **2036-03-21**. No hay que renovarlo antes.
-- Certificado de `*.private-radar.com`: caduca el **2026-11-27** (se renueva cada
-  ~13 meses). Lo renueva private-radar, no nosotros. Si lo emite el mismo
+- Certificado de `*.private-radar.com`: caduca el **2026-11-27** (el actual dura
+  13 meses; los nuevos durarán como máximo 200 días, así que cambiará más a menudo).
+  Lo renueva private-radar, no nosotros. Si lo emite el mismo
   intermedio R36, no hay que hacer nada; si cambian de intermedio, la API dará
   `tls_error` y se usará Playwright (fallback automático).
 - Qué hacer en ese caso: ver el emisor nuevo con
