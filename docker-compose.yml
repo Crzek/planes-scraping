@@ -13,6 +13,9 @@ services:
     environment:
       - PYTHONUNBUFFERED=1 # para mostrar los logs en tiempo real
       - FLASK_APP=main:app # necesario para `flask db upgrade`
+      # CA intermedia descargada en el build (ver Dockerfile); tiene prioridad
+      # sobre un API_EXTRA_CA_FILE relativo que venga del .env
+      - API_EXTRA_CA_FILE=/usr/local/share/private-radar/sectigo-dv-r36.pem
     env_file:
       - .env
     # file: entrypoint.py
