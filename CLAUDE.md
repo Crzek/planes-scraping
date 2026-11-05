@@ -81,9 +81,13 @@ gunicorn -w 2 -b '0.0.0.0:5000' --timeout 120 'main:app'
 
 ## Docker (contenedor completo de la app)
 
+**Producción = `Dockerfile` + `docker-compose.yml` de la raíz**, en un servidor Ubuntu x86_64. Ese `Dockerfile` descarga en el build la CA intermedia de private-radar (Sectigo DV R36), verifica su SHA-256 (`PR_CA_SHA256`) y la deja en `/usr/local/share/private-radar/sectigo-dv-r36.pem`; el compose fija `API_EXTRA_CA_FILE` a esa ruta. `certs/` está en `.gitignore` y `.dockerignore` (solo uso local). Los ficheros de `docker/` son alternativas (ARM/Raspberry Pi, dev) aún sin ese paso.
+
 ```shell
-# Production AMD64
+# Production (Ubuntu x86_64) — el que se usa
 docker compose up --build
+
+# Alternativa AMD64 antigua
 docker compose -f docker/docker-compose.pro.yml up --build
 
 # Production ARM64

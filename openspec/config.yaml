@@ -6,7 +6,7 @@ context: |
     - PostgreSQL (psycopg), pydantic-settings para config
     - Scraping: Playwright async (src/app/automation/, rama activa) y Selenium + BeautifulSoup (src/app/main.py, legado)
     - pandas + openpyxl para exportar a Excel; frontend con Jinja2 + HTML/CSS/JS
-    - Despliegue: gunicorn, Docker (AMD64/ARM64), GitHub Actions -> Raspberry Pi
+    - Despliegue: producción en servidor Ubuntu x86_64 con Dockerfile + docker-compose.yml de la raíz (gunicorn); alternativa ARM64 en Raspberry Pi vía GitHub Actions (docker/)
 
   Arquitectura:
     - App factory en src/__init__.py (create_app); entrada main.py

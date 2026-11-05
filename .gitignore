@@ -37,3 +37,6 @@ temp.html
 *.db
 # respuestas reales de la API (contienen datos personales)
 data.json
+
+# CA intermedia de private-radar: se descarga (ver Readme), no se versiona
+certs/
