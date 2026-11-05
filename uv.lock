@@ -413,6 +413,7 @@ dependencies = [
     { name = "python-dateutil" },
     { name = "python-dotenv" },
     { name = "pytz" },
+    { name = "requests" },
     { name = "selenium" },
     { name = "six" },
     { name = "sniffio" },
@@ -427,6 +428,11 @@ dependencies = [
     { name = "websocket-client" },
     { name = "werkzeug" },
     { name = "wsproto" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
 ]
 
 [package.metadata]
@@ -463,6 +469,7 @@ requires-dist = [
     { name = "python-dateutil", specifier = "==2.9.0.post0" },
     { name = "python-dotenv", specifier = "==1.0.1" },
     { name = "pytz", specifier = "==2024.1" },
+    { name = "requests", specifier = ">=2.33.1" },
     { name = "selenium", specifier = "==4.24.0" },
     { name = "six", specifier = "==1.16.0" },
     { name = "sniffio", specifier = "==1.3.1" },
@@ -478,6 +485,9 @@ requires-dist = [
     { name = "werkzeug", specifier = "==3.0.4" },
     { name = "wsproto", specifier = "==1.2.0" },
 ]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest", specifier = ">=9.0.3" }]
 
 [[package]]
 name = "playwright"

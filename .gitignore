@@ -35,3 +35,5 @@ temp.html
 
 # sqlite databases
 *.db
+# respuestas reales de la API (contienen datos personales)
+data.json

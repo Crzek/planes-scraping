@@ -49,17 +49,27 @@ def save_Book_by_tag(cadena: str):
     if hora and planeName and reservaName:
         takeoff = hora[:5]  # 09:00
         landing = hora[6:]  # - 11:00
-        # Cremos avion
-        plane = AirCraft(planeName, "ok")
-        # Reserva
-        reserva = Book(takeoff, landing, reservaName, plane)
-        # insertamos en reservas globales
-        # AirCraft.add_reservas(reserva)
-        plane.update_reservas(takeoff, landing)
+        save_book(takeoff, landing, reservaName, planeName)
         return True
 
     else:
         return False
+
+
+def save_book(takeoff: str, landing: str, persona: str, plane_name: str):
+    """
+    Crea el AirCraft y la Book y los acumula en las reservas globales.
+
+    Punto comun del flujo Playwright (via `save_Book_by_tag`) y del flujo API.
+    """
+    # Cremos avion
+    plane = AirCraft(plane_name, "ok")
+    # Reserva
+    reserva = Book(takeoff, landing, persona, plane)
+    # insertamos en reservas globales
+    # AirCraft.add_reservas(reserva)
+    plane.update_reservas(takeoff, landing)
+    return reserva
 
 
 def clas_to_series(today: bool = False, date: datetime.date = None):
