@@ -168,6 +168,17 @@ Fuente de verdad: `openspec/changes/api-first-scraper-with-playwright-fallback/t
 - [ ] Comprobar tras el 2026-11-27 que la API sigue funcionando (sin warning
   `api fallo (...tls_error)` en el log).
 
+**Despliegue del cambio `download-private-radar-ca-at-docker-build`** (ya en `main`, PR #37)
+
+Fuente de verdad: `openspec/changes/download-private-radar-ca-at-docker-build/tasks.md`.
+- [ ] En el servidor: `git pull` de `main` y `docker compose up --build -d`.
+- [ ] Comprobar `docker exec prod-planes-pw sh -c 'echo $API_EXTRA_CA_FILE'` →
+  `/usr/local/share/private-radar/sectigo-dv-r36.pem`.
+- [ ] En el `.env` del servidor: quitar `API_EXTRA_CA_FILE` (lo fija el compose) y
+  decidir `USE_API_FIRST=true|false` (el resto de `API_*` tienen valores por defecto).
+- [ ] Tarea 1.5: ver `fuente de vuelos: api` en el log (depende de la mejora
+  pendiente 1, logging). Después, archivar con `/opsx:archive`.
+
 ## Mejoras pendientes (para futuros cambios)
 
 Detectadas al probar `download-private-radar-ca-at-docker-build`. Cada una
