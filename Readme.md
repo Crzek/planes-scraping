@@ -153,6 +153,21 @@ Fuente de verdad: `openspec/changes/api-first-scraper-with-playwright-fallback/t
 - [ ] Añadir `requests` a `requirements.txt` si algún flujo lo sigue usando (hoy no lo incluye).
 - [ ] Si private-radar corrige la cadena TLS de `api4`, el intermedio sobra; si cambian de emisor o caduca (2036), la API fallará y se usará Playwright.
 
+**Caducidad (revisado 2026-11-06)**
+- Intermedio `Sectigo Public Server Authentication CA DV R36` (el que descargamos):
+  caduca el **2036-03-21**. No hay que renovarlo antes.
+- Certificado de `*.private-radar.com`: caduca el **2026-11-27** (el actual dura
+  13 meses; los nuevos durarán como máximo 200 días, así que cambiará más a menudo).
+  Lo renueva private-radar, no nosotros. Si lo emite el mismo
+  intermedio R36, no hay que hacer nada; si cambian de intermedio, la API dará
+  `tls_error` y se usará Playwright (fallback automático).
+- Qué hacer en ese caso: ver el emisor nuevo con
+  `openssl s_client -connect api4.private-radar.com:443 -servername api4.private-radar.com </dev/null | openssl x509 -noout -issuer -ext authorityInfoAccess`,
+  poner su URL `CA Issuers` en `PR_CA_URL`, su huella en `PR_CA_SHA256`
+  (`curl -fsSL <url> | sha256sum`) y reconstruir la imagen.
+- [ ] Comprobar tras el 2026-11-27 que la API sigue funcionando (sin warning
+  `api fallo (...tls_error)` en el log).
+
 ## Mejoras pendientes (para futuros cambios)
 
 Detectadas al probar `download-private-radar-ca-at-docker-build`. Cada una
@@ -182,6 +197,18 @@ puede ser su propio cambio OpenSpec (`/opsx:propose`).
 - Tras arreglarlo: valorar rotar la contraseña de la base de datos de producción,
   porque ya ha quedado en los logs de Docker del servidor. Relacionado con la
   tarea 5.3 de arriba.
+
+**3. Ficheros `pr-ca-*.pem` que se quedan en `/tmp`** (prioridad baja)
+- Síntoma: cada proceso de gunicorn deja un `/tmp/pr-ca-XXXX.pem` (~300 KB) que
+  nunca se borra.
+- Causa: `build_ca_bundle` (`src/app/api/client.py`) crea el bundle (CAs de
+  `certifi` + intermedio) con `NamedTemporaryFile(delete=False)`. Va con
+  `lru_cache`, así que es uno por proceso, no uno por petición; en el contenedor
+  desaparecen al recrearlo.
+- Arreglo propuesto: generar el bundle una vez en una ruta fija (en Docker,
+  durante el build, junto al PEM) o borrarlo al salir con `atexit`.
+- No es un bundle que caduque por su cuenta: es una copia que se regenera al
+  arrancar cada proceso.
 
 ## Notes
 1.  Ver donde esta intalado chrome y chrome driver:
