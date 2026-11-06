@@ -138,7 +138,6 @@ uv run pytest
 Fuente de verdad: `openspec/changes/api-first-scraper-with-playwright-fallback/tasks.md`.
 
 **OpenSpec (tareas sin cerrar)**
-- [ ] 1.1 Rotar la contraseña de la cuenta de private-radar (se pegó en un chat).
 - [ ] 1.3 Comparar el Excel de Playwright con el de la API del mismo día (confirmar reservas `PIC2`/`SPIC` y que la hora coincide).
 - [ ] 4.2 Verificar que con `USE_API_FIRST=false` la página de vuelos sale igual que antes.
 - [ ] 5.1 Con `USE_API_FIRST=true`, generar hoy y mañana y comparar con Playwright (log: `fuente de vuelos: api`).
