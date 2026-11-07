@@ -98,7 +98,9 @@ python main.py
 Los vuelos se pueden obtener directamente de la API de private-radar (login +
 `getByFilterNew`) en lugar de navegar la web con Playwright.
 
-- Se controla con `USE_API_FIRST` en `.env` (por defecto `false`: solo Playwright).
+- Se controla con `USE_API_FIRST` en `.env`:
+  - `USE_API_FIRST=true`: se usa primero la API (rápida, ~2 s).
+  - `USE_API_FIRST=false` (por defecto): solo Playwright, es decir, la automatización del navegador (~42 s).
 - Con `USE_API_FIRST=true` se intenta la API y, si falla (login rechazado,
   error de red o HTTP, timeout, respuesta con esquema inesperado o sin
   reservas utilizables), se ejecuta Playwright automaticamente.
@@ -133,21 +135,18 @@ USE_API_FIRST=true uv run flask run --debug
 uv run pytest
 ```
 
-## Pendiente (cambio `api-first-scraper-with-playwright-fallback`)
-
-Fuente de verdad: `openspec/changes/api-first-scraper-with-playwright-fallback/tasks.md`.
+## Pendiente
 
 **OpenSpec (tareas sin cerrar)**
 - [x] 1.3, 4.2, 5.2, 5.3 hechas el 2026-11-07 (comparación en `design.md`, sección "Comparación API vs Playwright").
 - [x] 5.1 Decidido 2026-11-07: las reservas `PIC2` (privadas) se muestran como `PB-<matrícula>`; la vista solo necesita la hora de salida por día.
   - La API no muestra las horas de prebriefing (−20 min) que Playwright duplicaba: se da por correcto.
-- [ ] Activar `USE_API_FIRST=true` en producción tras comparar unos días, y archivar el cambio (`/opsx:archive`).
 
 **Certificados (`certs/sectigo-dv-r36.pem`)**
 - [x] El `Dockerfile` raíz (producción) descarga y verifica el intermedio en el build; probado TLS contra `api4` desde el contenedor (cambio `download-private-radar-ca-at-docker-build`).
 - [x] Probado en el PC con `docker-compose.yml` raíz + `docker-compose.db.yml` y `USE_API_FIRST=true`: el log muestra `fuente de vuelos: api` (2026-11-07, tras arreglar el logging).
 - Carpeta `docker/`: ya no se usa (PC y servidor usan `docker-compose.yml` raíz). Si se recupera, sus Dockerfiles necesitan `bullseye` → `bookworm` (apt da 404) y el ARM Python 3.11.9 → 3.12.
-- [ ] Añadir `requests` a `requirements.txt` si algún flujo lo sigue usando (hoy no lo incluye).
+- [x] `requests` añadido a `requirements.txt` (2026-11-07).
 - [ ] Si private-radar corrige la cadena TLS de `api4`, el intermedio sobra; si cambian de emisor o caduca (2036), la API fallará y se usará Playwright.
 
 **Caducidad (revisado 2026-11-06)**
@@ -171,7 +170,7 @@ Fuente de verdad: `openspec/changes/download-private-radar-ca-at-docker-build/ta
 - [x] Desplegado en el servidor y `API_EXTRA_CA_FILE` comprobado (2026-11-07).
 - [x] `.env` del servidor limpio (`API_EXTRA_CA_FILE` quitado, `USE_API_FIRST` decidido).
 - [x] Tarea 1.5: `fuente de vuelos: api` visible en el log. Cambio listo para `/opsx:archive`.
-- [ ] Desplegar `fix-startup-logging-and-db-secret` (logging INFO y `DATABASE_PASS` oculto).
+- [x] Desplegado `fix-startup-logging-and-db-secret` (logging INFO y `DATABASE_PASS` oculto).
 
 ## Mejoras pendientes (para futuros cambios)
 
