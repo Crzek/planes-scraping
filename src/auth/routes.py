@@ -11,6 +11,7 @@ from flask_login import (
     current_user  # para saber el usuario actual
 )
 from src.core.settings import settings
+from src.core.tracing import elapsed, phase, trace_request
 from . import auth_bp
 from .models.users import User
 
@@ -157,70 +158,70 @@ def vuelos(remake: str = None):
         select_all = True if request.form.get(
             "select_all") == "all" else False
 
-        logger.info("ver Dia %s", day)
         # generar vuelos
-        if day == "today":
-            hoy = True
-        else:
-            hoy = False
-
+        hoy = day == "today"
         date = TODAY if hoy else TOMORROW
-        try:
-            filename = f'vuelos-{date}.xlsx'  # antes excel
-            name = filename.split(".")[0]
-            # f_s = f'vuelos-{date}_s.xlsx'  # excel con stylos
-            getcwd = os.getcwd()
-
-            filepath = (
-                f'{getcwd}/{PATH_STATIC_DATA}'
-                f'{filename}'  # Ajusta según la ruta real
-            )
-            logger.info("--filepath--- %s", filepath)
-            # html_output = getcwd + "/" + PATH_STATIC + "html/" + name + ".html"
-            # pdf_output = getcwd + "/" + PATH_STATIC + "pdf/" + name + ".pdf"
-            pdf_output = f"{name}.pdf"
-            html_output = f"{name}.html"
-            logger.info("pdf_output ---- %s", pdf_output)
-            if not os.path.exists(filepath) or (remake == "remake"):
-                from src.app.utils.styles import main_styles
-                # from src.app.main import main
-                from src.app.flights import get_flights
-
-                # en arm heddin True
-                # AMD hideen False
-                is_hidden_browser = PROD
-                title_day, html_table = get_flights(
-                    today=hoy,
-                    hidden=is_hidden_browser,
-                    date=date,
-                    select_all=select_all
+        with trace_request() as trace:
+            try:
+                filename = f'vuelos-{date}.xlsx'  # antes excel
+                name = filename.split(".")[0]
+                filepath = (
+                    f'{os.getcwd()}/{PATH_STATIC_DATA}'
+                    f'{filename}'  # Ajusta según la ruta real
                 )
-                logger.info("title_day -- %s", title_day)
-                main_styles(hoy, date=date)
+                pdf_output = f"{name}.pdf"
+                html_output = f"{name}.html"
+                regenerar = not os.path.exists(filepath) or (remake == "remake")
+                logger.info(
+                    "generacion de vuelos inicio: dia=%s select_all=%s excel=%s",
+                    date, select_all,
+                    "se regenera" if regenerar else "existente, se reutiliza")
+                if regenerar:
+                    from src.app.utils.styles import main_styles
+                    from src.app.flights import get_flights
 
-            return render_template(
-                "vuelos.html",
-                vuelos=filename,
-                # file_s=f_s,
-                pdf_file=pdf_output,
-                html_file=html_output,
-                day=date,
-                title_day=None,
-                # title_day=title_day,
-                today=TODAY, tomorrow=TOMORROW
-            )
+                    # en arm heddin True
+                    # AMD hideen False
+                    is_hidden_browser = PROD
+                    title_day, html_table = get_flights(
+                        today=hoy,
+                        hidden=is_hidden_browser,
+                        date=date,
+                        select_all=select_all
+                    )
+                    with phase("excel.estilos"):
+                        main_styles(hoy, date=date)
 
-        except Exception as e:
-            logger.error(f"Error {e}")
-            return render_template(
-                "vuelos.html",
-                vuelos=None,
-                errors=f"Error al cargar los vuelos::: {e}",
-                day=date,
-                title_day=None,
-                today=TODAY, tomorrow=TOMORROW
+                logger.info(
+                    "generacion de vuelos fin: resultado=ok fuente=%s "
+                    "reservas=%s duracion_total=%.1fs",
+                    trace.get("source", "ninguna (excel existente)"),
+                    trace.get("reservas", "-"), elapsed(trace))
+                return render_template(
+                    "vuelos.html",
+                    vuelos=filename,
+                    # file_s=f_s,
+                    pdf_file=pdf_output,
+                    html_file=html_output,
+                    day=date,
+                    title_day=None,
+                    # title_day=title_day,
+                    today=TODAY, tomorrow=TOMORROW
+                )
 
-            )
+            except Exception as e:
+                logger.exception(
+                    "generacion de vuelos fin: resultado=fallo "
+                    "duracion_total=%.1fs", elapsed(trace))
+                return render_template(
+                    "vuelos.html",
+                    vuelos=None,
+                    errors=f"Error al cargar los vuelos::: {e}",
+                    day=date,
+                    title_day=None,
+                    today=TODAY, tomorrow=TOMORROW
+
+                )
 
     return render_template("vuelos.html", vuelos=None, today=TODAY, tomorrow=TOMORROW, title_day=None)
 

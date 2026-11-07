@@ -87,8 +87,7 @@ def clas_to_series(today: bool = False, date: datetime.date = None):
     serie = pd.DataFrame(data["books"], index=range(
         START_DEL, START_DEL+len(data["books"][elem_dic_0]))).transpose()
 
-    logger.info("Serie de Pandas------")
-    print(serie)
+    logger.info("Serie de Pandas: %s filas", len(serie))
 
     file_name = f"vuelos-{date}"
     # Exportar la serie a un archivo CSV

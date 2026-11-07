@@ -7,6 +7,7 @@ from playwright.async_api import Locator, Page, async_playwright, expect
 from src.app.automation.secure import secure_click, secure_fill
 from src.app.utils.utils import clas_to_series, save_Book_by_tag
 from src.core.settings import Settings
+from src.core.tracing import phase
 
 logging.basicConfig(
     level=logging.INFO,
@@ -131,25 +132,27 @@ async def delete_parts(page: Page):
 
 
 async def navigation_planes(page: Page, today: bool = False, select_all: bool = False) -> list[Locator]:
-    await login(page)
-    logger.info("login completado")
-    await calendario(page)
+    with phase("playwright.login"):
+        await login(page)
+    with phase("playwright.calendario"):
+        await calendario(page)
     # screem pagina programacion o calendario vuelos
     await page.screenshot(path="./calendario_abierto.png")
     logger.info("calendario abierto")
-    await config_vista_calendario(page, select_all=select_all)
-    logger.info("filtros configurados")
+    with phase("playwright.filtros"):
+        await config_vista_calendario(page, select_all=select_all)
 
     # await page.wait_for_timeout(2000)
-    if not today:
-        logger.info("navegando al siguiente dia")
-        await navigate_next_day(page)
-
-    await page.wait_for_timeout(20000)
+    with phase("playwright.dia"):
+        if not today:
+            logger.info("navegando al siguiente dia")
+            await navigate_next_day(page)
+        await page.wait_for_timeout(20000)
     logger.info('screem filtro y dia')
     await page.screenshot(path="./filtros_configurados.png")
-    await delete_parts(page)
-    bookings = await get_title_booking(page)
+    with phase("playwright.lectura"):
+        await delete_parts(page)
+        bookings = await get_title_booking(page)
     # screen con filtro y dia
     return bookings
 

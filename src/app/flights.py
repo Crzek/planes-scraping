@@ -2,6 +2,7 @@
 import asyncio
 import datetime
 import logging
+import os
 
 from src.app.api.adapter import parse_bookings
 from src.app.api.client import PrivateRadarClient
@@ -11,6 +12,7 @@ from src.app.models.aircraft import AirCraft
 from src.app.utils import utils
 from src.app.utils.utils import clas_to_series, save_book
 from src.core.settings import settings as default_settings
+from src.core.tracing import note, phase
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +27,11 @@ def reset_state() -> None:
     utils.BOOKS.clear()
 
 
+def _count_reservas() -> int:
+    """Numero de reservas acumuladas (despegues) para el resumen del log."""
+    return sum(len(v["takeoff"]) for v in AirCraft.all_reservas.values())
+
+
 def _from_api(today: bool, day: datetime.date, cfg):
     client = PrivateRadarClient(
         email=cfg.user,
@@ -34,11 +41,24 @@ def _from_api(today: bool, day: datetime.date, cfg):
         timeout=cfg.API_TIMEOUT,
         extra_ca_file=cfg.API_EXTRA_CA_FILE,
     )
-    bookings = parse_bookings(client.get_bookings(day))
-    for b in bookings:
-        save_book(b.takeoff, b.landing, b.person, b.registration)
-    *_, html_table = clas_to_series(today=today, date=day)
+    with phase("api.consulta"):
+        response = client.get_bookings(day)
+    with phase("api.parseo"):
+        bookings = parse_bookings(response)
+    with phase("api.guardado"):
+        for b in bookings:
+            save_book(b.takeoff, b.landing, b.person, b.registration)
+    with phase("tabla"):
+        *_, html_table = clas_to_series(today=today, date=day)
     return None, html_table
+
+
+def _warn_fallback() -> None:
+    """Avisa del limite de tiempo de la peticion al empezar el respaldo."""
+    logger.warning(
+        "el respaldo con playwright puede tardar; si supera el limite de "
+        "la peticion (%ss) el worker de gunicorn se reinicia sin mas logs",
+        os.environ.get("TIMEOUT", "120"))
 
 
 def get_flights(
@@ -64,22 +84,27 @@ def get_flights(
         try:
             result = _from_api(today, day, cfg)
             logger.info("fuente de vuelos: api")
+            note(source="api", reservas=_count_reservas())
             return result
         except ApiError as e:
             logger.warning(
                 "fuente de vuelos: api fallo (%s); fallback a playwright",
                 e.reason)
+            _warn_fallback()
         except Exception as e:  # noqa: BLE001 - cualquier fallo activa el fallback
             logger.warning(
                 "fuente de vuelos: api fallo (%s); fallback a playwright",
                 type(e).__name__)
+            _warn_fallback()
         reset_state()
 
-    result = asyncio.run(main_scraper(
-        today=today, hidden=hidden, date=day, select_all=select_all))
+    with phase("playwright"):
+        result = asyncio.run(main_scraper(
+            today=today, hidden=hidden, date=day, select_all=select_all))
     if not result or result[1] is None:
         logger.error("no se pudieron obtener los vuelos (api intentada: %s)",
                      api_attempted)
         raise FlightsUnavailable("No se pudieron obtener los vuelos")
     logger.info("fuente de vuelos: playwright")
+    note(source="playwright", reservas=_count_reservas())
     return result
