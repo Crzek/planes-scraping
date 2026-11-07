@@ -1,19 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aviones</title>
-</head>
+{% block title %}Aviones{% endblock %}
 
-<body>
-    <button type="submit">
-        <a href="{{ url_for('scrapping.exec', day='today') }}">Vuelos Hoy</a>
-    </button>
-    <button type="submit">
-        <a href="{{ url_for('scrapping.exec', day='tomorrow') }}">Vuelos Mañana</a>
-    </button>
-</body>
-
-</htm
+{% block content %}
+<h1>Vuelos</h1>
+<ul class="actions">
+    <li><a class="btn" href="{{ url_for('scrapping.exec', day='today') }}">Vuelos de hoy</a></li>
+    <li><a class="btn" href="{{ url_for('scrapping.exec', day='tomorrow') }}">Vuelos de mañana</a></li>
+</ul>
+{% endblock %}

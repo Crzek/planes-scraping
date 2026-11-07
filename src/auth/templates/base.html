@@ -1,19 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    {% block head %} {% endblock %}
-    <title>
-        {% block title %} {% endblock %}
-    </title>
+    <title>{% block title %}{% endblock %} - Vuelos Sabadell</title>
+    <link rel="stylesheet" href="{{ url_for('authBP.static', filename='styles/styles.css') }}">
+    {% block head %}{% endblock %}
 </head>
 
-<body class="bg-gray-100">
-    {% block content %} {% endblock %}
-    {% block scripts %} {% endblock %}
+<body>
+    <header class="topbar">
+        <a class="topbar__brand" href="/">Vuelos Sabadell</a>
+        {% if current_user and current_user.is_authenticated %}
+        <a class="topbar__link" href="{{ url_for('authBP.logout') }}">Cerrar sesión</a>
+        {% endif %}
+    </header>
+    <main class="shell {% block shell_class %}{% endblock %}">
+        {% block content %}{% endblock %}
+    </main>
+    {% block scripts %}{% endblock %}
 </body>
 
 </html>

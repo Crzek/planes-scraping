@@ -5,8 +5,8 @@ function addRowControls(row) {
     const controlCell = document.createElement("td");
     controlCell.classList.add("control-buttons", "no-edit"); // Clase para identificar la columna no editable
     controlCell.innerHTML = `
-        <button onclick="addRowBelow(this)">➕ Fila Abajo</button>
-        <button onclick="deleteSpecificRow(this)">❌ Eliminar Fila</button>
+        <button type="button" class="row-btn" onclick="addRowBelow(this)" aria-label="Añadir fila debajo" title="Añadir fila debajo">+</button>
+        <button type="button" class="row-btn row-btn--danger" onclick="deleteSpecificRow(this)" aria-label="Eliminar fila" title="Eliminar fila">&times;</button>
     `;
     row.insertBefore(controlCell, row.firstChild);
 }
@@ -156,6 +156,8 @@ function toggleEditMode() {
     controlButtons.forEach((buttonCell) => {
         buttonCell.style.display = isEditingEnabled ? "" : "none";
     });
+    // el CSS desplaza la columna fija de matrículas solo si los controles se ven
+    table.classList.toggle("has-controls", Boolean(isEditingEnabled));
 
     // Alternar entre habilitar/deshabilitar edición
     cells.forEach((cell) => {
@@ -172,10 +174,10 @@ function addToggleEditButton() {
     const toggleButtonRow = document.createElement("tr");
     const toggleButtonCell = document.createElement("td");
     toggleButtonCell.colSpan = table.rows[0].cells.length; // Ocupa todo el ancho de la tabla
-    toggleButtonCell.style.textAlign = "center";
+    toggleButtonCell.classList.add("table-toolbar");
 
     toggleButtonCell.innerHTML = `
-        <button onclick="toggleEditMode()" class="no-edit" id="edit-btn" >Deshabilitar Edición</button>
+        <button type="button" onclick="toggleEditMode()" class="btn btn--ghost no-edit" id="edit-btn" >Deshabilitar Edición</button>
     `;
     toggleButtonRow.appendChild(toggleButtonCell);
     table.querySelector("tbody").appendChild(toggleButtonRow);

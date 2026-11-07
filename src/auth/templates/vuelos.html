@@ -3,69 +3,44 @@
 {% block title %}Vuelos{% endblock %}
 
 {% block content %}
-<div class="container mx-auto p-4">
-    <div class="flex justify-between items-center mb-4">
-        <h1 class="text-2xl font-bold">Vuelos del Dia {{ day }} (y-m-d)</h1>
-        <a href="{{ url_for('authBP.logout') }}" class="text-blue-500 hover:text-blue-800">Cerrar Session</a>
-    </div>
-    <div id="loading" class="hidden text-center text-blue-500">extracción de datos, esto puede tardar varios segundos
-        ...
-    </div>
-    <div id="container-form">
-        {% if not vuelos %}
-        <!-- Vuelos  -->
+<div class="page-head">
+    <h1 class="page-head__title">{% if day %}Vuelos del {{ day }}{% else %}Vuelos{% endif %}</h1>
+</div>
 
-        {% include 'form_vuelos.html' %}
+<div id="loading" class="status hidden" role="status" aria-live="polite">
+    <span class="status__spinner" aria-hidden="true"></span>
+    <p class="status__text">Extrayendo los datos. Puede tardar unos segundos.</p>
+</div>
 
-        {% endif %}
+<div id="container-form">
+    {% if errors %}
+    <p class="alert" role="alert">{{ errors }}</p>
+    {% endif %}
 
-        {% if vuelos %}
-        <!-- Vuelos ya se encentran generados -->
-        <div>
-            <!-- {% if title_day | default(false) %}
-            <div>
-                {# Ese "true" le dice a Jinja que también lo use si está vacío (None, '', etc). #}
-                <h2>title: {{ title_day|default("Sin titulo", true) }}</h2>
-            </div>
-            {% endif %} -->
-            <ul class="list-disc">
-                <li><a href="{{url_for('authBP.descargar',filename=vuelos, path='data')}}"
-                        class="text-2xl font-bold text-red-500 hover:text-blue-800">
-                        Descargar vuelos Excel {{vuelos}}
-                    </a>
-                </li>
-                <!-- <li>
-                    <a href="{{url_for('authBP.descargar',filename=pdf_file, path='pdf')}}"
-                        class="text-2xl font-bold text-red-500 hover:text-blue-800">
-                        Descargar vuelos en PDF {{file_pdf}}
-                    </a>
-                </li> -->
-                <li>
-                    <a href="{{url_for('authBP.page_html_table',file_name=html_file)}}"
-                        class="text-2xl font-bold text-red-500 hover:text-blue-800">
-                        Tabla Vuelos (html) {{ html_file }}
-                    </a>
-            </ul>
+    {% if not vuelos %}
+    <h2 class="section-title">Genera los vuelos</h2>
+    {% include 'form_vuelos.html' %}
+    {% endif %}
 
-            <br />
+    {% if vuelos %}
+    <ul class="actions">
+        <li>
+            <a class="btn"
+                href="{{ url_for('authBP.descargar', filename=vuelos, path='data') }}">Descargar Excel</a>
+        </li>
+        <li>
+            <a class="btn btn--ghost"
+                href="{{ url_for('authBP.page_html_table', file_name=html_file) }}">Abrir tabla</a>
+        </li>
+    </ul>
 
-
-            <br />
-            <br />
-            <br />
-            <h2 class="text-xl font-bold mb-4">Los datos de los Vuelos ya Existen, quieres volver a Generar Excel de
-                vuelos?</h2>
-            {% include 'form_vuelos.html' %}
-        </div>
-        {% endif %}
-        {% if errors %}
-        <p class="text-red-500 text-xs italic">{{errors}}</p>
-        {% endif %}
-    </div>
+    <h2 class="section-title">Los vuelos de este día ya existen</h2>
+    <p>Genéralos de nuevo si quieres actualizar el Excel y la tabla.</p>
+    {% include 'form_vuelos.html' %}
+    {% endif %}
 </div>
 {% endblock %}
 
 {% block scripts %}
 <script src="{{ url_for('authBP.static', filename='js/vuelos.js') }}"></script>
-
 {% endblock %}

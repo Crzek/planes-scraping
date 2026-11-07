@@ -1,1 +1,690 @@
-/* Mi personal Styles */
+/*
+  Planes · Sabadell
+  Sistema de diseño: aviación / torre de control, tema claro.
+  Orden: fuentes → tokens → base → componentes → páginas → tabla → movimiento.
+  Todos los selectores son de una clase (0,1,0) para que decida el orden de la hoja.
+*/
+
+/* ---------- Fuentes (B612, Airbus/ENAC, licencia OFL) ---------- */
+@font-face {
+  font-family: "B612";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/b612-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "B612";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/b612-700.woff2") format("woff2");
+}
+@font-face {
+  font-family: "B612 Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/b612mono-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "B612 Mono";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/b612mono-700.woff2") format("woff2");
+}
+
+/* ---------- Tokens ---------- */
+:root {
+  /* color */
+  --carta: #eef3f7;
+  --papel: #ffffff;
+  --tinta: #0f1f2d;
+  --pizarra: #4a5b6b;
+  --senal: #1b5faa;
+  --senal-oscuro: #144a87;
+  --senal-suave: #e3eefa;
+  --balizamiento: #f5b800;
+  --alerta: #b3261e;
+  --alerta-suave: #fbeceb;
+  --linea: #c8d4df;
+  --linea-fuerte: #7b8c9b; /* separador de filas de la tabla: 3,46:1 sobre papel */
+  --borde-control: #7b8c9b; /* ≥ 3:1 sobre papel */
+
+  /* tipografía */
+  --font-ui: "B612", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "B612 Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --fs-sm: 0.8rem;
+  --fs-base: 1rem;
+  --fs-md: 1.25rem;
+  --fs-lg: 1.5625rem;
+  --fs-xl: 1.953rem;
+
+  /* espacio y forma */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+  --radius: 4px;
+  --tap: 2.75rem; /* 44 px */
+  --shell: 64rem;
+  --controls-w: 2.75rem; /* columna de controles de table.js */
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--carta);
+  color: var(--tinta);
+  font-family: var(--font-ui);
+  font-size: var(--fs-base);
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0 0 var(--sp-4);
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+h1 { font-size: var(--fs-xl); }
+h2 { font-size: var(--fs-lg); }
+h3 { font-size: var(--fs-md); }
+
+p {
+  margin: 0 0 var(--sp-4);
+  max-width: 65ch;
+}
+
+a {
+  color: var(--senal);
+  text-underline-offset: 0.2em;
+}
+a:hover {
+  color: var(--senal-oscuro);
+}
+
+:focus-visible {
+  outline: 3px solid var(--senal);
+  outline-offset: 2px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Estructura ---------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: 0 var(--sp-4);
+  min-height: 3.5rem;
+  background: var(--tinta);
+  color: var(--papel);
+}
+
+.topbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  min-height: var(--tap);
+  color: var(--papel);
+  font-weight: 700;
+  text-decoration: none;
+}
+.topbar__brand:hover {
+  color: var(--papel);
+}
+.topbar__brand::before {
+  content: "";
+  width: 0.5rem;
+  height: 1.5rem;
+  background: var(--balizamiento);
+  border-radius: 1px;
+}
+
+.topbar__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding: 0 var(--sp-2);
+  color: var(--papel);
+}
+.topbar__link:hover {
+  color: var(--balizamiento);
+}
+.topbar :focus-visible {
+  outline-color: var(--balizamiento);
+}
+
+.shell {
+  width: 100%;
+  max-width: var(--shell);
+  margin: 0 auto;
+  padding: var(--sp-6) var(--sp-4) var(--sp-7);
+  flex: 1;
+}
+.shell--wide {
+  max-width: none;
+}
+
+/* ---------- Componentes ---------- */
+.panel {
+  background: var(--papel);
+  border: 1px solid var(--linea);
+  border-radius: var(--radius);
+  padding: var(--sp-5);
+}
+
+.field {
+  margin-bottom: var(--sp-5);
+}
+.field__label {
+  display: block;
+  margin-bottom: var(--sp-2);
+  font-weight: 700;
+}
+.field__input {
+  display: block;
+  width: 100%;
+  min-height: var(--tap);
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--papel);
+  color: var(--tinta);
+  border: 1px solid var(--borde-control);
+  border-radius: var(--radius);
+  font: inherit;
+}
+.field__input:hover {
+  border-color: var(--pizarra);
+}
+.field__input[aria-invalid="true"] {
+  border-color: var(--alerta);
+  border-width: 2px;
+}
+.field__error {
+  margin: var(--sp-2) 0 0;
+  color: var(--alerta);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+}
+.field__error::before {
+  content: "Error: ";
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  min-height: var(--tap);
+  margin-bottom: var(--sp-5);
+}
+.check__input {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0;
+  accent-color: var(--senal);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  min-height: var(--tap);
+  padding: 0 var(--sp-5);
+  background: var(--senal);
+  color: var(--papel);
+  border: 1px solid var(--senal);
+  border-radius: var(--radius);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn:hover {
+  background: var(--senal-oscuro);
+  border-color: var(--senal-oscuro);
+  color: var(--papel);
+}
+.btn--ghost {
+  background: var(--papel);
+  color: var(--senal);
+}
+.btn--ghost:hover {
+  background: var(--senal-suave);
+  color: var(--senal-oscuro);
+}
+.btn--block {
+  display: flex;
+  width: 100%;
+}
+
+.alert {
+  margin: 0 0 var(--sp-5);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--alerta-suave);
+  color: var(--alerta);
+  border-left: 4px solid var(--alerta);
+  border-radius: var(--radius);
+  font-weight: 700;
+  max-width: none;
+}
+
+/* ---------- Páginas ---------- */
+.auth {
+  max-width: 24rem;
+  margin: var(--sp-6) auto 0;
+}
+.auth__title {
+  font-size: var(--fs-lg);
+}
+.auth__aside {
+  margin-top: var(--sp-5);
+  text-align: center;
+}
+
+.page-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-5);
+}
+.page-head__title {
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin: 0 0 var(--sp-6);
+  padding: 0;
+  list-style: none;
+}
+
+.section-title {
+  font-size: var(--fs-md);
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-5);
+  background: var(--papel);
+  border: 1px solid var(--linea);
+  border-left: 4px solid var(--balizamiento);
+  border-radius: var(--radius);
+}
+.status__spinner {
+  flex: none;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 3px solid var(--linea);
+  border-top-color: var(--senal);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+.status__text {
+  margin: 0;
+}
+
+.notfound {
+  text-align: center;
+  max-width: 28rem;
+  margin: var(--sp-6) auto 0;
+}
+.notfound__code {
+  margin: 0;
+  font-family: var(--font-data);
+  font-size: 5rem;
+  line-height: 1;
+}
+.notfound__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sp-3);
+  margin: var(--sp-5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.prose {
+  max-width: 65ch;
+}
+
+/* ---------- Tabla de vuelos ---------- */
+/*
+  Se estiliza ".dataframe" (clase de pandas) para cubrir tanto las tablas nuevas
+  como los HTML antiguos de static/html/, que traen un <style> en línea con
+  selectores de elemento (0,0,1): estas reglas (0,1,x) los superan.
+*/
+.table-scroll {
+  overflow: auto;
+  max-height: calc(100vh - 9rem);
+  max-height: calc(100dvh - 9rem);
+}
+
+.table-title {
+  margin-bottom: var(--sp-4);
+}
+
+.dataframe {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--linea-fuerte);
+  background: var(--papel);
+  color: var(--tinta);
+  text-align: center;
+  font-family: var(--font-ui);
+  font-variant-numeric: tabular-nums;
+}
+
+.dataframe th,
+.dataframe td {
+  min-width: 4.5rem;
+  padding: var(--sp-2) var(--sp-3);
+  border: 0;
+  /* la horizontal domina: es la que guía la vista de la matrícula a su hora */
+  border-bottom: 1px solid var(--linea-fuerte);
+  border-right: 1px solid var(--linea);
+  background: var(--papel);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.dataframe thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  border-bottom: 2px solid var(--tinta);
+  font-weight: 700;
+}
+
+.dataframe tbody th {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  min-width: 7rem;
+  border-right: 1px solid var(--linea);
+  text-align: left;
+  font-family: var(--font-data);
+  font-weight: 700;
+}
+
+/* esquina superior izquierda: fija en ambos ejes.
+   first-of-type y no first-child: table.js antepone una celda de controles */
+.dataframe thead th:first-of-type {
+  left: 0;
+  z-index: 3;
+}
+
+/* celda con vuelo: banda de plan de vuelo con el borde izquierdo en azul */
+.dataframe td:not(:empty):not(.no-edit):not(.table-toolbar) {
+  background: var(--senal-suave);
+  border-left: 3px solid var(--senal);
+  font-weight: 700;
+}
+.dataframe td:not(:empty):not(.no-edit):not(.table-toolbar):hover {
+  background: var(--balizamiento);
+  border-left-color: var(--tinta);
+}
+
+.dataframe tbody tr:last-child th,
+.dataframe tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+/* controles de edición (los inserta table.js como primera columna) */
+.dataframe .control-buttons {
+  min-width: var(--controls-w);
+  width: var(--controls-w);
+  padding: var(--sp-1);
+  white-space: normal;
+}
+.dataframe.has-controls .control-buttons {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}
+.dataframe.has-controls thead .control-buttons {
+  top: 0;
+  z-index: 3;
+}
+.dataframe.has-controls tbody th,
+.dataframe.has-controls thead th:first-of-type {
+  left: var(--controls-w);
+}
+
+.row-btn {
+  display: block;
+  width: 100%;
+  min-height: 1.75rem;
+  margin: 0 0 var(--sp-1);
+  padding: 0;
+  background: var(--papel);
+  color: var(--senal);
+  border: 1px solid var(--borde-control);
+  border-radius: var(--radius);
+  font: inherit;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+.row-btn:hover {
+  background: var(--senal-suave);
+  color: var(--senal-oscuro);
+}
+.row-btn--danger {
+  color: var(--alerta);
+}
+.row-btn--danger:hover {
+  background: var(--alerta-suave);
+  color: var(--alerta);
+}
+
+.dataframe .table-toolbar {
+  padding: var(--sp-3);
+  text-align: center;
+}
+
+.dataframe input {
+  width: 100%;
+  min-width: 4rem;
+  font: inherit;
+}
+
+/* ---------- Movimiento ---------- */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- Pantallas pequeñas ---------- */
+@media (max-width: 30rem) {
+  :root {
+    --fs-lg: 1.35rem;
+    --fs-xl: 1.6rem;
+  }
+  .shell {
+    padding-top: var(--sp-5);
+  }
+  .panel {
+    padding: var(--sp-4);
+  }
+  .actions li {
+    flex: 1 1 100%;
+  }
+  .actions .btn {
+    width: 100%;
+  }
+  .dataframe {
+    font-size: 0.75rem;
+  }
+  .dataframe th,
+  .dataframe td {
+    min-width: 2.75rem;
+    padding: 0.3rem 0.2rem;
+  }
+  .dataframe tbody th {
+    min-width: 4rem;
+    max-width: 4rem;
+    padding-left: 0.4rem;
+    white-space: normal;
+    font-size: 0.7rem;
+  }
+  .dataframe td:not(:empty):not(.no-edit):not(.table-toolbar) {
+    border-left-width: 2px;
+  }
+}
+
+/* ---------- Impresión (A4 vertical, blanco y negro) ---------- */
+/*
+  El recorte al imprimir venía de .table-scroll (overflow + max-height) y de los
+  anchos mínimos de columna: 14 columnas no caben en ~190 mm. Aquí la tabla se
+  ajusta al ancho de la hoja. Sin fondos (el navegador no los imprime por
+  defecto): las celdas con vuelo se distinguen por borde y negrita.
+*/
+@page {
+  size: A4 portrait;
+  margin: 10mm;
+}
+
+@media print {
+  body {
+    display: block;
+    min-height: 0;
+    background: #fff;
+    color: #000;
+  }
+
+  .topbar,
+  .dataframe .control-buttons,
+  .dataframe .table-toolbar,
+  .table-scroll a,
+  .table-scroll br {
+    display: none !important;
+  }
+
+  .shell {
+    max-width: none;
+    padding: 0;
+  }
+
+  .table-scroll {
+    overflow: visible;
+    max-height: none;
+  }
+
+  .table-title,
+  .table-scroll h3 {
+    margin: 0 0 3mm;
+    font-size: 10pt;
+  }
+
+  .dataframe {
+    table-layout: auto;
+    width: max-content;
+    max-width: 100%;
+    border: 1px solid #000;
+    background: #fff;
+    color: #000;
+    font-size: 7pt;
+  }
+
+  .dataframe th,
+  .dataframe td,
+  .dataframe thead th,
+  .dataframe tbody th,
+  .dataframe.has-controls tbody th,
+  .dataframe.has-controls thead th:first-of-type {
+    position: static !important;
+    min-width: 9mm;
+    max-width: none;
+    padding: 0.9mm 0.6mm;
+    overflow: hidden;
+    background: transparent;
+    border-bottom: 1px solid #000;
+    border-right: 1px solid #999;
+    white-space: nowrap;
+  }
+
+  .dataframe thead th {
+    border-bottom: 2px solid #000;
+  }
+
+  /* primera columna (matrículas): lo más estrecha posible */
+  .dataframe thead th:first-of-type,
+  .dataframe tbody th {
+    min-width: 0;
+  }
+
+  .dataframe tbody th {
+    max-width: 17mm;
+    padding-left: 1mm;
+    font-size: 7pt;
+    white-space: normal; /* "Private booking" pasa a dos líneas */
+  }
+
+  .dataframe td:not(:empty):not(.no-edit):not(.table-toolbar) {
+    background: transparent;
+    border-left: 2px solid #000;
+    font-weight: 700;
+  }
+
+  .dataframe thead {
+    display: table-header-group;
+  }
+
+  .dataframe tr {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
