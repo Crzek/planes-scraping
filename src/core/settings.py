@@ -35,7 +35,7 @@ class Settings(BaseSettings):
     SQLALCHEMY_TRACK_MODIFICATIONS: bool = False
     # postgress
     DATABASE_USER: str = "user"
-    DATABASE_PASS: str = "pass"
+    DATABASE_PASS: SecretStr = "pass"  # SecretStr: no sale en claro al imprimir
     DATABASE_HOST: str = "host"
     DATABASE_PORT: str = "8888"
     DATABASE_NAME: str = "database"
@@ -43,7 +43,7 @@ class Settings(BaseSettings):
     @property
     def DATABASE_URL(self) -> str:
         return (
-            f"postgresql://{self.DATABASE_USER}:{self.DATABASE_PASS}"
+            f"postgresql://{self.DATABASE_USER}:{self.DATABASE_PASS.get_secret_value()}"
             f"@{self.DATABASE_HOST}:{self.DATABASE_PORT}/{self.DATABASE_NAME}"
         )
 

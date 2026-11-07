@@ -87,3 +87,26 @@ El resto de campos de la respuesta (`usersLightWithBookings`, `curStatus`, `flig
 - ¿Está permitido por los términos de private-radar el acceso directo a su API con esta cuenta? (no cambia el diseño, sí el momento de activarlo por defecto)
 - ¿Cuánto dura el token (`expiresAt`)? El diseño hace login en cada ejecución y no lo cachea, así que no bloquea nada.
 - ¿Qué significan exactamente los tipos de reserva nuevos (p. ej. `trip`) y los roles `PIC2`/`SPIC` respecto a lo que muestra hoy la UI? Se resuelve comparando con el Excel de Playwright (tarea 1.3).
+
+## Comparación API vs Playwright (tarea 1.3, 2026-11-07)
+
+Ejecutado en Docker local (imagen raíz) para 2026-11-07 y 2026-11-08, mismo día y misma cuenta, con `get_flights` en tres modos. Tiempos: API ~2 s, Playwright ~42 s.
+
+| Modo | 07-11 aviones / reservas | 08-11 aviones / reservas | Log |
+|---|---|---|---|
+| API (`USE_API_FIRST=true`) | 21 / 48 | 17 / 47 | `fuente de vuelos: api` |
+| Playwright (`USE_API_FIRST=false`) | 20 / 111 | 17 / 100 | `fuente de vuelos: playwright` |
+| Fallback (login URL inválida) | igual que Playwright | igual que Playwright | `api fallo (login: http_404); fallback a playwright` |
+
+Diferencias en la tabla final y su explicación (todas explicadas):
+
+| Diferencia | Causa | ¿Cuál es correcta? |
+|---|---|---|
+| Playwright añade horas 20 min antes de la reserva (08:40 junto a 09:00, 11:40 junto a 12:00…) y duplica reservas | El `title` de Playwright incluye también el bloque con `prebrief_min`/`postbrief_min` (20/20): 08:40–10:50 frente a 09:00–10:30 | API: la hora de la reserva **no** incluye el prebriefing |
+| Columna con otra hora (p. ej. EC-ERV 08-11: Playwright 15:40, API 15:00) | Efecto del punto anterior: la hora de prebriefing de la reserva siguiente (16:00 − 20 min) ocupa la columna de las 15h | API |
+| Reservas `PIC2` (vuelos solo de alumno, p. ej. EC-JSN) solo en la API | Playwright no las extrae del `title`; el adaptador acepta `PIC2` porque contiene `PIC` | Decisión del usuario (pendiente) |
+| `Private booking` en Playwright = `EC-MZF` en la API (mismas horas) | Reserva con `isprivate=true`: la UI oculta la matrícula; la API la da. EC-MZF es un velero GROB G103, base LECD | Decisión del usuario (pendiente): matrícula real o `Private booking` |
+| Reservas canceladas (`cancel_reason` no vacío, p. ej. `Student no-show`) | Ninguna fuente las muestra | Igual |
+| Nombres | API: `firstname lastname` completos; Playwright: nombre recortado con `[` final | API |
+
+Respuesta a la Open Question de `PIC2`/`SPIC`: `PIC2` aparece como rol de vuelos `solo` y hoy Playwright no los muestra.

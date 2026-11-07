@@ -136,5 +136,10 @@ def test_bundle_con_fichero_inexistente():
 def test_intermedio_del_repo_es_valido():
     import ssl
     from pathlib import Path
-    pem = Path("certs/sectigo-dv-r36.pem").read_text()
+    cert = Path("certs/sectigo-dv-r36.pem")
+    if not cert.is_file():
+        # certs/ no se versiona: en Docker se descarga en el build y en local
+        # se descarga a mano (ver Readme)
+        pytest.skip("certs/sectigo-dv-r36.pem no descargado")
+    pem = cert.read_text()
     assert ssl.PEM_cert_to_DER_cert(pem)

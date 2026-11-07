@@ -4,7 +4,7 @@ from src.core.settings import settings
 
 def _build_postgres_uri_from_parts() -> str | None:
     user = settings.DATABASE_USER
-    password = settings.DATABASE_PASS
+    password = settings.DATABASE_PASS.get_secret_value()
     host = settings.DATABASE_HOST
     port = settings.DATABASE_PORT
     database = settings.DATABASE_NAME
