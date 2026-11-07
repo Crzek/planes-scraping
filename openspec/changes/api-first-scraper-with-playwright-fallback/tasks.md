@@ -26,8 +26,8 @@
 
 ## 5. Integración
 
-- [ ] 5.1 Con `USE_API_FIRST=true` y BD local, generar vuelos de hoy y de mañana desde la web y comparar Excel/HTML con los de Playwright (verificación: mismas filas y horas; log indica `api`)
-  - 2026-11-07: generado hoy y mañana; las tablas no coinciden en todo, pero cada diferencia está explicada en `design.md`. Pendiente decidir: mostrar `PIC2` (solo) y mostrar matrícula real en reservas privadas.
+- [x] 5.1 Con `USE_API_FIRST=true` y BD local, generar vuelos de hoy y de mañana desde la web y comparar Excel/HTML con los de Playwright (verificación: mismas filas y horas; log indica `api`)
+  - 2026-11-07: generado hoy y mañana; las tablas no coinciden en todo, pero cada diferencia está explicada en `design.md`. Decidido 2026-11-07: se muestran las `PIC2` (reservas privadas) como `PB-<matrícula>`. La vista no necesita coincidir con Playwright: basta la hora de salida por día y avión (solo salidas).
 - [x] 5.2 Forzar un fallo de la API (URL inválida) y repetir (verificación: se genera el mismo resultado y el log indica `playwright` con el motivo, sin credenciales) — hecho 2026-11-07: `API_LOGIN_URL` inválida → tabla idéntica a Playwright y log `api fallo (login: http_404); fallback a playwright`, sin credenciales
 - [x] 5.3 Revisar que ningún log, archivo versionado ni mensaje al usuario contiene contraseña o token (verificación: `git grep` de la contraseña/prefijo de token no encuentra coincidencias y revisión del log de una ejecución) — hecho 2026-11-07 tras `fix-startup-logging-and-db-secret`: ni contraseñas, ni `SECRET_KEY`, ni JWT en logs; `git grep` sin coincidencias
 

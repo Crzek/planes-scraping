@@ -139,9 +139,7 @@ Fuente de verdad: `openspec/changes/api-first-scraper-with-playwright-fallback/t
 
 **OpenSpec (tareas sin cerrar)**
 - [x] 1.3, 4.2, 5.2, 5.3 hechas el 2026-11-07 (comparación en `design.md`, sección "Comparación API vs Playwright").
-- [ ] 5.1 Las tablas API y Playwright difieren, todo explicado. Falta decidir:
-  - ¿Mostrar las reservas `PIC2` (vuelos solo de alumno)? La API las muestra; Playwright no.
-  - ¿Reservas privadas con matrícula real (API, p. ej. `EC-MZF`) o como `Private booking` (Playwright)?
+- [x] 5.1 Decidido 2026-11-07: las reservas `PIC2` (privadas) se muestran como `PB-<matrícula>`; la vista solo necesita la hora de salida por día.
   - La API no muestra las horas de prebriefing (−20 min) que Playwright duplicaba: se da por correcto.
 - [ ] Activar `USE_API_FIRST=true` en producción tras comparar unos días, y archivar el cambio (`/opsx:archive`).
 

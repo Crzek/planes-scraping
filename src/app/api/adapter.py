@@ -12,6 +12,9 @@ TZ = ZoneInfo("Europe/Madrid")
 # Misma regla que el flujo Playwright: '"DUAL" in info or "PIC" in info'
 # (subcadena), por lo que PIC2, SPIC o PICUS tambien pasan el filtro.
 ROLE_MARKERS = ("DUAL", "PIC")
+# PIC2 = reserva privada: la matricula se muestra como PB-<matricula>.
+PRIVATE_ROLE = "PIC2"
+PRIVATE_PREFIX = "PB-"
 
 
 @dataclass(frozen=True)
@@ -35,6 +38,10 @@ def _is_cancelled(booking: dict) -> bool:
 def _has_role(crew: list[dict]) -> bool:
     return any(marker in str(member.get("func", ""))
                for member in crew for marker in ROLE_MARKERS)
+
+
+def _is_private(crew: list[dict]) -> bool:
+    return any(str(m.get("func", "")) == PRIVATE_ROLE for m in crew)
 
 
 def _person(crew: list[dict]) -> str:
@@ -82,7 +89,8 @@ def parse_bookings(response: dict) -> list[FlightBooking]:
             if _is_cancelled(booking) or not _has_role(booking["crew"]):
                 continue
             result.append(FlightBooking(
-                registration=booking["registration"],
+                registration=(PRIVATE_PREFIX if _is_private(booking["crew"])
+                              else "") + booking["registration"],
                 takeoff=_hhmm(booking["timestamp_begin"]),
                 landing=_hhmm(booking["timestamp_end"]),
                 person=_person(booking["crew"]),
