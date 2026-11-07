@@ -3,7 +3,7 @@ import asyncio
 import logging
 import os
 import datetime
-from flask import render_template, request, redirect, url_for, send_file, send_from_directory
+from flask import render_template, request, redirect, url_for, send_file, send_from_directory, jsonify
 from flask_login import (
     login_user,  # para logear
     logout_user,  # para deslogear
@@ -11,8 +11,11 @@ from flask_login import (
     current_user  # para saber el usuario actual
 )
 from src.core.settings import settings
+from src.core.tracing import elapsed, phase, trace_request
 from . import auth_bp
 from .models.users import User
+from .models.table_preferences import TablePreferences
+from .preferences import default_preferences, validate_preferences
 
 PATH_STATIC = settings.PATH_STATIC
 PATH_STATIC_DATA = settings.PATH_STATIC_DATA
@@ -157,70 +160,70 @@ def vuelos(remake: str = None):
         select_all = True if request.form.get(
             "select_all") == "all" else False
 
-        logger.info("ver Dia %s", day)
         # generar vuelos
-        if day == "today":
-            hoy = True
-        else:
-            hoy = False
-
+        hoy = day == "today"
         date = TODAY if hoy else TOMORROW
-        try:
-            filename = f'vuelos-{date}.xlsx'  # antes excel
-            name = filename.split(".")[0]
-            # f_s = f'vuelos-{date}_s.xlsx'  # excel con stylos
-            getcwd = os.getcwd()
-
-            filepath = (
-                f'{getcwd}/{PATH_STATIC_DATA}'
-                f'{filename}'  # Ajusta según la ruta real
-            )
-            logger.info("--filepath--- %s", filepath)
-            # html_output = getcwd + "/" + PATH_STATIC + "html/" + name + ".html"
-            # pdf_output = getcwd + "/" + PATH_STATIC + "pdf/" + name + ".pdf"
-            pdf_output = f"{name}.pdf"
-            html_output = f"{name}.html"
-            logger.info("pdf_output ---- %s", pdf_output)
-            if not os.path.exists(filepath) or (remake == "remake"):
-                from src.app.utils.styles import main_styles
-                # from src.app.main import main
-                from src.app.flights import get_flights
-
-                # en arm heddin True
-                # AMD hideen False
-                is_hidden_browser = PROD
-                title_day, html_table = get_flights(
-                    today=hoy,
-                    hidden=is_hidden_browser,
-                    date=date,
-                    select_all=select_all
+        with trace_request() as trace:
+            try:
+                filename = f'vuelos-{date}.xlsx'  # antes excel
+                name = filename.split(".")[0]
+                filepath = (
+                    f'{os.getcwd()}/{PATH_STATIC_DATA}'
+                    f'{filename}'  # Ajusta según la ruta real
                 )
-                logger.info("title_day -- %s", title_day)
-                main_styles(hoy, date=date)
+                pdf_output = f"{name}.pdf"
+                html_output = f"{name}.html"
+                regenerar = not os.path.exists(filepath) or (remake == "remake")
+                logger.info(
+                    "generacion de vuelos inicio: dia=%s select_all=%s excel=%s",
+                    date, select_all,
+                    "se regenera" if regenerar else "existente, se reutiliza")
+                if regenerar:
+                    from src.app.utils.styles import main_styles
+                    from src.app.flights import get_flights
 
-            return render_template(
-                "vuelos.html",
-                vuelos=filename,
-                # file_s=f_s,
-                pdf_file=pdf_output,
-                html_file=html_output,
-                day=date,
-                title_day=None,
-                # title_day=title_day,
-                today=TODAY, tomorrow=TOMORROW
-            )
+                    # en arm heddin True
+                    # AMD hideen False
+                    is_hidden_browser = PROD
+                    title_day, html_table = get_flights(
+                        today=hoy,
+                        hidden=is_hidden_browser,
+                        date=date,
+                        select_all=select_all
+                    )
+                    with phase("excel.estilos"):
+                        main_styles(hoy, date=date)
 
-        except Exception as e:
-            logger.error(f"Error {e}")
-            return render_template(
-                "vuelos.html",
-                vuelos=None,
-                errors=f"Error al cargar los vuelos::: {e}",
-                day=date,
-                title_day=None,
-                today=TODAY, tomorrow=TOMORROW
+                logger.info(
+                    "generacion de vuelos fin: resultado=ok fuente=%s "
+                    "reservas=%s duracion_total=%.1fs",
+                    trace.get("source", "ninguna (excel existente)"),
+                    trace.get("reservas", "-"), elapsed(trace))
+                return render_template(
+                    "vuelos.html",
+                    vuelos=filename,
+                    # file_s=f_s,
+                    pdf_file=pdf_output,
+                    html_file=html_output,
+                    day=date,
+                    title_day=None,
+                    # title_day=title_day,
+                    today=TODAY, tomorrow=TOMORROW
+                )
 
-            )
+            except Exception as e:
+                logger.exception(
+                    "generacion de vuelos fin: resultado=fallo "
+                    "duracion_total=%.1fs", elapsed(trace))
+                return render_template(
+                    "vuelos.html",
+                    vuelos=None,
+                    errors=f"Error al cargar los vuelos::: {e}",
+                    day=date,
+                    title_day=None,
+                    today=TODAY, tomorrow=TOMORROW
+
+                )
 
     return render_template("vuelos.html", vuelos=None, today=TODAY, tomorrow=TOMORROW, title_day=None)
 
@@ -290,6 +293,57 @@ def localTime():
     return render_template("generic_content.html", title="Hora local", content=body)
 
 
+def _preferences_of(user) -> dict:
+    """Preferencias guardadas del usuario, o las de por defecto."""
+    if not getattr(user, "is_authenticated", False):
+        return default_preferences()
+    row = TablePreferences.query.filter_by(user_id=user.id).first()
+    if row is None:
+        return default_preferences()
+    return {
+        "hour_start": row.hour_start,
+        "hour_end": row.hour_end,
+        "hidden_planes": list(row.hidden_planes or []),
+    }
+
+
+@auth_bp.route("/table/preferences", methods=["GET", "PUT"])
+def table_preferences():
+    """
+    Lee (GET) o guarda (PUT) las preferencias de la tabla del usuario.
+    Sin sesion responde 401 JSON (login_required redirigiria al login).
+    """
+    from src import db  # SQLalchemy
+
+    if not current_user.is_authenticated:
+        return jsonify(error="Inicia sesión para configurar la tabla"), 401
+
+    if request.method == "GET":
+        return jsonify(_preferences_of(current_user))
+
+    data, errors = validate_preferences(request.get_json(silent=True))
+    if errors:
+        logger.info("preferencias de tabla invalidas: %s", errors)
+        return jsonify(errors=errors), 400
+    try:
+        row = TablePreferences.query.filter_by(user_id=current_user.id).first()
+        if row is None:
+            row = TablePreferences(user_id=current_user.id)
+            db.session.add(row)
+        row.hour_start = data["hour_start"]
+        row.hour_end = data["hour_end"]
+        row.hidden_planes = data["hidden_planes"]
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+        logger.exception("no se pudieron guardar las preferencias de tabla")
+        return jsonify(error="No se pudo guardar la configuración"), 500
+    logger.info("preferencias de tabla guardadas: user=%s rango=%s-%s ocultas=%s",
+                current_user.id, data["hour_start"], data["hour_end"],
+                len(data["hidden_planes"]))
+    return jsonify(data)
+
+
 @auth_bp.route("/table/<string:file_name>")
 def page_html_table(file_name: str):
     """
@@ -308,7 +362,19 @@ def page_html_table(file_name: str):
             logger.info("page_html_table, file: %s", file)
             with open(file, "r", encoding="utf-8") as f:
                 content_body = f.read()
-            return render_template("base_clean.html", title="Hora local", content=content_body)
+            try:
+                prefs = _preferences_of(current_user)
+            except Exception:
+                # sin base de datos la tabla sigue viéndose con los valores por defecto
+                logger.exception("no se pudieron leer las preferencias de tabla")
+                prefs = default_preferences()
+            table_config = {
+                "authenticated": bool(current_user.is_authenticated),
+                "preferences": prefs,
+                "defaults": default_preferences(),
+            }
+            return render_template("base_clean.html", title="Hora local",
+                                   content=content_body, table_config=table_config)
 
         else:
             logger.error("File html No found: %s", file)

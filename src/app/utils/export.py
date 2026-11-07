@@ -17,15 +17,12 @@ def generate_html_table(
         str: Tabla HTML generada
     """
     try:
-        html_content = df.to_html()
-        # Agregar estilos básicos al HTML Vuelos
+        # El estilo viene de styles.css (clase "dataframe"); la cabecera de la
+        # página (base_clean.html) ya enlaza a inicio, así que no se incrusta
+        # ningún <style> ni enlace aquí.
+        html_content = df.to_html(border=0)
         styled_html = (
-            f"<style>table {{border-collapse: collapse; width: 100%; text-align: center;}}"
-            f"th, td {{border: 1px solid black; padding: 5px;}}</style>"
-            f"<h3>{date}</h3>"
-            f"<a href='/'>home</a>"
-            f"<br/>"
-            f"<br/>"
+            f'<h1 class="table-title">{date}</h1>'
             f"{html_content}")
         save_file(html_content=styled_html, output_path=output_path)
         return styled_html

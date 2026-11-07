@@ -81,19 +81,18 @@ def clas_to_series(today: bool = False, date: datetime.date = None):
 
     # 1r elemento del dic
     elem_dic_0 = list(data["books"].keys())[0]
-    # indice de la serie
-    # el siete tiene que coincidir con la funcion delete_0_salidas
-    # def delete_0_salidas(array: list, delete_start: int = 6, delete_end: int = 4):
+    # La serie tiene las 24 horas (indice 0..23): el HTML las lleva todas y la
+    # tabla oculta en el navegador las que el usuario no quiere ver.
     serie = pd.DataFrame(data["books"], index=range(
-        START_DEL, START_DEL+len(data["books"][elem_dic_0]))).transpose()
+        len(data["books"][elem_dic_0]))).transpose()
 
-    logger.info("Serie de Pandas------")
-    print(serie)
+    logger.info("Serie de Pandas: %s filas", len(serie))
 
     file_name = f"vuelos-{date}"
     # Exportar la serie a un archivo CSV
     file_excel = f"{PATH_STATIC_DATA + file_name}.xlsx"  # nopep8
-    serie.to_excel(file_excel, startrow=2)
+    # el Excel conserva el rango de siempre (START_DEL .. 24-END_DEL-1)
+    serie.loc[:, START_DEL:24 - END_DEL - 1].to_excel(file_excel, startrow=2)
     logger.info("Exito al cargar el Excel")
 
     # Exportar la serie a un archivo PDF y html
@@ -150,6 +149,7 @@ def replace_salidas(takeoff: list):
 
     Returns:
         array: [0,0,0,0,0,0,0,0,0,9,0,11,0,0,0,0,0,0,0,0,0,0,0,0]
+        (las 24 horas; el recorte lo hace quien lo necesite)
     """
     # generamos un array de 24 horas con None
     array24_horas = [CARACTER_NOT_FLIGHT]*24
@@ -161,7 +161,7 @@ def replace_salidas(takeoff: list):
                 if int(hour[:2]) == index_zero:
                     array24_horas[index_zero] = hour
 
-    return delete_0_salidas(array24_horas)
+    return array24_horas
 
 
 def delete_0_salidas(array: list, delete_start: int = START_DEL, delete_end: int = END_DEL):

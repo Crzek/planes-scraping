@@ -1,17 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}Thanks for Joining Us{% endblock %}
+{% block title %}Cuenta creada{% endblock %}
 
 {% block content %}
-<div class="container mx-auto p-4">
-    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 text-center">
-        <h1 class="text-2xl font-bold mb-4">Gracias por registrarte, {{ email }}</h1>
-        <ul class="text-lg text-blue-500">
-            <li class="mb-2">
-                <a href="{{ url_for('authBP.login') }}" class="text-blue-500 hover:text-blue-800 font-bold">Inicia
-                    Sesión</a>
-            </li>
-        </ul>
+<section class="auth">
+    <div class="panel">
+        <h1 class="auth__title">Cuenta creada</h1>
+        <p>Gracias por registrarte, {{ email }}.</p>
+        <a class="btn btn--block" href="{{ url_for('authBP.login') }}">Iniciar sesión</a>
     </div>
-</div>
+</section>
 {% endblock %}

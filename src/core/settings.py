@@ -1,3 +1,5 @@
+import logging
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import computed_field, SecretStr
 
@@ -21,6 +23,8 @@ class Settings(BaseSettings):
     # entrypoint blueprint
     CONFIG_ENV: str = "production"
     DEBUG: bool = False
+    # diagnostico: vuelca la config al arrancar tambien en produccion
+    PRINT_SETTINGS: bool = False
 
     @computed_field
     @property
@@ -78,5 +82,9 @@ class Settings(BaseSettings):
 
 settings = Settings()
 
-def print_settings():
-    print(Settings())
+def print_settings(settings_obj: Settings | None = None):
+    """Registra la config cargada solo si DEBUG o PRINT_SETTINGS estan activos."""
+    cfg = settings_obj or Settings()
+    if not (cfg.DEBUG or cfg.PRINT_SETTINGS):
+        return
+    logging.getLogger(__name__).info("Configuracion cargada: %s", cfg)

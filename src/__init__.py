@@ -6,6 +6,7 @@ from flask_migrate import Migrate
 from extencions import login_manager, load_user, db, load_env
 from .error import register_error_handlers
 from src.core.settings import Settings, print_settings
+from src.core.tracing import RequestIdFilter
 from sqlalchemy.engine import make_url
 
 
@@ -27,18 +28,21 @@ def create_app():
     # force el basicConfig no haria nada (no se verian los logger.info).
     logging.basicConfig(
         level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(name)s - %(filename)s:%(lineno)d: %(message)s",
+        format="%(asctime)s [%(levelname)s] [%(request_id)s] %(name)s - %(filename)s:%(lineno)d: %(message)s",
         handlers=[
             logging.StreamHandler(),
             # logging.FileHandler("logs/app.log")
         ],
         force=True,
     )
+    # el filtro va en los handlers: asi cubre los logs de todos los modulos
+    for handler in logging.getLogger().handlers:
+        handler.addFilter(RequestIdFilter())
     print("*********Incico APP *********")
-    print_settings()
     load_env()
     create_static_directories()
     settings_obj = Settings()
+    print_settings(settings_obj)
     app = Flask(__name__)
     app.config.from_mapping(
         SECRET_KEY=settings_obj.SECRET_KEY.get_secret_value(),
@@ -85,6 +89,7 @@ def create_app():
 
         # importamos modelos primero para que Alembic los detecte
         from src.auth.models.users import User  # noqa: F401
+        from src.auth.models.table_preferences import TablePreferences  # noqa: F401
 
         # my blueprints
         from .auth import auth_bp

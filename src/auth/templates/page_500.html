@@ -1,23 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error Internal</title>
-</head>
+{% block title %}Error del servidor{% endblock %}
 
-<body>
-    <h1>500</h1>
-    <p>Internal Error Server</p>
-
-    <h2>Links</h2>
-    <ul>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/register">Registro</a></li>
-        <li><a href="/vuelos">Vuelo</a></li>
+{% block content %}
+<section class="notfound">
+    <p class="notfound__code">500</p>
+    <h1>Error del servidor</h1>
+    <p>No se pudo completar la acción. Inténtalo de nuevo en unos minutos.</p>
+    <ul class="notfound__links">
+        <li><a class="btn btn--ghost" href="/login">Iniciar sesión</a></li>
+        <li><a class="btn btn--ghost" href="/register">Crear cuenta</a></li>
+        <li><a class="btn btn--ghost" href="/vuelos">Vuelos</a></li>
     </ul>
-
-</body>
-
-</html>
+</section>
+{% endblock %}

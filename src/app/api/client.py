@@ -9,6 +9,7 @@ import certifi
 import requests
 
 from src.app.api.errors import ApiError
+from src.core.tracing import phase
 
 logger = logging.getLogger(__name__)
 
@@ -125,10 +126,11 @@ class PrivateRadarClient:
         return data
 
     def login(self) -> None:
-        resp = self._post(
-            self._login_url, "login",
-            json={"email": self._email, "password": self._password})
-        token = self._json(resp, "login").get("token")
+        with phase("api.login"):
+            resp = self._post(
+                self._login_url, "login",
+                json={"email": self._email, "password": self._password})
+            token = self._json(resp, "login").get("token")
         if not isinstance(token, str) or not token:
             raise ApiError("login: no_token")
         self._token = token
