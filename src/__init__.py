@@ -35,10 +35,10 @@ def create_app():
         force=True,
     )
     print("*********Incico APP *********")
-    print_settings()
     load_env()
     create_static_directories()
     settings_obj = Settings()
+    print_settings(settings_obj)
     app = Flask(__name__)
     app.config.from_mapping(
         SECRET_KEY=settings_obj.SECRET_KEY.get_secret_value(),
