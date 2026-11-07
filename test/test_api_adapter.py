@@ -66,7 +66,7 @@ def test_filtro_por_subcadena_como_playwright():
     pic2 = booking(crew=[{"func": "PIC2", "firstname": "A", "lastname": "B"}])
     super_only = booking(crew=[{"func": "SUPER", "firstname": "A", "lastname": "B"}])
     out = parse_bookings(resp(pic2, super_only, booking(registration="EC-OK")))
-    assert [r.registration for r in out] == ["EC-AAA", "EC-OK"]
+    assert [r.registration for r in out] == ["PB-EC-AAA", "EC-OK"]
     assert out[0].roles == ("PIC2",)
 
 

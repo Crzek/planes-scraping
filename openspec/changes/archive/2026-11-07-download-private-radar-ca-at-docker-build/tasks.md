@@ -6,8 +6,8 @@
 - [x] 1.2 Añadir `certs/` a `.dockerignore` y `.gitignore` y `git rm --cached certs/sectigo-dv-r36.pem`; verificar con `docker compose run --rm --entrypoint sh vuelos-app -c 'ls /app/certs; head -1 $API_EXTRA_CA_FILE'` que `/app/certs` no existe y el PEM empieza por `-----BEGIN CERTIFICATE-----`
 - [x] 1.3 Añadir `API_EXTRA_CA_FILE=/usr/local/share/private-radar/sectigo-dv-r36.pem` a `environment` en `docker-compose.yml`; verificar con `docker compose config | grep API_EXTRA_CA_FILE` que sale la ruta absoluta aunque `.env` defina la relativa
 - [x] 1.4 Comprobar que el build falla con huella errónea: `docker compose build --build-arg PR_CA_SHA256=$(printf '0%.0s' {1..64})` debe terminar con error de `sha256sum`
-- [ ] 1.5 Con la imagen nueva y `USE_API_FIRST=true`, generar vuelos de un día desde la web y verificar en el log `fuente de vuelos: api` sin `tls_error`
-  - 2026-11-06 en el PC: la API se usó (bundle `/tmp/pr-ca-*.pem` creado 5 s antes de la tabla, capturas de Playwright sin actualizar, sin warning de fallback), pero la línea no sale por el bug de logging (README, "Mejoras pendientes" 1). Cerrar cuando se arregle y se vea en producción.
+- [x] 1.5 Con la imagen nueva y `USE_API_FIRST=true`, generar vuelos de un día desde la web y verificar en el log `fuente de vuelos: api` sin `tls_error`
+  - 2026-11-07: con la imagen nueva y el logging arreglado (`fix-startup-logging-and-db-secret`), el contenedor registra `fuente de vuelos: api` sin `tls_error`.
 
 ## 2. Imágenes de desarrollo y Raspberry Pi (ARM64) — descartado
 

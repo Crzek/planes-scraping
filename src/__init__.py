@@ -22,6 +22,18 @@ def create_static_directories():
 
 
 def create_app():
+    # Configurar logging antes que cualquier otra cosa lo use. force=True:
+    # una llamada previa a logging.info() deja el raiz en WARNING y sin
+    # force el basicConfig no haria nada (no se verian los logger.info).
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(name)s - %(filename)s:%(lineno)d: %(message)s",
+        handlers=[
+            logging.StreamHandler(),
+            # logging.FileHandler("logs/app.log")
+        ],
+        force=True,
+    )
     print("*********Incico APP *********")
     print_settings()
     load_env()
@@ -38,15 +50,6 @@ def create_app():
     # # crear directorio de logs
     # os.makedirs("logs", exist_ok=True)
 
-    # Configurar logging (antes que cualquier otra cosa lo use)
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(name)s - %(filename)s:%(lineno)d: %(message)s",
-        handlers=[
-            logging.StreamHandler(),
-            # logging.FileHandler("logs/app.log")
-        ]
-    )
     logger = logging.getLogger(__name__)
     logger.info("***** Inicio de la app *****")
 

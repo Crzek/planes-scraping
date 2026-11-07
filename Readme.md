@@ -138,16 +138,14 @@ uv run pytest
 Fuente de verdad: `openspec/changes/api-first-scraper-with-playwright-fallback/tasks.md`.
 
 **OpenSpec (tareas sin cerrar)**
-- [ ] 1.3 Comparar el Excel de Playwright con el de la API del mismo día (confirmar reservas `PIC2`/`SPIC` y que la hora coincide).
-- [ ] 4.2 Verificar que con `USE_API_FIRST=false` la página de vuelos sale igual que antes.
-- [ ] 5.1 Con `USE_API_FIRST=true`, generar hoy y mañana y comparar con Playwright (log: `fuente de vuelos: api`).
-- [ ] 5.2 Forzar fallo de la API (`API_LOGIN_URL` inválida) y comprobar el fallback (log: `fuente de vuelos: playwright`).
-- [ ] 5.3 Revisar el log de una ejecución real: sin contraseña ni token.
+- [x] 1.3, 4.2, 5.2, 5.3 hechas el 2026-11-07 (comparación en `design.md`, sección "Comparación API vs Playwright").
+- [x] 5.1 Decidido 2026-11-07: las reservas `PIC2` (privadas) se muestran como `PB-<matrícula>`; la vista solo necesita la hora de salida por día.
+  - La API no muestra las horas de prebriefing (−20 min) que Playwright duplicaba: se da por correcto.
 - [ ] Activar `USE_API_FIRST=true` en producción tras comparar unos días, y archivar el cambio (`/opsx:archive`).
 
 **Certificados (`certs/sectigo-dv-r36.pem`)**
 - [x] El `Dockerfile` raíz (producción) descarga y verifica el intermedio en el build; probado TLS contra `api4` desde el contenedor (cambio `download-private-radar-ca-at-docker-build`).
-- [x] Probado en el PC con `docker-compose.yml` raíz + `docker-compose.db.yml` y `USE_API_FIRST=true` (2026-11-06): vuelos generados sin warning de fallback. Falta ver la línea `fuente de vuelos: api`, que no sale por el bug de logging (ver "Mejoras pendientes").
+- [x] Probado en el PC con `docker-compose.yml` raíz + `docker-compose.db.yml` y `USE_API_FIRST=true`: el log muestra `fuente de vuelos: api` (2026-11-07, tras arreglar el logging).
 - Carpeta `docker/`: ya no se usa (PC y servidor usan `docker-compose.yml` raíz). Si se recupera, sus Dockerfiles necesitan `bullseye` → `bookworm` (apt da 404) y el ARM Python 3.11.9 → 3.12.
 - [ ] Añadir `requests` a `requirements.txt` si algún flujo lo sigue usando (hoy no lo incluye).
 - [ ] Si private-radar corrige la cadena TLS de `api4`, el intermedio sobra; si cambian de emisor o caduca (2036), la API fallará y se usará Playwright.
@@ -170,45 +168,22 @@ Fuente de verdad: `openspec/changes/api-first-scraper-with-playwright-fallback/t
 **Despliegue del cambio `download-private-radar-ca-at-docker-build`** (ya en `main`, PR #37)
 
 Fuente de verdad: `openspec/changes/download-private-radar-ca-at-docker-build/tasks.md`.
-- [ ] En el servidor: `git pull` de `main` y `docker compose up --build -d`.
-- [ ] Comprobar `docker exec prod-planes-pw sh -c 'echo $API_EXTRA_CA_FILE'` →
-  `/usr/local/share/private-radar/sectigo-dv-r36.pem`.
-- [ ] En el `.env` del servidor: quitar `API_EXTRA_CA_FILE` (lo fija el compose) y
-  decidir `USE_API_FIRST=true|false` (el resto de `API_*` tienen valores por defecto).
-- [ ] Tarea 1.5: ver `fuente de vuelos: api` en el log (depende de la mejora
-  pendiente 1, logging). Después, archivar con `/opsx:archive`.
+- [x] Desplegado en el servidor y `API_EXTRA_CA_FILE` comprobado (2026-11-07).
+- [x] `.env` del servidor limpio (`API_EXTRA_CA_FILE` quitado, `USE_API_FIRST` decidido).
+- [x] Tarea 1.5: `fuente de vuelos: api` visible en el log. Cambio listo para `/opsx:archive`.
+- [ ] Desplegar `fix-startup-logging-and-db-secret` (logging INFO y `DATABASE_PASS` oculto).
 
 ## Mejoras pendientes (para futuros cambios)
 
 Detectadas al probar `download-private-radar-ca-at-docker-build`. Cada una
 puede ser su propio cambio OpenSpec (`/opsx:propose`).
 
-**1. Los `logger.info` no salen en los logs** (prioridad alta)
-- Síntoma: en `docker logs prod-planes-pw` no aparecen `***** Inicio de la app *****`
-  ni `fuente de vuelos: api|playwright`; solo WARNING y superiores.
-- Causa: `src/__init__.py:21` (`create_static_directories`) llama a
-  `logging.info(...)` antes del `logging.basicConfig(level=INFO)` de la línea 42.
-  Esa primera llamada configura el logger raíz en WARNING y los `basicConfig`
-  posteriores (también los de `src/app/main.py` y
-  `src/app/automation/main_scraper.py`) no hacen nada.
-- Arreglo propuesto: mover `basicConfig` antes de `create_static_directories()`
-  (o usar `force=True`) y quitar los `basicConfig` de los módulos.
-- Verificación: tras reiniciar, `docker logs prod-planes-pw | grep "fuente de vuelos"`
-  muestra la fuente al generar vuelos.
+Resueltas en `fix-startup-logging-and-db-secret` (2026-11-07): los `logger.info`
+ya salen en los logs y `DATABASE_PASS` sale como `**********`. Queda **valorar
+rotar la contraseña de la base de datos de producción**, porque salió en claro en
+los logs antiguos del servidor.
 
-**2. La contraseña de la base de datos sale en claro en el log** (seguridad)
-- Síntoma: al arrancar se imprime la configuración completa y
-  `DATABASE_PASS` aparece en claro (también el usuario de private-radar);
-  `password` y `SECRET_KEY` sí salen como `**********`.
-- Causa: `DATABASE_PASS` es `str` en `src/core/settings.py`, no `SecretStr`, y
-  la configuración se imprime entera al iniciar.
-- Arreglo propuesto: `DATABASE_PASS: SecretStr` (usar `.get_secret_value()` al
-  montar la URI) y no imprimir la configuración, o solo campos no sensibles.
-- Tras arreglarlo: valorar rotar la contraseña de la base de datos de producción,
-  porque ya ha quedado en los logs de Docker del servidor. Relacionado con la
-  tarea 5.3 de arriba.
-
-**3. Ficheros `pr-ca-*.pem` que se quedan en `/tmp`** (prioridad baja)
+**Ficheros `pr-ca-*.pem` que se quedan en `/tmp`** (prioridad baja)
 - Síntoma: cada proceso de gunicorn deja un `/tmp/pr-ca-XXXX.pem` (~300 KB) que
   nunca se borra.
 - Causa: `build_ca_bundle` (`src/app/api/client.py`) crea el bundle (CAs de
