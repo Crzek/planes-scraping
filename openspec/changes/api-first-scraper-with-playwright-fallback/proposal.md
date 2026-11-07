@@ -28,5 +28,5 @@ El scraper actual (Playwright, `src/app/automation/main_scraper.py`) depende de 
 - **Configuración**: `src/core/settings.py` y `.env.example` (URLs de API; reutiliza `user`/`password` existentes).
 - **Dependencias**: cliente HTTP (`requests` o `httpx`; a decidir en design; hoy no hay ninguno como dependencia directa).
 - **Sistemas externos**: API no documentada ni pública de private-radar; puede cambiar o aplicar límites sin aviso (riesgo mitigado por el fallback).
-- **Seguridad**: las credenciales y el token de ejemplo se pegaron en el chat al preparar este cambio; se recomienda rotar la contraseña de esa cuenta y no versionar ningún `curl` con credenciales.
+- **Seguridad**: las credenciales y el token de ejemplo se pegaron en el chat al preparar este cambio; la contraseña de esa cuenta no se puede rotar, así que no se versiona ningún `curl` con credenciales.
 - **Sin impacto** en BD, migraciones, Excel/HTML/PDF generados ni en el frontend.

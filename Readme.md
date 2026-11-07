@@ -138,7 +138,6 @@ uv run pytest
 Fuente de verdad: `openspec/changes/api-first-scraper-with-playwright-fallback/tasks.md`.
 
 **OpenSpec (tareas sin cerrar)**
-- [ ] 1.1 Rotar la contraseña de la cuenta de private-radar (se pegó en un chat).
 - [ ] 1.3 Comparar el Excel de Playwright con el de la API del mismo día (confirmar reservas `PIC2`/`SPIC` y que la hora coincide).
 - [ ] 4.2 Verificar que con `USE_API_FIRST=false` la página de vuelos sale igual que antes.
 - [ ] 5.1 Con `USE_API_FIRST=true`, generar hoy y mañana y comparar con Playwright (log: `fuente de vuelos: api`).
@@ -167,6 +166,17 @@ Fuente de verdad: `openspec/changes/api-first-scraper-with-playwright-fallback/t
   (`curl -fsSL <url> | sha256sum`) y reconstruir la imagen.
 - [ ] Comprobar tras el 2026-11-27 que la API sigue funcionando (sin warning
   `api fallo (...tls_error)` en el log).
+
+**Despliegue del cambio `download-private-radar-ca-at-docker-build`** (ya en `main`, PR #37)
+
+Fuente de verdad: `openspec/changes/download-private-radar-ca-at-docker-build/tasks.md`.
+- [ ] En el servidor: `git pull` de `main` y `docker compose up --build -d`.
+- [ ] Comprobar `docker exec prod-planes-pw sh -c 'echo $API_EXTRA_CA_FILE'` →
+  `/usr/local/share/private-radar/sectigo-dv-r36.pem`.
+- [ ] En el `.env` del servidor: quitar `API_EXTRA_CA_FILE` (lo fija el compose) y
+  decidir `USE_API_FIRST=true|false` (el resto de `API_*` tienen valores por defecto).
+- [ ] Tarea 1.5: ver `fuente de vuelos: api` en el log (depende de la mejora
+  pendiente 1, logging). Después, archivar con `/opsx:archive`.
 
 ## Mejoras pendientes (para futuros cambios)
 

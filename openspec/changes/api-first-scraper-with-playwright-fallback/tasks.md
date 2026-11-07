@@ -2,7 +2,6 @@
 
 ## 1. Estudio de viabilidad (go/no-go)
 
-- [ ] 1.1 Rotar la contraseña de la cuenta usada en las peticiones pegadas en el chat y confirmar que `user`/`password` de `.env` están actualizados (verificación: login manual con la nueva contraseña)
 - [x] 1.2 Escribir un script desechable en la carpeta scratchpad (fuera de `src/`) que lea `user`/`password` de `.env`, haga el login y la consulta de reservas de hoy, y muestre solo la estructura de la respuesta (claves y tipos), sin imprimir contraseña ni token (verificación: el script termina con código 0 y lista las claves) — hecho el 2026-11-05: login 200 con `token`, consulta 200 para 20261105 y 20261106
 - [ ] 1.3 Con una respuesta real del mismo día que un Excel generado por Playwright, comparar `registration`, `timestamp_begin`/`timestamp_end` (hora Madrid), `cancel_reason` y `crew[].firstname`/`lastname` contra el Excel; confirmar si la hora coincide con la reserva o incluye el `prebrief_min` y en qué formato se muestra el nombre hoy (verificación: tabla de diferencias anotada en `design.md`; si hay discrepancias que no se pueden explicar, detener el cambio y avisar)
 - [x] 1.4 Guardar una respuesta de ejemplo anonimizada (sin nombres reales ni tokens) como fixture en `test/fixtures/` (verificación: el archivo no contiene emails, nombres de personas ni el token)

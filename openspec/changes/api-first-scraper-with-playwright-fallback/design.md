@@ -71,7 +71,7 @@ El resto de campos de la respuesta (`usersLightWithBookings`, `curStatus`, `flig
 - **Los filtros de tipo de reserva** (cancelada, mantenimiento, no disponible, type rating) hoy se aplican en la UI; por API hay que aplicarlos en el payload o en el adaptador. Mitigación: tests de equivalencia con fixtures.
 - **Estado global `AirCraft.all_reservas`** → riesgo de mezclar ejecuciones. Mitigación: limpieza explícita antes de cada intento (ya es un problema latente en el flujo actual).
 - **Términos de uso de private-radar** → consumir su API directamente no está confirmado como permitido. Mitigación: verificar con el propietario de la cuenta antes de activar por defecto (ver Open Questions).
-- **Credenciales expuestas en el chat** (contraseña y token) → rotar la contraseña; tratar el token como caducado.
+- **Credenciales expuestas en el chat** (contraseña y token) → la contraseña no se puede rotar (la cuenta no la gestiona el usuario); tratar el token como caducado y no versionar credenciales.
 - **Cadena TLS incompleta en `api4`** → si private-radar la corrige, el intermedio versionado sobra pero no estorba; si caduca (2036) o cambian de emisor, la ruta API falla y se activa el fallback. Mitigación: el fallo se registra como motivo de fallback.
 - **Dos rutas que mantener** → coste de mantenimiento mientras Playwright siga como fallback; aceptable hasta decidir su retirada.
 

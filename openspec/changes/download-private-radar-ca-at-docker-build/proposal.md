@@ -15,7 +15,7 @@ Además, la documentación (README, `CLAUDE.md`, contexto de OpenSpec) presenta 
 - `certs/` se añade a `.dockerignore` y a `.gitignore` y deja de versionarse (`git rm --cached`); la copia local sigue en disco para ejecutar sin Docker (`uv run flask run`) y el README explica cómo descargarla.
 - Documentación: README, `CLAUDE.md` y `openspec/config.yaml` indican que el despliegue de producción es Ubuntu x86_64 con `docker-compose.yml` de la raíz; ARM/Raspberry Pi queda como alternativa. Se actualiza la sección "Pendiente → Certificados" del README.
 
-Producción es el `Dockerfile` + `docker-compose.yml` de la raíz: es lo que se implementa primero. Los Dockerfiles de `docker/` (dev y ARM) quedan **aplazados** a otro momento: además del paso del certificado necesitan pasar de `bullseye` a `bookworm` (apt da 404) y, el ARM, de Python 3.11.9 a 3.12.
+Producción es el `Dockerfile` + `docker-compose.yml` de la raíz: es lo que se implementa primero. Los Dockerfiles de `docker/` (dev y ARM) quedan **descartados** (2026-11-06: la carpeta ya no se usa; PC y servidor usan `docker-compose.yml` raíz). Si se recuperan: además del paso del certificado necesitan pasar de `bullseye` a `bookworm` (apt da 404) y, el ARM, de Python 3.11.9 a 3.12.
 
 Fuera de alcance: cambiar el workflow `.github/workflows/raspi.yml` (sigue desplegando en la Raspberry Pi), los Dockerfiles `-py-firefox`, `-playwright` y `docker/Dockerfile` (no usados), y cualquier cambio en `src/app/api/client.py`, que ya acepta rutas absolutas.
 
