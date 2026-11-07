@@ -20,9 +20,9 @@
 
 ## 4. Verificación manual
 
-- [ ] 4.1 Con `USE_API_FIRST=true`, generar mañana y comprobar en el log: inicio, fases con duración, fin con fuente `api` y el mismo id en todas las líneas
-- [ ] 4.2 Forzar fallo de la API (credenciales o URL erróneas) y comprobar el aviso de fallback, las etapas de Playwright con el mismo id y la fuente `playwright`
-- [ ] 4.3 Pedir un día cuyo Excel ya existe y comprobar la línea de reutilización
-- [ ] 4.4 Forzar una excepción y comprobar la traza en el log y el mensaje sin traza en la página
-- [ ] 4.5 Lanzar dos generaciones simultáneas y comprobar que los ids son distintos
-- [ ] 4.6 Revisar `docker logs` completo y confirmar que no aparecen la contraseña, el token ni HTML
+- [x] 4.1 Con `USE_API_FIRST=true`, generar mañana y comprobar en el log: inicio, fases con duración, fin con fuente `api` y el mismo id en todas las líneas
+- [x] 4.2 Forzar fallo de la API (credenciales o URL erróneas) y comprobar el aviso de fallback, las etapas de Playwright con el mismo id y la fuente `playwright`
+- [x] 4.3 Pedir un día cuyo Excel ya existe y comprobar la línea de reutilización
+- [x] 4.4 Forzar una excepción y comprobar la traza en el log y el mensaje sin traza en la página
+- [x] 4.5 Lanzar dos generaciones simultáneas y comprobar que los ids son distintos
+- [x] 4.6 Revisar `docker logs` completo y confirmar que no aparecen la contraseña, el token ni HTML
