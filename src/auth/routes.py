@@ -3,7 +3,7 @@ import asyncio
 import logging
 import os
 import datetime
-from flask import render_template, request, redirect, url_for, send_file, send_from_directory
+from flask import render_template, request, redirect, url_for, send_file, send_from_directory, jsonify
 from flask_login import (
     login_user,  # para logear
     logout_user,  # para deslogear
@@ -14,6 +14,8 @@ from src.core.settings import settings
 from src.core.tracing import elapsed, phase, trace_request
 from . import auth_bp
 from .models.users import User
+from .models.table_preferences import TablePreferences
+from .preferences import default_preferences, validate_preferences
 
 PATH_STATIC = settings.PATH_STATIC
 PATH_STATIC_DATA = settings.PATH_STATIC_DATA
@@ -291,6 +293,57 @@ def localTime():
     return render_template("generic_content.html", title="Hora local", content=body)
 
 
+def _preferences_of(user) -> dict:
+    """Preferencias guardadas del usuario, o las de por defecto."""
+    if not getattr(user, "is_authenticated", False):
+        return default_preferences()
+    row = TablePreferences.query.filter_by(user_id=user.id).first()
+    if row is None:
+        return default_preferences()
+    return {
+        "hour_start": row.hour_start,
+        "hour_end": row.hour_end,
+        "hidden_planes": list(row.hidden_planes or []),
+    }
+
+
+@auth_bp.route("/table/preferences", methods=["GET", "PUT"])
+def table_preferences():
+    """
+    Lee (GET) o guarda (PUT) las preferencias de la tabla del usuario.
+    Sin sesion responde 401 JSON (login_required redirigiria al login).
+    """
+    from src import db  # SQLalchemy
+
+    if not current_user.is_authenticated:
+        return jsonify(error="Inicia sesión para configurar la tabla"), 401
+
+    if request.method == "GET":
+        return jsonify(_preferences_of(current_user))
+
+    data, errors = validate_preferences(request.get_json(silent=True))
+    if errors:
+        logger.info("preferencias de tabla invalidas: %s", errors)
+        return jsonify(errors=errors), 400
+    try:
+        row = TablePreferences.query.filter_by(user_id=current_user.id).first()
+        if row is None:
+            row = TablePreferences(user_id=current_user.id)
+            db.session.add(row)
+        row.hour_start = data["hour_start"]
+        row.hour_end = data["hour_end"]
+        row.hidden_planes = data["hidden_planes"]
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+        logger.exception("no se pudieron guardar las preferencias de tabla")
+        return jsonify(error="No se pudo guardar la configuración"), 500
+    logger.info("preferencias de tabla guardadas: user=%s rango=%s-%s ocultas=%s",
+                current_user.id, data["hour_start"], data["hour_end"],
+                len(data["hidden_planes"]))
+    return jsonify(data)
+
+
 @auth_bp.route("/table/<string:file_name>")
 def page_html_table(file_name: str):
     """
@@ -309,7 +362,19 @@ def page_html_table(file_name: str):
             logger.info("page_html_table, file: %s", file)
             with open(file, "r", encoding="utf-8") as f:
                 content_body = f.read()
-            return render_template("base_clean.html", title="Hora local", content=content_body)
+            try:
+                prefs = _preferences_of(current_user)
+            except Exception:
+                # sin base de datos la tabla sigue viéndose con los valores por defecto
+                logger.exception("no se pudieron leer las preferencias de tabla")
+                prefs = default_preferences()
+            table_config = {
+                "authenticated": bool(current_user.is_authenticated),
+                "preferences": prefs,
+                "defaults": default_preferences(),
+            }
+            return render_template("base_clean.html", title="Hora local",
+                                   content=content_body, table_config=table_config)
 
         else:
             logger.error("File html No found: %s", file)

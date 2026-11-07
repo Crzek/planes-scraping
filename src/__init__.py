@@ -89,6 +89,7 @@ def create_app():
 
         # importamos modelos primero para que Alembic los detecte
         from src.auth.models.users import User  # noqa: F401
+        from src.auth.models.table_preferences import TablePreferences  # noqa: F401
 
         # my blueprints
         from .auth import auth_bp

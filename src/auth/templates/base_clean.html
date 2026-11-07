@@ -10,11 +10,15 @@ En Jinja2, el contenido HTML que se pasa a una plantilla se escapa por defecto p
 inyección de código. Si content contiene HTML que deseas renderizar como código HTML válido, debes marcarlo
 como seguro utilizando el filtro |safe.
 #}
-<div class="table-scroll">
+<div class="table-scroll{% if table_config %} is-pending{% endif %}">
     {{ content|safe }}
 </div>
 {% endblock %}
 
 {% block scripts %}
+{% if table_config %}
+<noscript><style>.table-scroll.is-pending { visibility: visible; }</style></noscript>
+<script id="table-config" type="application/json">{{ table_config|tojson }}</script>
+{% endif %}
 <script src="{{ url_for('authBP.static', filename='js/table.js') }}"></script>
 {% endblock %}

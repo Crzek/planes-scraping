@@ -521,9 +521,115 @@ a:hover {
   color: var(--alerta);
 }
 
-.dataframe .table-toolbar {
-  padding: var(--sp-3);
-  text-align: center;
+/* columnas y filas que el usuario ha ocultado (también al imprimir) */
+.is-hidden {
+  display: none !important;
+}
+
+/* la tabla espera a que table.js aplique la configuración (sin parpadeo) */
+.table-scroll.is-pending {
+  visibility: hidden;
+}
+
+/* barra de herramientas: encima de la tabla, fuera de su scroll */
+.table-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--sp-3) var(--sp-4);
+  margin-bottom: var(--sp-4);
+}
+.table-tools__hours {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+.table-tools__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  font-size: var(--fs-sm);
+  color: var(--pizarra);
+}
+.table-tools__select {
+  min-height: var(--tap);
+  padding: 0 var(--sp-3);
+  background: var(--papel);
+  color: var(--tinta);
+  border: 1px solid var(--borde-control);
+  border-radius: var(--radius);
+  font: inherit;
+  font-family: var(--font-data);
+}
+.table-tools__status {
+  flex: 1 1 100%;
+  margin: 0;
+  min-height: 0;
+  color: var(--pizarra);
+}
+.table-tools__status:empty {
+  display: none;
+}
+.table-tools__status--error {
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--alerta-suave);
+  color: var(--alerta);
+  font-weight: 700;
+}
+
+/* diálogos de la tabla (<dialog> nativo) */
+.dialog {
+  width: min(28rem, calc(100vw - 2 * var(--sp-4)));
+  max-height: calc(100vh - 2 * var(--sp-4));
+  padding: var(--sp-5);
+  background: var(--papel);
+  color: var(--tinta);
+  border: 1px solid var(--borde-control);
+  border-radius: var(--radius);
+  overflow: auto;
+}
+.dialog::backdrop {
+  background: rgba(15, 31, 45, 0.55);
+}
+.dialog__title {
+  margin: 0 0 var(--sp-3);
+  font-size: var(--fs-md);
+}
+.dialog__list {
+  margin: var(--sp-3) 0;
+  padding: 0;
+  list-style: none;
+  max-height: 50vh;
+  overflow: auto;
+}
+.dialog__list label {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  min-height: var(--tap);
+  font-family: var(--font-data);
+  font-weight: 700;
+  cursor: pointer;
+}
+.dialog__list input {
+  width: 1.25rem;
+  height: 1.25rem;
+  accent-color: var(--senal);
+}
+.dialog__hint {
+  color: var(--alerta);
+  font-weight: 700;
+}
+.dialog__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--sp-3);
+  margin-top: var(--sp-4);
+}
+.dialog__actions .btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .dataframe input {
@@ -607,7 +713,8 @@ a:hover {
 
   .topbar,
   .dataframe .control-buttons,
-  .dataframe .table-toolbar,
+  .table-tools,
+  .dialog,
   .table-scroll a,
   .table-scroll br {
     display: none !important;

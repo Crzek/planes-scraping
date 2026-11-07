@@ -129,4 +129,6 @@ flask run --host 0.0.0.0 --debug --reload
 
 **Models (`src/app/models/`):** `Book` (a flight booking) and `Aircraft`. `src/auth/models/users.py` has the `User` model for authentication.
 
+**Configuración de la tabla de vuelos:** `src/auth/models/table_preferences.py` (`TablePreferences`, una fila por usuario: `hour_start`, `hour_end`, `hidden_planes` JSONB). `src/auth/preferences.py` tiene los valores por defecto y la validación. Endpoints `GET`/`PUT /table/preferences` (401 JSON sin sesión). `page_html_table` inyecta las preferencias en `base_clean.html` (`#table-config`) y `static/js/table.js` oculta columnas de hora y filas de matrícula en el navegador. El HTML de la tabla se genera con las 24 horas; `START_DEL`/`END_DEL` solo fijan el rango por defecto y el rango del Excel. Los HTML antiguos (solo 8–20) siguen funcionando con el rango limitado a lo que contienen.
+
 **Architecture note:** `CONFIG_ENV=production` or `production-amd` activates `ProductionConfig`; anything else uses `DevelopmentConfig`. ARM64 detection is runtime via `platform.machine()` — no build-time flag needed.
