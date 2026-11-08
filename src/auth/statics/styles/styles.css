@@ -733,7 +733,7 @@ a:hover {
   .table-title,
   .table-scroll h3 {
     margin: 0 0 3mm;
-    font-size: 10pt;
+    font-size: 12pt;
   }
 
   .dataframe {
@@ -743,7 +743,7 @@ a:hover {
     border: 1px solid #000;
     background: #fff;
     color: #000;
-    font-size: 7pt;
+    font-size: 10pt;
   }
 
   .dataframe th,
@@ -753,9 +753,9 @@ a:hover {
   .dataframe.has-controls tbody th,
   .dataframe.has-controls thead th:first-of-type {
     position: static !important;
-    min-width: 9mm;
+    min-width: 12mm;
     max-width: none;
-    padding: 0.9mm 0.6mm;
+    padding: 1.5mm 1mm;
     overflow: hidden;
     background: transparent;
     border-bottom: 1px solid #000;
@@ -774,9 +774,9 @@ a:hover {
   }
 
   .dataframe tbody th {
-    max-width: 17mm;
-    padding-left: 1mm;
-    font-size: 7pt;
+    max-width: 26mm;
+    padding-left: 1.5mm;
+    font-size: 10pt;
     white-space: normal; /* "Private booking" pasa a dos líneas */
   }
 
